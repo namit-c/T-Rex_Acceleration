@@ -2,18 +2,19 @@
 
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{geometry}
 
-\title{SE 3XA3: Problem Statement\\Title of Project}
+\title{SE 3XA3: Problem Statement\\T-Rex Acceleration}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Team 15, Dev\textsuperscript{enthusiasts}
+		\\ Namit Chopra (choprn9) 
+		\\ Zihao Du (duz12)
+		\\ Andrew Balmakund (balmakua)
 }
 
 \date{}
 
-\input{../Comments}
+\geometry{margin = 1.5in}
 
 \begin{document}
 
@@ -23,9 +24,9 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
+01/29/2021 & Namit Chopra, Zihao Du, Andrew Balmakund & Initial Draft\\
+%Date2 & Name(s) & Description of changes\\
+%... & ... & ...\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -34,16 +35,12 @@ Date2 & Name(s) & Description of changes\\
 
 \maketitle
 
-Put your problem statement here.
+\subsection*{What Is The Problem?}
+\qquad The open-source T-Rex Runner game is a 2D endless runner game where a player controls a dinosaur to jump over obstacles for as long as they can. However, this game is only accessible through Google Chrome. The visuals involved in the game are quite basic, it lacks creativity and may not be as appealing to most. Furthermore, the game is written in only one large file, resulting in poor modularization and poor software maintainability.
 
-\wss{comment}
+\subsection*{Context of the Problem}
+\qquad As of today, the only method to play the original game is through Chrome. Furthermore, previous redevelopments of the game can only be found on websites that require internet access. For this project, the game will be redeveloped using Python3, allowing users to play on their machines without relying on internet access or Chrome. The goal of the project is to give a fresh twist to the simple game with more entertaining features. It will be playable on any personal computer with any OS that can run Python3 and corresponding libraries.
 
-\ds{comment}
-
-\mj{comment}
-
-\cm{comment}
-
-\mh{comment}
-
+\subsection*{Importance to Stake Holders}
+\qquad The stakeholder of the project are those who would enjoy playing 2D running games. As enthusiasts of this gaming genre, the lack of new and interesting features in the game can quickly cause boredom. The game is meant to keep the users entertained when they are not connected to the internet; however, due to the lack of interesting visuals, sounds, and features, players quickly lost interest. The original game is inaccessible when the user is connected to the internet and ends as soon the internet connection is restored, losing the player's progress. As a result, the new version of the game will played on any computer regardless of their network status. Being able to play the game without a browser along with new features would bring new excitement to those that enjoy 2D gaming.
 \end{document}
