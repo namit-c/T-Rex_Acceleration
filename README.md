@@ -1,6 +1,6 @@
-# Project Name
+# T-Rex Acceleration
 
-Team Name: ?
+Team Name: Dev<sup>enthusiasts</sup>
 
 Team Members: Namit Chopra, Andrew Balmakund, Zihao Du
 
