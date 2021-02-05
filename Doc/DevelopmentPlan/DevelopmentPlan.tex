@@ -2,18 +2,18 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{hyperref}
 
-\title{SE 3XA3: Development Plan\\Title of Project}
+\title{SE 3XA3: Development Plan\\T-Rex Acceleration}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Team 15, Dev\textsuperscript{enthusiasts}
+		\\ Namit Chopra (choprn9)
+		\\ Zihao Du name (duz12)
+		\\ Andrew Balmakund (balmakua)
 }
 
 \date{}
 
-\input{../Comments}
 
 \begin{document}
 
@@ -23,9 +23,8 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
+02/02/2021 & Zihao Du, Namit Chopra, Andrew Balmakund & Initial Draft\\
+02/04/2021 & Andrew Balmakund, Namit Chopra, Zihao Du & Second Draft\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -34,26 +33,69 @@ Date2 & Name(s) & Description of changes\\
 
 \maketitle
 
-Put your introductory blurb here.
+This documents is about the plan for developing and testing the project.
 
 \section{Team Meeting Plan}
+Meetings will take place every Tuesday from 8:00 pm to 9:00 pm (roughly around when all group members are expected to finish their lab exercises in L03) and Wednesday from 6:00 pm to 8:00 pm. All team meetings will be held on Microsoft Teams in the channel ``Lab3Groups3xa3'' in the ``Group 3-15'' room. Andrew will be log and record information and decision discussed in the meeting, Namit will make updates to the agenda and Zihao will chair the meeting.
+
+The agenda for the meeting will discuss important group decisions and group work. Assigned individual work will be done outside of these meetings. Each member will discuss what they have completed before the meeting and which tasks remain. The meeting will be used to brainstorm ideas for the next deliverable(s). Individual tasks will be assigned at the end of the meeting to be completed before the next meeting.
+
+All members must be present for all meetings. If a member is absent, they must notify the rest of the group one hour before the meeting with a reason. If the meeting cannot be postponed, the absent member must reach out to inquire about the content discussed in the meeting.
 
 \section{Team Communication Plan}
+The team will use a combination of Facebook Messenger and Microsoft Teams as the main communication platform. Facebook Messenger will be used to discuss meeting times, discuss small ideas about different aspects of the project, and minor issues. All major ideas, issues, and decisions shall be discussed in the team meeting. The team will also use Microsoft Teams and E-mail to contact the TA's and the professor for further guidance with the deliverables of the project.  
 
 \section{Team Member Roles}
+To build a large project with a small team, each member must occupy multiple roles. The leader of the group and meetings will be Zihao.
+Zihao will also be responsible for being the lead tester. Andrew will be appointed as a scribe for each meeting, recording information and decisions discussed. Namit will be responsible for the meeting agenda and will be the lead designer. Furthermore, all members will be developers and involved with documentation. Finally, for each draft of every document, a member will be selected to push the changes to GitLab.
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+         Member Names & Roles/Expert  \\
+         \hline
+         Zihao & \shortstack{ Team Leader, Meeting Chair,  Lead Tester, \\ Developer, Documentation }\\
+         \hline
+         Andrew & \shortstack{ Meeting Scribe, UI Developer, Tester, Developer, \\ Documentation}\\
+         \hline
+         Namit & \shortstack{Make Agenda, Lead Designer, Tester, Developer, \\ Documentation} \\
+         \hline
+    \end{tabular}
+    %\caption{Caption}
+    \label{tab:my_label}
+\end{table}
 
 \section{Git Workflow Plan}
+The team will use GitLab for version control. The repository is centralized around the master branch. Branches are created for new features and merged with the master branch. Once the repository is ready for a certain submission, a final commit will be tagged according to the requirements to mark the version of the deliverable. The team will use labels to track bugs, documentation requirements, and issues that need to be discussed. Milestones will be used to check deadlines of deliverables.
+
 
 \section{Proof of Concept Demonstration Plan}
+A significant risk of the redevelopment is testing the entirety of the system. From the User Interface (UI) to various core components of the game to different visuals, will pose a challenge to ensure all aspects of the system are working together correctly. Another risk would involve incorporating different stage levels throughout the game; changing the thematic of the game environment as the player continues to cross different checkpoints. Furthermore, all dynamic visuals need to transition accordingly at specific stages in the game.  
+
+To overcome this risk, during the development of the game the developers will follow the Incremental Build Software Development model. This model allows for a better system design and test planning through incremental stages of the development. There will be various testing techniques incorporated into our test plan such as exploratory testing, white-box testing, and a few others.
 
 \section{Technology}
+\subsection{Programming Language: }
+The language Python will be used to build the project. As the project involves developing a game, the Python library Pygame will be used. Pygame is a library composed of modules that specialize in developing games. As the game will not be graphics-intensive, Pygame should be sufficient to produce the intended visual quality of the game.  
+
+\subsection{IDE}
+There will no be default IDE used for this project. As the project uses Python, one of the most popular languages, it is supported by the IDEs. As long as the selected IDE can run all the Python files along with game assets, any IDE may be used. For consistency among the group, all members prefer to use VSCode.
+
+\subsection{Testing Framework}
+Testing of the project will be achieved with an automated testing tool and manual testing. Pytest is a popular automated testing framework based on Python. The team will use Pytest to perform unit testing and integration testing. System testing will be achieved by manual testing to ensure that the game is behaving as expected at run time. 
+
+\subsection{Documentation}
+All text documents for this project will be built using LaTeX. The LaTeX file and PDF will be available for each document in their corresponding folder on GitLab. As all members have experience using LaTeX through coursework, documents will be produced efficiently with a consistent and professional format. Doxygen will be used to document the coding files. Having experience using Doxygen, all members will be able to effectively comment the code for future modifications and maintenance. Doxygen will also be used to document all classes and methods. 
 
 \section{Coding Style}
+The team will follow the PEP8 standard to develop the project. A coding standard is used for the best guidelines and practices for writing code; however, it is most importantly used for consistency throughout all files. As the project will be written in Python, PEP8 will be used.   
 
 \section{Project Schedule}
-
-Provide a pointer to your Gantt Chart.
+The following is the link to our project schedule:\\
+\href{https://gitlab.cas.mcmaster.ca/se_3xa3_l3g15/se_3xa3_project/-/tree/master/ProjectSchedule/GanttT-Rex.gan}{\textit{Gantt chart and Resource chart}}
 
 \section{Project Review}
-
+Will be updated in Revision 1.
 \end{document}
