@@ -1,8 +1,10 @@
 \documentclass[12pt, titlepage]{article}
 
 \usepackage{booktabs}
+\usepackage{comment}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{enumitem}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -12,17 +14,16 @@
 }
 \usepackage[round]{natbib}
 
-\title{SE 3XA3: Software Requirements Specification\\Title of Project}
+\title{SE 3XA3: Software Requirements Specification\\T-Rex Acceleration}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Team 15, Dev\textsuperscript{enthusiasts}
+		\\ Zihao Du (duz12)
+		\\ Andrew Balmakund (balmakua) 
+		\\ Namit Chopra (choprn9)
 }
 
 \date{\today}
 
-\input{../Comments}
 
 \begin{document}
 
@@ -38,8 +39,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+02/12/2021 & 1.0 & Finished First Version\\
+%02/12/2021 & 1.1 & Second Draft\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -48,30 +49,60 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document describes the requirements for ....  The template for the Software
-Requirements Specification (SRS) is a subset of the Volere
-template~\citep{RobertsonAndRobertson2012}.  If you make further modifications
-to the template, you should explicity state what modifications were made.
+This document describes the requirements for the T-Rex Acceleration Game. The template for the Software
+Requirements Specification (SRS) is a subset of the Volere template~\citep{RobertsonAndRobertson2012}. 
 
 \section{Project Drivers}
 
 \subsection{The Purpose of the Project}
+The purpose of this project is to modify the simple offline game called T-Rex Runner. The game can be played on the Google Chrome browser when the user is disconnected from the internet. The team will reimplement the game with refreshed graphics and modularized code. The goal is to add new features to a simple game that can be enjoyed by anyone, with or without the internet. 
 
 \subsection{The Stakeholders}
 
 \subsubsection{The Client}
-
+The clients of this project are the professor and teaching assistants of SFWRENG 3XA3 course.
 \subsubsection{The Customers}
+The customers of this project are individuals who enjoy playing 2D computer games and other developers who are interested in developing game modifications (i.e changing different aspects of the game such as its visual or game behaviour). 
 
 \subsubsection{Other Stakeholders}
-
+The developers of the original game (T-Rex Runner) have an invested interest as this project is a redevelopment based on the existing one. Any open source Pygame community will have an invested interest because other developers using Pygame can use this product as a reference in their project. The developers of the product, the members of Team Dev\textsuperscript{enthusiasts} are stakeholders as well. They will be responsible for the redevelopment of the existing product and future updates.  
 \subsection{Mandated Constraints}
+\begin{itemize}
+    \item Description: The project shall use the Pygame library to implement the computer graphics.\\
+          \\Rationale: Pygame contains many GUI modules for game development and is highly portable. It is more efficient to use these Pygame libraries rather than the development team to start from scratch.\\
+          \\Fit Criterion: All modules have successfully loaded to run the game.
+          
+    \item Description: The project shall be a zero budget project.\\
+        \\Rationale: The developers of the project have no budget for this project.\\
+        \\Fit Criterion: The developer team should use open source only.
+    \item Description: The project shall run properly on different operating systems like Windows and Mac OS.\\
+        \\Rational: The project shall have decent portability.\\
+        \\Fit Criterion: The user shall be able to run the game on different operating systems.
+\end{itemize}
+
 
 \subsection{Naming Conventions and Terminology}
+\begin{itemize}
+    \item \textbf{SFRWENG 3XA3}: The Software Engineering Practice and Experience: Software Project Management course.
+    \item \textbf{T-Rex Runner}: A game that can be played on Google Chrome when the user is disconnected from the internet.
+    \item \textbf{GUI}: Graphical User Interface.
+    \item \textbf{SRS}: Software Requirements Specification.
+    \item \textbf{Pygame}: A Python library composed of modules designed for writing video games.
+    \item \textbf{Game state}: Refers to the current game session the user is playing in.
+    \item \textbf{OS}: Operating System
+    \item \textbf{PEP 8}: The Style Guide for Python Code
+\end{itemize}
 
 \subsection{Relevant Facts and Assumptions}
-
-User characteristics should go under assumptions.
+\begin{enumerate}
+    \item It is assumed the user knows how to operate a computer.
+    \item It is assumed the user has a computer that has the capability to run the game.
+    \item It is assumed the user has physical access to a mouse and keyboard.
+    \item It is assumed the user has the Python installed version 3.9 or higher.
+    \item It is assumed the user has Pygame library installed.
+    \item It is assumed the user has the supporting game files installed on their computer.
+    \item It is assumed the user can understand basic English.
+\end{enumerate}
 
 \section{Functional Requirements}
 
@@ -79,56 +110,326 @@ User characteristics should go under assumptions.
 
 \subsubsection{The Context of the Work}
 
+The T-Rex Runner is a 2D endless runner game with black and white graphics and simple features. It can only be played on the Google Chrome browser when the user disconnected from the internet. The redevelopment of T-Rex Runner, called T-Rex Acceleration, will have improved and colourful graphics, including new characters and environment designs. The focus of T-Rex Acceleration is creating a more immersive and addictive gaming experience through new game sounds and features. T-Rex Acceleration will utilize a wider range of game sounds for player movements and obstacles than the original game. The most important aspect of the project to modularize the game. The project will utilize all free of cost libraries (Pygame), sounds, and GUI assets. Finally, the project will be written in a different programming language, Python instead of JavaScript.
+
+
 \subsubsection{Work Partitioning}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{0.33\linewidth} | p{0.33\linewidth} | p{0.33\linewidth}| }
+    \hline
+         Event & Input/Output & Summary \\
+         \hline
+         User Controls Character movement & Input: KEYBOARD\_J-UMP or KEYBOAR-D\_DUCK & System responds and update current game state  based on user's input\\
+         \hline
+         Collision Detection & Input: Character Position, Obstacle Position \newline  Output: Modifying current game state & When the user's character model collides with an obstacle, this will trigger the game state to end.   \\
+         \hline
+         Change settings & Input: New volumes/ themes selection \newline  Output: Modified volume level/themes & The current volume or theme will be changed to the new volume or theme that is selected.   \\
+         \hline
+         Update Scores & Input: New highest score \newline  Output: Updated highest score & When the user's current score is higher than the highest score, the highest score will be updated.\\
+         \hline
+         Pause/Resume & Input: User inputs \newline  Output: Modified game state & When the user uses RESUME/PAUSE, this will change the state of the game.\\
+         \hline
+    \end{tabular}
+    \caption{Work Partitioning Table}
+    \label{tab:my_label}
+\end{table}
+
 
 \subsubsection{Individual Product Use Cases}
+The primary use case of this product is to play the game from start and trying to keep the character running as long as you can. The following is the use case in detail:\\\newline
+\textbf{Use case: Play the game}\\
+\textbf{Primary Actor:} User\\
+\textbf{Supporting Actors:} None\\
+\textbf{Precondition:} The user has Python and Pygame libraries installed on the computer.\\
+\textbf{Trigger:} The user opens the program\\
+\textbf{Main Success Scenario}
+\begin{enumerate}
+    \item User is on the main title screen and starts the game
+    \item User uses keyboard inputs to dodge obstacles
+    \item The system counts the current score according to how long the dinosaur runs
+    \item The user hits on an obstacle and the game ends
+    \item The system updates the highest score if the current score is higher than the previous ones
+    \item The user clicks on RESTART to start a new game
+\end{enumerate}
+\textbf{Secondary Scenarios}
+\begin{enumerate}
+    \item User pauses the game: The user presses PAUSE and the game is paused.
+    \item User resumes the game: The user presses RESUME to continue the stopped game. 
+    \item User leaves the game: The user terminates the game before the player collides with an obstacle. The game will terminate gracefully and the current score will not be recorded.
+\end{enumerate}
+\textbf{Success Postcondition:} The game is over and the highest score is updated.
 
 \subsection{Functional Requirements}
+\begin{enumerate}
+	\item The character must jump when the user presses KEYBOARD\_JUMP as long as the character is on a platform.\\
+	\textbf{Rationale}: The user must able to jump with the character to dodge obstacles. The character must not be able to jump unless on an area meant for running (platform).
+	\item The character must jump when the user presses KEYBOARD\_DUCK as long as the character is on the ground.\\
+	\textbf{Rationale}: The user must able to duck with the character to dodge obstacles. The character must not be able to duck unless on an area meant for running (platform).
+	\item The system must detect an occurrence of a collision between the character and an obstacle.\\
+	\textbf{Rationale}: When the character model collides with an obstacle (i.e an object meant to impede the movement of the character) the game state must end.
+	\item The system must spawn different obstacles in random order.\\
+	\textbf{Rationale}: Randomizing the order of the different obstacles spawned, prevents predictable character movement by the user.
+	
+	\item The system must freeze the current game state when the pause option has been pressed.\\
+	\textbf{Rationale}: It is essential the user has an option to pause the game. The spawning of obstacles, character movement, score tracking, and spawning of power-ups must be paused, preserving the game's state the moment it is paused.
+	
+	\item The system shall provide a menu for the user to resume the current game or quit the game when the game is paused.\\
+	\textbf{Rationale}: The user must also have an option to resume the game after it has been paused. The user must also have an option to quit the game depending on their preference/situation. 
+	
+	\item The system must exit the current game state and takes the user to the main menu when the quit option is selected.\\
+	\textbf{Rationale}: The user shall be able to leave any time when playing the game.
+	
+	\item The system must resume back to the current game state with an additional time delay after the resume option has been pressed.\\
+	\textbf{Rationale}: When the user wants to resume back to the current game state, the time delay will allow the user to be aware of the current state of the game. It prevents the user from losing the game instantly by being unaware of the current game situation. 
+	
+	\item The system shall store the score of the current gameplay and display it on the GUI. \\
+	\textbf{Rationale}: The user shall be able to know how they are performing currently in the game.
+	\item The system shall update the highest score if the current score is higher than the existing highest score.\\
+	\textbf{Rationale}: The system must keep the highest updated allowing the user to reflect on their latest performance.
+	\item The system must generate different power-ups randomly to be acquired by the user.\\
+	\textbf{Rationale}: Different power-ups will enhance gameplay experience for the user and bring new elements compared to the original game.
+	
+	\item The user shall be able to acquire a power-up when the character and power-up icon come in contact on the GUI.\\
+	\textbf{Rationale}: The method for the character to obtain the power-up.
+	\item The character's stats change based on the power-up acquired.\\
+	\textbf{Rationale}: The user should notice a change or get a `feel' that their character stats have been modified after acquiring the power-up.
+	
+	\item The system shall play the corresponding sound effects when the player jumps, duck, and collide with obstacles.\\
+	\textbf{Rationale}: The system shall provide an immersive gaming experience.
+	\item The user must have the option to restart the game or go to the main menu when the game ends (the user hits an obstacle).\\
+	\textbf{Rationale}: The user shall be able to choose if they want to start a new game after the previous game ends. It reduces the amount of time and effort for the user to play another game.
+	\item The user can select to play the game, change the game settings, and select a different character from the main menu.\\
+	\textbf{Rationale}: The user shall be able to change settings like volume, theme color, and text size in the main menu. 
+	\item The system shall display instructions when the user starts a game\\
+	\textbf{Rationale}: The users need to be guided on how to play when playing for the first time.
+\end{enumerate}
 
 \section{Non-functional Requirements}
-
 \subsection{Look and Feel Requirements}
+\subsubsection{Appearance Requirements}
+\begin{enumerate}[leftmargin=1.20cm, label={LF \arabic*}]
+    \item The viewpoint shall look similar to the original game T-Rex Runner.\\
+    \textbf{Fit Criteria}: The game follows the character from a side viewpoint.
+    \item The menu and game interface shall be properly colored and follow a consistent theme.\\
+    \textbf{Fit Criteria}: The menu will contain the use of colors and text in line with the style and art form of the games included.
+    \item The menu shall be minimalistic.\\
+    \textbf{Fit Criteria}: The menu should only contain the essential elements.
+\end{enumerate}
+
+\subsubsection{Style Requirements}
+\begin{enumerate}[leftmargin=1.20cm, label={LF \arabic*}]
+    \item  The game shall use a bright colour scheme.\\
+    \textbf{Fit Criteria}: The color shall contain at least 50\% brightness and saturation.  
+\end{enumerate}
 
 \subsection{Usability and Humanity Requirements}
+\subsubsection{Ease of use Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={UH\ \arabic*}]
+    \item The game shall have few and simple controls.\\
+    \textbf{Fit Criteria}: Survey a group of individuals and 95\% of them should quickly understand the controls of the game within 30 seconds. 
+    \item MINIMUM\_AGE and up shall be able to navigate the game with ease.\\
+    \textbf{Fit Criteria}: Survey a group of individuals and 95\% of them should be satisfied with the ease of use of the game by navigating through all the different menus of the game. 
+\end{enumerate}
+
+\subsubsection{Personalization and Internationalization Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={UH \arabic*}]
+    \item The user shall be able to change the volume of the game.\\
+    \textbf{Fit Criteria}: The user can choose any volume from 0\% to 100\%.
+    \item The user shall be able to change the theme of the game.\\
+    \textbf{Fit Criteria}: The user can choose a theme from some provided ones which are constant during the gameplay.
+\end{enumerate}
+
+\subsubsection{Learning Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={UH \arabic*}]
+    \item The user shall get familiar with the game quickly.\\
+    \textbf{Fit Criteria}: Survey a group of individuals and 80\% of them should understand the basic rules and objectives of the game after their first playthrough.
+\end{enumerate}
+
+\subsubsection{Understandability and Politeness Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={UH \arabic*}]
+    \item The game shall use clear and simple language that can be understood by any English reader above the MINIMUM\_AGE.\\
+    \textbf{Fit Criteria}: If we put the game instructions into the GRAMMAR\_CHECKER, it shall give a readability score that indicates it can be read by the MINIMUM\_AGE.
+    
+    \item The application must use universal symbols for common buttons and functions.\\
+    \textbf{Fit Criteria}: Survey a group of individuals and 90\% of them should have a positive experience with the user interface.
+\end{enumerate}
+
+\subsubsection{Accessibility Requirements}
+N/A
 
 \subsection{Performance Requirements}
+\subsubsection{Speed and Latency Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={PR \arabic*}]
+    \item The game shall not take more than MAX\_DELAY to load all necessary files and libraries.\\
+    \textbf{Fit Criteria}: The user must be able to start playing the game before the MAX\_DELAY.
+    \item The game shall respond to the user's input within RESPONSE\_TIME. \\
+    \textbf{Fit Criteria}: The game must be able to react to the user's input within the RESPONSE\_TIME.
+\end{enumerate}
 
+\subsubsection{Safety-Critical Requirements}
+N/A
+
+\subsubsection{Precision or Accuracy Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={PR \arabic*}]
+    \item The score of the user shall be a whole number.\\
+    \textbf{Fit Criteria}: The score of the player is displayed on the screen as an integer.
+\end{enumerate}
+
+\subsubsection{Reliability and Availability Requirements}
+\begin{enumerate}[leftmargin=1.45cm,label={PR \arabic*}]
+    \item The game shall always be available to download and install most of the time.\\
+    \textbf{Fit Criteria}: The user can download and install the game 95\% of the time (based on GitLab's availability). 
+\end{enumerate}
+
+\subsubsection{Robustness or Fault-Tolerance Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={PR \arabic*}]
+    \item The product shall not fail if unexpected inputs are provided by the user.\\
+    \textbf{Fit Criteria}: The game must not crash if non-game control keyboard inputs are provided.
+\end{enumerate}
+
+\subsubsection{Capacity Requirements}
+N/A
+
+\subsubsection{Scalability or Extensibility Requirements}
+\begin{enumerate}[leftmargin=1.45cm,label={PR \arabic*}]
+    \item The game shall allow for easy modifications to game features. \\
+    \textbf{Fit Criteria}: The developer shall be able to change any visual element in the game.
+\end{enumerate}
+\subsubsection{Longevity Requirements}
+N/A
 \subsection{Operational and Environmental Requirements}
+\subsubsection{Expected Physical Environment}
+\begin{enumerate}[leftmargin=1.45cm, label={OE \arabic*} ]
+    \item The game must run on laptops and desktops running the latest version of their respective OS.\\
+    \textbf{Fit Criteria}: The user shall be able to run the game on the latest version of Windows, Linux, and Mac OS.
+\end{enumerate}
+
+\subsubsection{Requirements for Interfacing with Adjacent Systems}
+N/A
+
+\subsubsection{Release Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={OE \arabic*} ]
+    \item The game's final release shall be before DUE\_DATE.\\
+    \textbf{Fit Criteria}: The game shall be completed and ready for download on GitLab by this time.
+\end{enumerate}
 
 \subsection{Maintainability and Support Requirements}
+\subsubsection{Maintenance Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={MS \arabic*}]
+    \item The project shall be maintained by developers until DUE\_DATE. \\
+    \textbf{Fit Criteria}: Any bug discovered before the DUE\_DATE shall be fixed as soon as possible by developers.
+\end{enumerate}
 
+\subsubsection{Supportability Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={MS \arabic*}]
+    \item The project shall be supported on different OS's as mentioned earlier.\\
+     \textbf{Fit Criteria}: The user shall be able to run the game on the latest version of Windows, Linux, and Mac OS.
+\end{enumerate}
+\subsubsection{Adaptability Requirements}
+N/A
 \subsection{Security Requirements}
+\subsubsection{Access Requirements}
+\begin{enumerate}[leftmargin=1.45cm, label={SR \arabic*}]
+    \item The source code and all game assets must be available for download to everyone.\\
+    \textbf{Fit Criteria}: All source code and game assets are available on GitLab. 
+    
+    \item Only the developers and maintainers shall modify the source code and game assets. \\
+    \textbf{Fit Criteria}: Only the development team and teaching staff have the role of owners on the GitLab repository.
+    
+\end{enumerate}
+
+\subsubsection{Privacy Requirements}
+\begin{enumerate}[leftmargin=1.45cm, start=1,label={SR \arabic*}]
+    \item The game must not save any of user's personal information.\\
+    \textbf{Fit Criteria}: The product must not access any files and information outside its folder.
+\end{enumerate}
+
+\subsubsection{Immunity Requirements}
+\begin{enumerate}[leftmargin=1.45cm, start=1,label={SR \arabic*}]
+    \item The developers must not provide any links that may lead to malware.
+    \textbf{Fit Criteria}: There shall be no URL to an external web page in the project source code.
+\end{enumerate}
 
 \subsection{Cultural Requirements}
-
+\subsubsection{Cultural Diversity and Inclusion Requirements}
+\begin{enumerate}[leftmargin=1.20cm, label={CR \arabic*}]
+    \item The game must not contain any offensive content for people in different cultures.\\
+    \textbf{Fit Criteria}: Survey a group of individuals and 100\% should be comfortable with the content of the game.
+    
+    \item The game shall use Canadian English spelling. \\
+    \textbf{Fit Criteria}: The in-game text shall be run through the GRAMMAR\_CHECKER without any spelling errors. 
+\end{enumerate}
 \subsection{Legal Requirements}
+\subsubsection{Compliance Requirements}
+\begin{enumerate}[leftmargin=1.20cm, label={CR \arabic*}]
+    \item The project must not violate any copyright laws. \\
+    \textbf{Fit Criteria}: The project shall abide the BSD-style license with respect to the original source code of the project. 
+\end{enumerate}
+
+\subsubsection{Standards Requirements}
+\begin{enumerate}[leftmargin=1.20cm, label={LR \arabic*}]
+    \item The code of T-Rex Acceleration must be written using the appropriate coding convention. \\
+    \textbf{Fit Criteria}: The code shall follow PEP 8 code style guideline.
+\end{enumerate}
 
 \subsection{Health and Safety Requirements}
+N/A
 
-This section is not in the original Volere template, but health and safety are
-issues that should be considered for every engineering project.
-
+%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Project Issues}
-
 \subsection{Open Issues}
+N/A
 
 \subsection{Off-the-Shelf Solutions}
+Any user can play the original game, T-Rex Runner, on Google Chrome when disconnected from the internet. The source code of the original game can provide a reference to implement the basic functionality of the game. As the project will be written using a different language, the original code will be used to implement the fundamental gameplay. 
+
+Due to the popularity of the game, there are many variations of T-Rex Runner available online. They are played either on the browser or a smart device. Variations and redevelopments are available on Google Play Store and App Store. There are also open source versions available. 
 
 \subsection{New Problems}
+\subsubsection{Effects on the Current Environment}
+The user must have Python 3.9 or higher and Pygame installed to run the game. The game will not require a lot of processing power, thus having little effect on the user's operating system. The user shall not experience any form of lag when running the game.
+\subsubsection{Potential User Problems}
+If the user modifies the source code of the project on their local machine, the game may become unstable to play. 
 
+\subsubsection{Follow-Up Problems}
+There will be a risk if the libraries, such as Pygame, get updated during the development. This may result in in-game features being unable to run or load.
 \subsection{Tasks}
+The following is the link to our project schedule:\\
+\href{https://gitlab.cas.mcmaster.ca/se_3xa3_l3g15/se_3xa3_project/-/tree/master/ProjectSchedule/GanttT-Rex.gan}{\textit{Gantt chart and Resource chart}}
 
 \subsection{Migration to the New Product}
+N/A
 
 \subsection{Risks}
+\subsubsection{Testing Risk}
+Most of the methods in the project will only have a visual output and are highly coupled with other components, thus only limited automated testing can be done. Moreover, obstacles in the game are generated randomly and automated tests are usually insufficient to build confidence for developers. The majority of the testing will be manual system testing. As the game is endless, it is difficult to do exhaustive testing. This increases the probability of bugs and issues getting undiscovered.\\
+Probability:  20\%
+
+\subsubsection{Strict Schedule}
+Due to the strict and tight time constraints, the team must stay disciplined and follow the project schedule. Failure to do so will result in rushed deliverables that are not complete. Rushing the final deliverable will result in incomplete functionality and poor performance. \\
+Probability: 10\%
 
 \subsection{Costs}
+This game is based on an open resource game and the development will use free programs and images, so there is no monetary cost for the project.
 
 \subsection{User Documentation and Training}
+\subsubsection{User Documentation Requirements}
+User Documentation for the game will include a ReadME file for the instructions on installation, running the game, and game controls. The game will also include information about the controls and power-ups in the game settings. 
+
+\subsubsection{Training Requirements}
+The game controls must be intuitive and simple, thus requires no training.
 
 \subsection{Waiting Room}
+The following features may be added to future versions of the game:
+\begin{itemize}
+    \item Multiplayer: To allow multiple users to see and interact with each other in the same game state.
+    \item Local Leaderboard: A leaderboard of the best scores achieved on the local machine.
+    \item Global Leaderboard: A leaderboard of the best scores achieved globally. 
+\end{itemize}
 
 \subsection{Ideas for Solutions}
+N/A
 
 \bibliographystyle{plainnat}
 
@@ -145,6 +446,35 @@ additional information.
 
 The definition of the requirements will likely call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
+\begin{table}[h]
+\caption{\bf Symbolic Parameter Table}
+\begin{tabular}{|l|p{0.5\linewidth}|l|}
+\hline
+\multicolumn{1}{|l}{\bfseries Symbolic Parameter} & \multicolumn{1}{|l|}{\bfseries Description} & \multicolumn{1}{l|}{\bfseries Value}\\
+\hline
+KEYBOARD\_JUMP & Keyboard key that moves the onscreen character vertically upwards & Up Arrow \\
+\hline
+KEYBOARD\_DUCK & Keyboard key that moves the onscreen character duck. & Down Arrow \\
+\hline
+RESTART & Keyboard key that restarts a new game. & Enter\\
+\hline
+PAUSE & Keyboard key that pauses the game mid play & Space\\
+\hline
+RESUME & Keyboard key that resumes the paused game & Space\\
+\hline
+MINIMUM\_AGE & Children younger than this age may have difficulty playing the game & 8\\
+\hline
+GRAMMAR\_CHECKER & The engine that checks for spelling errors & Grammarly\\
+\hline
+MAX\_DELAY & The maximum delay time the project should have & $5$ seconds\\
+\hline
+RESPONSE\_TIME & Typical input delay for the project & $5$ milliseconds\\
+\hline
+DUE\_DATE & Deadline of the project & 04/05/2021\\
+\hline
+\end{tabular}
+\end{table}
+
 
 
 \end{document}
