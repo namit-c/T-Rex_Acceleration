@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="GanttSchedule" company="Dev^(enthusiasts)" webLink="http://gitlab.cas.mcmaster.ca/se_3xa3_l3g15/se_3xa3_project" view-date="2021-01-17" view-index="0" gantt-divider-location="413" resource-divider-location="300" version="2.8.11" locale="en_CA">
+<?xml version="1.0" encoding="UTF-8"?><project name="GanttSchedule" company="Dev^(enthusiasts)" webLink="http://gitlab.cas.mcmaster.ca/se_3xa3_l3g15/se_3xa3_project" view-date="2021-03-07" view-index="0" gantt-divider-location="413" resource-divider-location="300" version="2.8.11" locale="en_CA">
     <description/>
     <view zooming-state="default:6" id="gantt-chart">
         <field id="tpd3" name="Name" width="211" order="0"/>
@@ -94,6 +94,13 @@
             <task id="129" name="Test Report" color="#66ff00" meeting="false" start="2021-03-24" duration="19" complete="0" thirdDate="2021-01-17" thirdDate-constraint="0" expand="true"/>
         </task>
         <task id="66" name="Final Documentation Due" color="#66ff00" meeting="true" start="2021-04-12" duration="0" complete="0" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="130" name="Testing" color="#8cb6ce" meeting="false" start="2021-03-08" duration="15" complete="0" thirdDate="2021-03-14" thirdDate-constraint="0" expand="true">
+            <depend id="143" type="2" difference="0" hardness="Strong"/>
+            <task id="132" name="Input Test" color="#8cb6ce" meeting="false" start="2021-03-08" duration="5" complete="0" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="134" name="Game Environment Test" color="#8cb6ce" meeting="false" start="2021-03-13" duration="4" complete="0" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="138" name="Game Mechanics Test" color="#8cb6ce" meeting="false" start="2021-03-17" duration="6" complete="0" thirdDate="2021-02-21" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="143" name="Testing Due" color="#8cb6ce" meeting="true" start="2021-03-23" duration="0" complete="0" thirdDate="2021-02-21" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Namit" function="Default:0" contacts="" phone=""/>
@@ -118,6 +125,8 @@
         <allocation task-id="52" resource-id="0" function="Default:0" responsible="true" load="33.0"/>
         <allocation task-id="64" resource-id="0" function="Default:0" responsible="true" load="33.0"/>
         <allocation task-id="129" resource-id="0" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="132" resource-id="0" function="Default:0" responsible="false" load="33.3"/>
+        <allocation task-id="138" resource-id="0" function="Default:0" responsible="false" load="33.3"/>
         <allocation task-id="7" resource-id="1" function="Default:0" responsible="true" load="33.0"/>
         <allocation task-id="17" resource-id="1" function="Default:0" responsible="true" load="11.0"/>
         <allocation task-id="16" resource-id="1" function="Default:0" responsible="true" load="11.0"/>
@@ -135,6 +144,8 @@
         <allocation task-id="52" resource-id="1" function="Default:0" responsible="false" load="33.0"/>
         <allocation task-id="64" resource-id="1" function="Default:0" responsible="false" load="33.0"/>
         <allocation task-id="129" resource-id="1" function="Default:0" responsible="true" load="33.0"/>
+        <allocation task-id="132" resource-id="1" function="Default:0" responsible="false" load="33.3"/>
+        <allocation task-id="138" resource-id="1" function="Default:0" responsible="true" load="33.3"/>
         <allocation task-id="11" resource-id="2" function="Default:0" responsible="true" load="33.0"/>
         <allocation task-id="19" resource-id="2" function="Default:0" responsible="true" load="11.0"/>
         <allocation task-id="16" resource-id="2" function="Default:0" responsible="true" load="11.0"/>
@@ -152,6 +163,8 @@
         <allocation task-id="52" resource-id="2" function="Default:0" responsible="false" load="33.0"/>
         <allocation task-id="64" resource-id="2" function="Default:0" responsible="false" load="33.0"/>
         <allocation task-id="129" resource-id="2" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="132" resource-id="2" function="Default:0" responsible="true" load="33.3"/>
+        <allocation task-id="138" resource-id="2" function="Default:0" responsible="false" load="33.3"/>
     </allocations>
     <vacations/>
     <previous/>
