@@ -1,0 +1,1547 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hhline}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage[normalem]{ulem}
+
+\usepackage[left=0.70in, right=0.70in, top=0.70in, bottom=0.70in,
+  headsep=0pt,% remove space between header and text body
+  headheight=17pt% suggested by fancyhdr
+  ]{geometry}
+
+\usepackage{paralist}
+\usepackage{amsfonts}
+
+
+\usepackage{url}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{xcolor}
+\usepackage{ulem}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+\renewcommand\baselinestretch{1.0}
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\usepackage{color}
+
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
+
+\title{SE 3XA3: Module Interface Specification T-Rex Acceleration}
+
+\author{Team 15, Dev\textsuperscript{enthusiasts}
+		\\ Zihao Du (duz12)
+		\\ Andrew Balmakund (balmakua) 
+		\\ Namit Chopra (choprn9)
+}
+
+\date{\today}
+
+\begin {document}
+ 
+\maketitle
+
+\begin{table}[bp]
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+03/18/2021 & 1.0 & Initial Draft\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\section* {Model/Character Module}
+
+\subsection*{Module}
+
+Character
+
+\subsection* {Uses}
+\begin{tabular}{lll}
+    Pygame & // Uses class Sprite  &\\
+    Time & // calculates the duration of powerups &\\
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+N/A
+\subsubsection* {Exported Types}
+N/A
+\subsubsection* {Exported Access Programs}
+
+\resizebox{18cm}{!}{
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+character & pygame.display, String & Character & IllegalArgumentException, FileNotFoundError \\
+\hline
+set\_img & pygame.image & --- & IllegalArgumentException\\
+\hline
+duck & pygame.image, pygame.image & --- & FileNotFoundError \\
+\hline
+stand & pygame.image, pygame.image & --- & ---\\
+\hline
+jump & --- & --- & ---\\
+\hline
+invincible & pygame.image & --- & FileNotFoundError \\
+\hline
+double\_jumping & --- & --- & ---\\
+\hline
+slo\_mo & --- & --- & ---\\
+\hline
+update & --- & --- & ---\\
+\hline
+
+\end{tabular}
+}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+\begin{tabular}{lll}
+    game\_window: pygame.display & // & Represents the screen \\
+    img: pygame.image & // & Surface object with the image of the character\\
+    is\_ducking: $\mathbb{B}$ & // & Is the character ducking\\
+    is\_jumping: $\mathbb{B}$ & // & Is the character jumping\\
+    is\_invincible: $\mathbb{B}$ & // & Is the character invincible\\
+    is\_slo\_mo: $\mathbb{B}$ & // & Is the character slowing obstacles\\
+    is\_double\_jumping: $\mathbb{B}$ & // & Can the character double jump\\
+    movement: ($\mathbb{R,R}$) & // & horizontal and vertical speed of the character\\
+\end{tabular}
+
+\subsubsection* {Environment Variables}
+None
+\subsubsection* {State Invariant}
+
+$is\_ducking \land is\_jumping = False$\\
+$is\_invincible \land is\_slo\_mo \land is\_double\_jumping = False$\\
+\subsubsection* {Assumptions}
+
+Constructor character is called first before other methods.
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent character(screen, img\_path):
+\begin{itemize}
+\item transition: game\_window, img, movement := screen, pygame.image.load(img\_path), [0,0]\\ All Boolean state variables are initialized to False
+\item output: \textit{out} := \textit{self}
+\item exception: 
+    \begin{itemize}[]
+        \item exc := $(img \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+        \item exe := $(game\_window \equiv NULL) \Rightarrow IllegalArguementError$
+    \end{itemize}
+\end{itemize}
+
+\noindent set\_img(new\_img):
+\begin{itemize}
+    \item transition: img := new\_img
+\item exception: 
+    \begin{itemize}[]
+        \item exe := $(new\_img \equiv NULL) \Rightarrow IllegalArguementError$
+    \end{itemize}    
+\end{itemize}
+
+\noindent duck(ducking\_img, inv\_ducking\_img):
+\begin{itemize}
+\item transition: $\neg is\_jumping \Rightarrow (is\_ducking := False;\\
+is\_invincible \Rightarrow img := inv\_ducking\_img \land \neg is\_invincible \Rightarrow img := ducking\_img)$
+\item exception:
+    \begin{itemize}[]
+        \item   exc := $(img \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+    \end{itemize}
+\end{itemize}
+
+\noindent stand(inv\_char, char\_img):
+\begin{itemize}
+\item transition: $\neg is\_jumping \Rightarrow (is\_ducking := False;\\
+is\_invincible \Rightarrow img := inv\_char \land \neg is\_invincible \Rightarrow img := char\_img)$
+\end{itemize}
+
+\noindent jump():
+\begin{itemize}
+\item transition: $\neg (is\_ducking \land is\_jumping) \Rightarrow (is\_jumping, movement[1] := True, INIT\_SPEED)$\\
+\end{itemize}
+
+\noindent invincible(inv\_char):
+\begin{itemize}
+\item transition: is\_invincible, img, is\_double\_jumping, is\_slo\_mo := True, inv\_char, False, False\\
+\item exception:
+    \begin{itemize}[]
+        \item   exc := $(img \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+    \end{itemize}
+\end{itemize}
+
+\noindent double\_jump():
+\begin{itemize}
+\item transition: is\_double\_jumping, is\_slo\_mo, is\_invincible := True, False, False\\
+\end{itemize}
+
+\noindent slo\_mo():
+\begin{itemize}
+\item transition: is\_slo\_mo, is\_invincible, is\_double\_jumping := True, False, False\\
+\end{itemize}
+
+\noindent update():
+\begin{itemize}
+\item transition: Change is\_double\_jumping or is\_invincible or is\_slo\_mo to False and the corresponding image back if the power up has already lasted for DURATION\_TIME. If is\_jumping is True, decrease movement[1] by GRAVITY, and check if the jumping ends(if the character back to ground)
+\end{itemize}
+\subsection*{Local Constants}
+INIT\_SPEED = -20\\
+GRAVITY = 1\\
+DURATION\_TIME = 5\\
+\medskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Model/Powerups}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Pygame & // & Uses class Sprite\\
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    powerups & $\mathbb{N, N, R}$, string & powerups & ---\\
+\hline
+    get\_width & --- & $\mathbb{N}$ & ---\\
+\hline
+    set\_width & $\mathbb{N}$ & --- & IllegalError\\
+\hline
+    get\_height & --- & $\mathbb{N}$ & ---\\
+\hline
+    set\_height & $\mathbb{N}$ & --- & IllegalError\\
+\hline
+    get\_speed & --- & $\mathbb{R}$ & --- \\
+\hline
+    set\_speed & $\mathbb{N}$ & ---& --- \\
+\hline
+    get\_img & --- & string & ---\\
+\hline
+    set\_img & string & --- & FileNotFoundError\\
+\hline
+    get\_name & --- & String & --- \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+\begin{tabular}{lll}
+name: String & // & Represents the type of a power up\\
+    width: $\mathbb{N}$ & // & Represents the width of a power up\\
+    height: $\mathbb{N}$ & // & Represents the height of a power up\\
+    speed: $\mathbb{R}$ & // & Represents the speed of a power up\\
+    img: pygame.image & // & Surface object with a specified image drawn onto it\\
+\end{tabular}
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions \& Design Decisions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent powerups(width, height, speed, imgPath):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item width, height, speed, img := width, height, speed, pygame.image.load(imgPath)\\
+        name = random element in POWERUP\_LIST
+    \end{itemize}
+    \item output: $out := self$
+\end{itemize}
+
+\noindent get\_width():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := width 
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_width(new\_width):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item width := new\_width 
+    \end{itemize}
+
+    \item exception:
+        \begin{itemize}[]
+            \item exc := ($\text{new\_width} < 0$) $\Rightarrow  IllegalArgumentException$
+        \end{itemize}
+\end{itemize}
+
+\noindent get\_height():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := height
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_height(new\_height):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item height := new\_height
+    \end{itemize}
+
+    \item exception:
+        \begin{itemize}[]
+            \item exc := ($\text{new\_height} < 0$) $\Rightarrow  IllegalArgumentException$
+        \end{itemize}
+\end{itemize}
+
+
+\noindent get\_speed():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := speed
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_speed(new\_speed):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item speed := new\_speed
+    \end{itemize}
+
+\end{itemize}
+
+
+\noindent get\_img():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := img 
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_img(img\_path):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item img := pygame.image.load(img\_path)
+    \end{itemize}
+    \item exception: 
+    \begin{itemize}[]
+        \item exc := $(imgPath \equiv \neg FileExists) \Rightarrow FileNotFoundError $
+    \end{itemize}
+\end{itemize}
+
+\noindent get\_name():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := name
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Local Constants}
+POWERUP\_LIST = ["Invincibility", "Double Jump", "Score Boost", "Slo\_mo"]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Model/Obstacle}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Vector2D & &\\
+    Pygame & // & Class for using pygame library (fixed definition)\\
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    obstacle & string,$\mathbb{N, N, R}$, string & Obstacle & ---\\
+\hline
+    get\_width & --- & $\mathbb{N}$ & ---\\
+\hline
+    set\_width & $\mathbb{N}$ & --- & IllegalError\\
+\hline
+    get\_height & --- & $\mathbb{N}$ & ---\\
+\hline
+    set\_height & $\mathbb{N}$ & --- & IllegalError\\
+\hline
+    get\_speed & --- & $\mathbb{R}$ & --- \\
+\hline
+    set\_speed & $\mathbb{N}$ & ---& --- \\
+\hline
+    get\_img & --- & string & ---\\
+\hline
+    set\_img & string & --- & FileNotFoundError\\
+
+\hline
+    get\_rect & --- & ($\mathbb{R,R}$) & \\
+\hline
+    set\_rect & ($\mathbb{R,R}$) & --- & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+\begin{tabular}{lll}
+name: String & // & Represents the name of an obstacle\\
+    width: $\mathbb{N}$ & // & Represents the width of an obstacle\\
+    height: $\mathbb{N}$ & // & Represents the height of an obstacle\\
+    speed: $\mathbb{R}$ & // & Represents the speed of an obstacle\\
+    img: pygame.image & // & Surface object with a specified image drawn onto it\\
+    rect: ($\mathbb{R,R}$) & // & X and Y coordinates of the obstacle\\
+\end{tabular}
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions \& Design Decisions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent obstacle(name, width, height, speed, imgPath):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item name, width, height, speed, img := name, width, height, speed, pygame.image.load(imgPath)
+        \item rect := img.get\_rect()
+    \end{itemize}
+    \item output: $out := self$
+\end{itemize}
+
+\noindent get\_width():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := width 
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_width(new\_width):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item width := new\_width 
+    \end{itemize}
+
+    \item exception:
+        \begin{itemize}[]
+            \item exc := ($\text{new\_width} < 0$) $\Rightarrow  IllegalArgumentException$
+        \end{itemize}
+\end{itemize}
+
+\noindent get\_height():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := height
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_height(new\_height):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item height := new\_height
+    \end{itemize}
+
+    \item exception:
+        \begin{itemize}[]
+            \item exc := ($\text{new\_height} < 0$) $\Rightarrow  IllegalArgumentException$
+        \end{itemize}
+\end{itemize}
+
+
+\noindent get\_speed():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := speed
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_speed(new\_speed):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item speed := new\_speed
+    \end{itemize}
+
+\end{itemize}
+
+
+\noindent get\_img():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := img 
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_img(img\_path):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item img := pygame.image.load(img\_path)
+    \end{itemize}
+    \item exception: 
+    \begin{itemize}[]
+        \item exc := $(imgPath \equiv \neg FileExists) \Rightarrow FileNotFoundError $
+    \end{itemize}
+\end{itemize}
+
+\noindent get\_rect():
+\begin{itemize}
+    \item output: 
+    \begin{itemize}[]
+        \item out := rect 
+    \end{itemize}
+\end{itemize}
+
+
+\noindent set\_rect(x, y):
+\begin{itemize}
+    \item transition: 
+    \begin{itemize}[]
+        \item rect.x := x
+        \item rect.y = y
+    \end{itemize}
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Model/DetectCollision}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Character & // & Class for Characters\\
+    Powerups & // & Class for power ups\\
+    Obstacle & // & Class for Obstacles\\
+    Pygame
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    detect\_collision & pygame.sprite, seq of pygame.sprite & $\mathbb{B}$  & ---\\
+\hline
+    find\_collision & pygame.sprite, seq of pygame.sprite & pygame.sprite  & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions \& Design Decisions}
+
+Character and Obstacle have been defined, only comparing one obstacle with one character at a time.
+
+\subsubsection* {Access Routine Semantics}
+
+detect\_collision(Character, Elements):
+\begin{itemize}
+    \item output: out := $\forall \text{ element} \in \text{Elements} | (\text{Character.X}< \text{element.X} + \text{element.width}) \land (\text{Character.X} + \text{Character.width} > \text{element.X}) \land (\text{Character.Y} < \text{element.Y} + \text{element.height}) \land (\text{Character.Y} + \text{Character.height} > \text{element.Y})$
+\end{itemize}
+
+find\_collision(Character, Elements):
+\begin{itemize}
+    \item output: out := The element in the sequence that collides with Character
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Model/UpdateEnvironment}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Pygame
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    update\_floor & pygame.image,$\mathbb{Z}$,pygame.display & $\mathbb{Z}$ & ---\\
+\hline
+    update\_bg\_colour & $\mathbb{Z}$, $\mathbb{Z}$, seq of $\mathbb{Z}$ & seq of $\mathbb{Z}$ & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+The game window and images are defined before any routines are called.
+
+\subsubsection* {Access Routine Semantics}
+
+update\_floor(floor, floor\_position, screen):
+\begin{itemize}
+    \item output: \textit{out} := (floor\_position $\leq$ -500) $\Rightarrow$ floor\_position = 0 $\lor$ floor\_position = floor\_position - MOVEMENT\_SPEED
+\end{itemize}
+\noindent update\_bg\_colour(current\_score, previous\_score, bg\_rgb, screen):
+\begin{itemize}
+    \item output: \textit{out} := Every time the score is a multiple of CHANGE\_BG, the value of either red (bg\_rbg[0]), green (bg\_rbg[1]), or blue (bg\_rbg[2]) changes. The new value of one of the field is: $(0 \leq x \leq 2 |$ $(bg\_rgb[x]+50)\%255)$
+\end{itemize}
+\subsubsection* {Local Constants}
+MOVEMENT\_SPEED: 10 \\
+CHANGE\_BG = 50
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Model/Score}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Time & // & Module for time related functions\\
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    Score &--- & Score& ---\\
+\hline 
+    get\_score & --- & $\mathbb{N}$ & --- \\
+\hline
+    update\_score & --- & --- & ---\\
+\hline
+    get\_high\_score & --- & $\mathbb{N}$ & --- \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+high\_score: $\mathbb{N}$ \\
+current\_score: $\mathbb{N}$ \\
+previous\_score: $\mathbb{N}$ \\
+start\_time: $\mathbb{R}$
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None.
+
+\subsubsection* {Access Routine Semantics}
+
+Score():
+\begin{itemize}
+    \item output: $out$ := \textit{self} 
+    \item transition: high\_score, current\_score, start\_time := 0, current time.
+\end{itemize}
+\noindent get\_score():
+\begin{itemize}
+    \item output: $out$ := current\_score
+\end{itemize}
+\noindent update\_score():
+\begin{itemize}
+    \item output: $out$ := current\_score, previous\_score
+    \item transition: previous\_score, current\_score, high\_score := current\_score, ((current time - start\_time)$\cdot$ SCALE\_FACTOR) rounded to the nearest natural number, (current\_score $>$ high\_score) $\Rightarrow$ (high\_score = current\_score)
+\end{itemize}
+\noindent get\_score():
+\begin{itemize}
+    \item output: $out$ := high\_score
+\end{itemize}
+\subsubsection* {Local Constants}
+SCALE\_FACTOR: 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Model/MainMenu}
+
+\subsection* {Uses}
+None
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    MainMenu & --- & MainMenu & ---\\
+\hline
+    change\_volume & $\mathbb{N}$, $\mathbb{N}$ & --- & ---\\
+\hline
+    get\_volumes & --- & $\mathbb{N}$, $\mathbb{N}$ & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+background\_music\_volume: $\mathbb{N}$\\
+sound\_effects\_volume: $\mathbb{N}$
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+MainMenu():
+\begin{itemize}
+    \item output: $out$ := self
+    \item transition: background\_music\_volume, sound\_effects\_volume := MAX\_VOLUME, \\ MAX\_VOLUME
+\end{itemize}
+\noindent change\_volume(new\_background\_volume, new\_sound\_effects\_volume):
+\begin{itemize}
+    \item transition: background\_music\_volume, sound\_effects\_volume := new\_background\_volume, new\_sound\_effects\_volume
+\end{itemize}
+\noindent get\_volumes():
+\begin{itemize}
+    \item output: $out$ := background\_music\_volume, sound\_effects\_volume 
+\end{itemize}
+\subsection* {Local Constants}
+MAX\_VOLUME: 100
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{View/DisplayObstacle}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Pygame & // & Uses PyGame library\\
+    Time & // & Time will be used to keep track of time\\
+    Obstacle & // & \\
+    CharacterType & // & \\
+    Random & // & Use to genereate random integers in a specified range\\
+    LoadAssests & // & \\
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\resizebox{17cm}{!}{
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    DisplayObstaclee & pygame.display & DisplayObstacle& IllegalArgumentException \\
+\hline
+    get\_obstacle\_list & --- & seq of ObstacleType  & ---\\
+\hline
+    remove\_obstacle & Obstacle &  --- & ---\\
+\hline
+    generate\_obstacle &  seq of Obstacle, $\mathbb{R}$ &  $\mathbb{R}$ & ---\\
+\hline
+    draw\_obstacle & $\mathbb{R,R}$, Obstacle &  --- & ---\\
+\hline
+    update\_obstacle\_display & --- &  --- & ---\\
+\hline
+
+\end{tabular}
+}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+game\_window: pygame.display \\
+obtacle\_list: seq of ObstacleType
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+game\_window $\neq$ null
+
+\subsubsection* {Access Routine Semantics}
+
+   DisplayObstacle(game\_screen):
+\begin{itemize}
+    \item output: \textit{out} := \textit{self}
+    \item transition: game\_window, obstacle\_list := game\_screen, []
+    \item exception: \textit{exc}: (game\_screen = NULL $\Rightarrow$ IllegalArgumentExcpetion)
+\end{itemize}
+\noindent get\_obstacle\_list():
+\begin{itemize}
+    \item output: \textit{out} := obstacle\_list
+\end{itemize}
+\noindent remove\_obstacle(obstacle): 
+\begin{itemize}
+    \item transition: obstacle\_list := obstacle\_list - obstacle.
+\end{itemize}
+\noindent draw\_obstacle(currentX, currentY, obstacle): 
+\begin{itemize}
+    \item transition: game\_window := Draw the given obstacle at a specific location (X, Y) coordinates using the obstacle image.
+\end{itemize}
+\noindent generate\_obstacle(type\_of\_obstacles, prevObstacleSpawnTime):
+\begin{itemize}
+    \item transition: Generate a random kind of obstacle after APPROPRIATE\_TIME and add it to the obstacle\_list. 
+    \item out: \textit{out} := current time
+\end{itemize}
+\noindent update\_obstacle\_display(): 
+\begin{itemize}
+    \item transition: For each obstacle in obstacle\_list, draw each obstacle at its new position by considering the speed of each object. Once each obstacle has been drawn off the screen (obstacle is outside the boundaries of the game\_window, remove the obstacle from the list).
+\end{itemize}
+
+\subsubsection* {Local Constants}
+APPROPRIATE\_TIME = random integer between 3 and 5 seconds
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{View/DisplayPowerups}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Pygame & // & Uses PyGame library\\
+    Powerups   \\
+    DetectCollision \\
+    Random & // & Use to generate random integers in a specified range\\
+    LoadAssests & // & \\
+    
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\resizebox{15cm}{!}{
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    DisplayPowerups & pygame.display & DisplayPowerups & IllegalArgumentException \\
+\hline
+    generate\_powerup & --- & ---- & ---\\
+\hline
+    draw\_powerups & powerups &  --- & ---\\
+\hline
+    update\_powerup & --- & --- & ---\\
+\hline
+
+\end{tabular}
+}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+powerups\_diplayed: seq of Powerups\\ 
+game\_screen: pygame.display \\
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+game\_window $\neq$ null
+
+\subsubsection* {Access Routine Semantics}
+
+display\_powerup(game\_screen):
+\begin{itemize}
+    \item output: \textit{out} := \textit{self}
+    \item transition: game\_screen, powerups\_diplayed := game\_screen, []
+    \item exception: \textit{exc}: (game\_screen = NULL $\Rightarrow$ IllegalArgumentExcpetion)
+\end{itemize}
+\noindent generate\_powerup():
+\begin{itemize}
+    \item transition: powerups\_diplayed := Add a random kind of powerup in the powerups\_displayed (a list of powerups displayed on the game\_window). 
+\end{itemize}
+\noindent draw\_powerups(powerup): 
+\begin{itemize}
+    \item transition: draw the power up on the screen
+\end{itemize}
+
+\noindent update\_powerup():
+\begin{itemize}
+    \item transition: All elements in powerups\_displayed are updated by position and drawn. 
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{View/DisplayEnvironment}
+
+\subsection* {Uses}
+UpdateEnvironment \\
+Pygame \\
+LoadAssests  
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    DisplayEnvironment & pygame.display & --- & IllegalArgumentException\\
+\hline
+    draw\_score & Score, & --- & ---\\
+\hline
+    display\_instruction & String & --- & ---\\
+\hline
+    draw\_floor & pygame.image $\mathbb{Z}$ & --- & ---\\
+\hline
+    draw\_background & seq of $\mathbb{N}$ & --- & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+game\_screen: pygame.display
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+\noindent DisplayEnvironment(window):
+\begin{itemize}
+    \item transition: game\_screen := window
+\end{itemize}
+
+\noindent draw\_score(score):
+\begin{itemize}
+    \item transition: The score is drawn on the screen.
+\end{itemize}
+
+\noindent draw\_instruction(instructions):
+\begin{itemize}
+    \item transition: The instruction is shown on the screen for SOME\_TIME and disappears after.
+\end{itemize}
+
+\noindent draw\_floor(floor, floor\_position, game\_screen):
+\begin{itemize}
+    \item transition : Draw the floor onto the screen
+\end{itemize}
+
+\subsection*{Local Constants}
+SOME\_TIME = 5 seconds\\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{View/DisplayWindow}
+
+\subsection* {Uses}
+Pygame
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    DisplayWindow & --- & DisplayWindow & ---\\
+\hline
+    get\_game\_screen &--- & pygame.display & ---\\
+% \hline
+%     MainMenu & --- & MainMenu & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+game\_screen: pygame.display 
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+DisplayWindow():
+\begin{itemize}
+    \item output: $out$ := $self$
+    \item transition: game\_screen := a new pygame window with dimensions WIDTH $\times$ HEIGHT pixels
+\end{itemize}
+\noindent get\_game\_screen():
+\begin{itemize}
+    \item output: $out$ := game\_screen
+\end{itemize}
+\subsection* {Local Constants}
+WIDTH = 800 \\
+HEIGHT = 600 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{View/DisplayCharacter}
+
+\subsection* {Uses}
+None
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    DisplayCharacter & pygame.display, Character & --- & ---\\
+\hline
+    draw\_character & --- & --- & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+game\_screen: pygame.display \\
+game\_character: Character \\
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+DisplayCharacter(window, character):
+\begin{itemize}
+    \item transition: game\_screen, game\_character := window, character 
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{View/PlaySound}
+
+\subsection* {Uses}
+LoadAssets
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    PlaySound & --- & PlaySound & ---\\
+\hline
+    play\_bg\_music & --- & --- & ---\\
+\hline
+    play\_jump\_sound & --- & --- & ---\\
+\hline
+    play\_duck\_sound & --- & --- & ---\\
+\hline
+    play\_collision\_sound & --- & --- & ---\\
+\hline
+    play\_powerup\_sound & --- & --- & --- \\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+background\_music: pygame.mixer\\
+jump\_sound: pygame.mixer\\
+duck\_sound: pygame.mixer\\
+collision\_sound: pygame.mixer\\
+powerup\_pickup\_sound: pygame.mixer 
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+PlaySound():
+\begin{itemize}
+    \item output: $out$ := $self$
+    \item transition: background\_music, jump\_sound, duck\_sound, collision\_sound, powerup\_pickup\_sound := the assets are loaded in from the LoadAssets module.
+\end{itemize}
+\noindent  play\_bg\_music():
+\begin{itemize}
+    \item output: $out$ := None
+    \item transition: plays the background music.
+    \item exception: None
+\end{itemize}
+\noindent play\_jump\_sound():
+\begin{itemize}
+    \item output: $out$ := None
+    \item transition: plays the jump sound effect.
+    \item exception: None
+\end{itemize}
+\noindent  play\_duck\_sound():
+\begin{itemize}
+    \item output: $out$ := None
+    \item transition: plays the duck sound effect.
+    \item exception: None
+\end{itemize}
+\noindent  play\_collision\_sound():
+\begin{itemize}
+    \item output: $out$ := None
+    \item transition: plays the collision sound effect.
+    \item exception: None
+\end{itemize}
+\noindent  play\_powerup\_sound():
+\begin{itemize}
+    \item output: $out$ := None
+    \item transition: plays the powerup pickup sound effect.
+    \item exception: None
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{View/DisplayMenu}
+
+\subsection* {Uses}
+None
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    DisplayMenu & pygame.display & --- & ---\\
+\hline
+    display\_main\_menu & --- & --- & ---\\
+\hline
+    display\_pause\_menu & --- & --- & ---\\
+\hline
+    display\_exit\_menu & --- & --- & ---\\
+\hline
+     display\_setting\_menu & --- & --- & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+game\_screen: pygame.display
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+DisplayMenu(window):
+\begin{itemize}
+    \item transition: game\_screen := window
+\end{itemize}
+
+\noindent display\_main\_menu():
+\begin{itemize}
+    \item transition: game\_screen := Main menu with `Play', `Quit' and `Setting' buttons 
+\end{itemize}
+
+\noindent display\_pause\_menu():
+\begin{itemize}
+    \item transition: game\_screen := Pause menu with `Resume' button to resume back to the current game or `Exit' the  game to the main menu
+\end{itemize}
+
+\noindent display\_exit\_menu():
+\begin{itemize}
+    \item transition: game\_screen := Exit menu with `Return` to the main menu after game session has ended 
+\end{itemize}
+
+\noindent display\_setting\_menu():
+\begin{itemize}
+    \item transition: game\_screen := Setting menu that can change volume and theme
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{View/LoadAssets}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Pygame
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    load\_floor & --- & pygame.image & FileNotFoundError\\
+\hline
+    load\_background & --- & pygame.image & FileNotFoundError\\
+\hline
+    load\_character & --- & seq of pygame.image & FileNotFoundError\\
+\hline
+load\_all\_obstacle & --- & seq of pygame.image & FileNotFoundError\\
+\hline
+load\_all\_powerups & --- &  seq of pygame.image & FileNotFoundError\\
+\hline
+load\_main\_menu & --- &   pygame.image & FileNotFoundError\\
+\hline
+load\_sound & --- &   pygame.mixer & FileNotFoundError\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+All the files are in the appropriate directory with proper names and format.
+
+\subsubsection* {Access Routine Semantics}
+
+load\_floor():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the floor image loaded in.
+    \item exception: \textit{exc} := $(\text{FLOOR\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+
+\noindent load\_background():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the background image loaded in.
+    \item exception: \textit{exc} := $(\text{BACKGROUND\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+
+load\_character():
+\begin{itemize}
+    \item output: \textit{out} := returns a sequence of Pygame image objects with images of all obstacles loaded in.
+    \item exception: \textit{exc} := $(\text{CHARACTER\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+
+load\_all\_obstacle():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the floor image loaded in.
+    \item exception: \textit{exc} := $(\text{OBSTACLE\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+
+load\_all\_powerups():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the all kinds of power ups loaded in.
+    \item exception: \textit{exc} := $(\text{POWERUP\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+
+load\_main\_menu():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the main menu image loaded in.
+    \item exception: \textit{exc} := $(\text{MAINMENU\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+
+load\_sound():
+\begin{itemize}
+    \item output: \textit{out} := returns Pygame sound objects with the background music and sound effects loaded in.
+    \item exception: \textit{exc} := $(\text{SOUND\_MP3} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+\subsection*{Local Constants}
+FLOOR\_IMG = `floor.png' \\
+BACKGROUND\_IMG = `background.png' \\
+CHARACTER\_IMG = [`character.png', `character\_invisible.png']\\
+OBSTACLE\_IMG = [`obstacle1.png', `obstacle2.png']\\
+POWERUP\_IMG = [`powerup1.png', `powerup2.png', `powerup3.png', `powerup4.png']\\
+MAINMENU\_IMG = `mainmenu.png'\\ 
+SOUND\_MP3 = [`sound1.mp3', `sound2.mp3', `sound3.mp3', `sound4.mp3', `sound5.mp3']\\
+
+\medskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Controller/GameController}
+
+\subsection* {Uses}
+
+\begin{tabular}{lll}
+    Character & \\
+    Obstacle & \\
+    Powerups & \\
+    DetectCollision & \\
+    UpdateEnvironment & \\
+    Score & \\
+    DisplayObstacle & \\
+    DisplayPowerups & \\
+    DisplayEnvironment & \\
+    DisplayWindow & \\
+    DisplayCharacter & \\
+    PlaySound & \\
+    DisplayMenu & \\
+    LoadAssets 
+\end{tabular}
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    GameController & --- & GameController & ---\\
+\hline
+    game\_loop & --- & --- & ---\\
+\hline
+    check\_user\_input & --- & --- & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+game\_screen: pygame.display\\
+obstacle\_list: seq of Obstacle\\
+character : Character \\
+powerup\_list : seq of Powerups\\
+background\_music: pygame.mixer\\
+sound\_effects: pygame.mixer\\
+floor: pygame.image\\
+floor\_position: $\mathbb{N}$\\
+background: pygame.image\\
+score\_count: Score
+
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+GameController():
+\begin{itemize}
+    \item transition: game\_screen := DisplayWindow.get\_game\_screen()\\
+    obstacle\_list, powerup\_list := [], []\\
+    character := Character(game\_screen, LoadAssets.load\_character()[0])\\
+    background, sound\_effects := LoadAssets.load\_sound()\\
+    floor := LoadAssets.load\_floor()\\
+    floor\_position := 0\\
+    background := LoadAsset.load\_background()\\
+    score\_count := Score()\\
+    
+    \item output: \textit{out} := \textit{self}
+\end{itemize}
+
+\noindent game\_loop():
+\begin{itemize}
+    \item transitions: This is the main game loop of the game that will continuously run until the game current session has ended either through a collision detection or exiting the game from the pause menu. The floor image will have its position constantly moving and being updated. The events of each keyboard input will be constantly monitored to ensure the user input is registered. The score will be incremented and depending on the current score, the background color will change. There will be random types of obstacles  and powerups generating at random times. There will be a constant check for collision detection between the character and obstacle, and character and powerups. If a collision between a character and obstacle has occured, the current game state stops and continues to the exit menu to compare current score and highest score achieved. 
+\end{itemize}
+
+\noindent check\_user\_input():
+\begin{itemize}
+    \item transition: checks for user\_input and calls the corresponding method. The method is responsible for handling input for character control and moving the character based on the input. The method also handles the user inputs for starting the game, quitting the game, pausing the game, and changing the settings. \\\\
+\resizebox{15cm}{!}{
+\begin{tabular}{|l|l|}
+    \hline
+    Input Key & Behaviour\\
+    \hline
+    pygame.QUIT & System exit\\
+    pygame.KEYDOWN & \\
+    pygame.K\_DOWN & character.duck() \& play\_duck\_sound()\\
+    pygame.K\_UP & character.jump() \& play\_jump\_sound()\\
+    pygame.K\_Up twice & character.double\_jump() \&
+    play\_jump\_sound()\\
+    pygame.K\_P & MenuController.pause\_menu(game\_screen)\\
+    pygame.KEYUP & \\
+    pygame.K\_DOWN & character.stand()\\
+    \hline
+\end{tabular}
+}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Controller/MenuController}
+
+\subsection* {Uses}
+
+MainMenu
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+    setting\_menu & pygame.display & --- & ---\\
+\hline
+    pause\_menu & pygame.display & --- & ---\\
+\hline
+    exit\_menu & pygame.display & --- & ---\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+\noindent setting\_menu(screen):
+\begin{itemize}
+    \item transition: display the setting menu onto the screen and handle the volume and theme change according to user input. When the user press `Back', the method terminates and control is passed back to the game controller.
+\end{itemize}
+
+\noindent pause\_menu(screen):
+\begin{itemize}
+    \item transition: display the pause menu onto the screen, freezing the current game state. The score count is kept constant and all the elements of the game (obstacles, character, and background) stop moving. If the `Resume' button is pressed, the game data current state is unfrozen, the method terminates and the control is shifted back to the game controller. If the Exit' button is pressed, the method terminates and the control is shifted back to the game controller (not saving the current game state upon exiting).
+\end{itemize}
+
+\noindent exit\_menu(screen):
+\begin{itemize}
+    \item transition: display the exit menu onto the screen and restart or quit the game according to user input. When the user presses `Exit', the game goes back to main menu. If `Restart' is pressed, a new game starts. the method terminates and control is passed back to the game controller whatever button is pressed.
+\end{itemize}
+\end {document}
