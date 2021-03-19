@@ -29,17 +29,17 @@
 \newcommand{\mthemnum}{M\themnum}
 \newcommand{\mref}[1]{M\ref{#1}}
 
-\title{SE 3XA3: Software Requirements Specification\\Title of Project}
+\title{SE 3XA3: Module Guide\\T-Rex Acceleration}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Team 15, Dev\textsuperscript{enthusiasts}
+		\\ Zihao Du (duz12)
+		\\ Andrew Balmakund (balmakua) 
+		\\ Namit Chopra (choprn9)
 }
+
 
 \date{\today}
 
-\input{../../Comments}
 
 \begin{document}
 
@@ -55,8 +55,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+03/18/2021 & 1.0 & Initial Version\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -66,45 +65,14 @@ Date 2 & 1.1 & Notes\\
 \pagenumbering{arabic}
 
 \section{Introduction}
-
-Decomposing a system into modules is a commonly accepted approach to developing
-software.  A module is a work assignment for a programmer or programming
-team~\citep{ParnasEtAl1984}.  We advocate a decomposition
-based on the principle of information hiding~\citep{Parnas1972a}.  This
-principle supports design for change, because the ``secrets'' that each module
-hides represent likely future changes.  Design for change is valuable in SC,
-where modifications are frequent, especially during initial development as the
-solution space is explored.  
-
-Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
-\begin{itemize}
-\item System details that are likely to change independently should be the
-  secrets of separate modules.
-\item Each data structure is used in only one module.
-\item Any other program that requires information stored in a module's data
-  structures must obtain it by calling access programs belonging to that module.
-\end{itemize}
-
-After completing the first stage of the design, the Software Requirements
-Specification (SRS), the Module Guide (MG) is developed~\citep{ParnasEtAl1984}. The MG
-specifies the modular structure of the system and is intended to allow both
-designers and maintainers to easily identify the parts of the software.  The
-potential readers of this document are as follows:
-
-\begin{itemize}
-\item New project members: This document can be a guide for a new project member
-  to easily understand the overall structure and quickly find the
-  relevant modules they are searching for.
-\item Maintainers: The hierarchical structure of the module guide improves the
-  maintainers' understanding when they need to make changes to the system. It is
-  important for a maintainer to update the relevant sections of the document
-  after changes have been made.
-\item Designers: Once the module guide has been written, it can be used to
-  check for consistency, feasibility and flexibility. Designers can verify the
-  system in various ways, such as consistency among modules, feasibility of the
-  decomposition, and flexibility of the design.
-\end{itemize}
-
+\subsection*{Overview}
+T-Rex Acceleration is a python based implementation of the Google Chrome game T-Rex Runner, which is implemented with JavaScript. The goal of the project is to create a new version of T-Rex Runner game based on the existing implementation with a fresh twist. New features like changing volume and powerups will be added to the project. This project also uses the MVC design pattern to design all modules.
+\subsection*{Context}
+The module guide (MG) is based on the functional and non-functional requirements mentioned in the software requirements specification (SRS). The purpose of the document is to provide developers with a modular structure of the system, and how requirements can be met and traced in the structure. It is also helpful to check the interaction between modules and the consistency of the system. Along with MG, there will be a module interface specification (MIS) document in which these modules are specified in detail, including access routine, state variable, etc.
+\subsection*{Design Principles}
+We advocate a decomposition based on the principle of information hiding~\citep{Parnas1972a}. This
+principle supports design for change because of the ``secrets'' that each module hides represent likely future changes. Design for change is valuable in software development, where modifications are frequent, especially during initial development as the solution space is explored.  
+\subsection*{Document Structure}
 The rest of the document is organized as follows. Section
 \ref{SecChange} lists the anticipated and unlikely changes of the software
 requirements. Section \ref{SecMH} summarizes the module decomposition that
@@ -115,8 +83,8 @@ modules. Section \ref{SecTM} includes two traceability matrices. One checks
 the completeness of the design against the requirements provided in the SRS. The
 other shows the relation between anticipated changes and the modules. Section
 \ref{SecUse} describes the use relation between modules.
-
-\section{Anticipated and Unlikely Changes} \label{SecChange}
+\section{Anticipated and Unlikely Changes}
+\label{SecChange}
 
 This section lists possible changes to the system. According to the likeliness
 of the change, the possible changes are classified into two
@@ -132,11 +100,12 @@ adapted here is called design for
 change.
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{ac1}:] The method to generate new background colours.
+\item[\refstepcounter{acnum} \actheacnum \label{ac2}:] The number and types of powerups that can be acquired by the player.
+\item [\refstepcounter{acnum} \actheacnum \label{ac3}:] The number and types of obstacles that the player has to avoid.
+\item [\refstepcounter{acnum} \actheacnum \label{ac4}:] New images for the character, powerups, obstacles, and environment.
+\item [\refstepcounter{acnum} \actheacnum \label{ac5}:] Sounds files associated with different game features.
+\item [\refstepcounter{acnum} \actheacnum \label{ac6}:] The dimensions and position of the character, powerups, obstacles, and environment drawn on the screen.
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -149,12 +118,11 @@ will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be
-  a source of input data external to the software.
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] The only way to interact with the system by using the keyboard (except the close button of the window). The user must use the keyboard to control the character during the game. The keyboard is also needed to navigate through the main, pause, and end menu. This includes the settings menu as well, which is accessed through the main menu.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] The number of players, currently one, that can play the game at once on the same machine is not expected to change. The game is designed to be played by one player and that is kept in mind when designing all the modules.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] The environment and platforms where the game can be played are unlikely to be changed. The game is expected to be supported by Windows, macOS, and Linux. 
 \end{description}
+
 
 \section{Module Hierarchy} \label{SecMH}
 
@@ -163,41 +131,68 @@ in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
+
+
+
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+    \item [\refstepcounter{mnum} \mthemnum \label{m1}:] Character
+    \item [\refstepcounter{mnum} \mthemnum \label{m2}:] Powerups
+    \item [\refstepcounter{mnum} \mthemnum \label{m3}:] Obstacle
+    \item [\refstepcounter{mnum} \mthemnum \label{m4}:] DetectCollision
+    \item [\refstepcounter{mnum} \mthemnum \label{m5}:] UpdateEnvironment
+    \item [\refstepcounter{mnum} \mthemnum \label{m6}:] Score
+    \item [\refstepcounter{mnum} \mthemnum \label{m7}:] MainMenu
+    \item [\refstepcounter{mnum} \mthemnum \label{m8}:] DisplayObstacle
+    \item [\refstepcounter{mnum} \mthemnum \label{m9}:] DisplayPowerups
+    \item [\refstepcounter{mnum} \mthemnum \label{m10}:] DisplayEnvironment
+    \item [\refstepcounter{mnum} \mthemnum \label{m11}:] DisplayWindow
+    \item [\refstepcounter{mnum} \mthemnum \label{m12}:] DisplayCharacter
+    \item [\refstepcounter{mnum} \mthemnum \label{m13}:] PlaySound
+    \item [\refstepcounter{mnum} \mthemnum \label{m14}:] DisplayMenu
+    \item [\refstepcounter{mnum} \mthemnum \label{m15}:] LoadAssets
+    \item [\refstepcounter{mnum} \mthemnum \label{m16}:] GameController
+    \item [\refstepcounter{mnum} \mthemnum \label{m17}:] MenuController
+
 \end{description}
 
-
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
 \toprule
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding Module} & ~ \\
+\multirow{7}{0.3\textwidth}{Hardware-Hiding Module} 
+    & DisplayMenu\\
+& DisplayCharacter\\
+    & DisplayPowerups\\
+    & DisplayObstacles\\
+    & DisplayEnvironment\\
+    & PlaySound\\
+    & DisplayWindow\\
+    & LoadAssets\\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{3}{0.3\textwidth}{Behaviour-Hiding Module} 
+& GameController \\
+    & MenuController\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{7}{0.3\textwidth}{Software Decision Module} 
+    & Character\\
+    & Powerups\\
+    & Obstacle\\
+    & DetectCollision\\
+    & UpdateEnvironment\\
+    & Score\\
+    & MainMenu\\
+    
 \bottomrule
-
 \end{tabular}
 \caption{Module Hierarchy}
 \label{TblMH}
 \end{table}
+
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
@@ -223,15 +218,71 @@ that the module is not a leaf and will not have to be implemented. Whether or
 not this module is implemented depends on the programming language
 selected.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
-
+\subsection{Hardware Hiding Modules}
 \begin{description}
 \item[Secrets:]The data structure and algorithm used to implement the virtual
   hardware.
-\item[Services:]Serves as a virtual hardware used by the rest of the
+\item[Services:]Serve as a virtual hardware used by the rest of the
   system. This module provides the interface between the hardware and the
   software. So, the system can use it to display outputs or to accept inputs.
 \item[Implemented By:] OS
+\end{description}
+
+
+\subsubsection{DisplayMenu (\mref{m14})}
+\begin{description}
+\item[Secrets:] Handles all control flow to open different menus. 
+\item[Services:] Display the different menus (pause menu, exit menu, setting menu) onto the screen.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{DisplayCharacter (\mref{m12})}
+\begin{description}
+\item[Secrets:] Method to draw the character on the screen.
+\item[Services:] Draw the character onto the screen.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{DisplayPowerups (\mref{m9})}
+\begin{description}
+\item[Secrets:]  Method to randomly generate powerups at different times. 
+\item[Services:] Generate, draw, and update the positions of the powerups.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{DisplayObstacles (\mref{m8})}
+\begin{description}
+\item[Secrets:] The data structure storing all obstacles on the screen.
+\item[Services:] Provide functionality to draw, remove, and update the positions of obstacles.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{DisplayEnvironment (\mref{m10})}
+\begin{description}
+\item[Secrets:] Display different GUI environment elements when playing the game.
+\item[Services:] Provide functionality to draw the score, game instructions, floor, and background onto the screen.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{PlaySound (\mref{m13})}
+\begin{description}
+\item[Secrets:] Play different sounds when specific actions are performed by the user at a set volume.
+\item[Services:] Play background music and sound effects for the character jumping, ducking, colliding with obstacle, and collecting a powerup.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{DisplayWindow (\mref{m11})}
+\begin{description}
+\item[Secrets:] Initialize the window of the application using several different properties.
+\item[Services:] Generate an initial screen window. 
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{LoadAssets (\mref{m15})}
+\begin{description}
+\item[Secrets:] The data structures of all images and sounds used in the game.
+\item[Services:] Load all image and audio files into the game system.
+\item[Implemented By:] [Pygame, Python3]
 \end{description}
 
 \subsection{Behaviour-Hiding Module}
@@ -246,17 +297,19 @@ selected.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
-
+\subsubsection{GameController (\mref{m16})}
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Secrets:] Handle all internal game logic and user input.
+\item[Services:] Responsible for calling the appropriate subroutines throughout the game session. 
+\item[Implemented By:] [Pygame, Python3]
 \end{description}
 
-\subsubsection{Etc.}
-
+\subsubsection{MenuController (\mref{m17})}
+\begin{description}
+\item[Secrets:] Handles most of the menu related user input.
+\item[Services:] Interact with the user on the setting, exit, and pause menu.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
 
 \subsection{Software Decision Module}
 
@@ -271,7 +324,54 @@ selected.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Character (\mref{m1})}
+\begin{description}
+\item[Secrets:] The data structure of the character.
+\item[Services:] Provide functionality to control movement of character (jump or duck) and apply different behaviours when powerups are collected.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{Powerups (\mref{m2})}
+\begin{description}
+\item[Secrets:] The data structure of the powerup.
+\item[Services:] Provide properties for the type and speed related to these powerups.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{Obstacle (\mref{m3})}
+\begin{description}
+\item[Secrets:] The data structure of the obstacle.
+\item[Services:] Provides functionality to set and get different properties of an obstacle such as changing the dimensions, speed, image display, and position.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{DetectCollision (\mref{m4})}
+\begin{description}
+\item[Secrets:]The algorithm to calculate collision between two objects.
+\item[Services:] Detect whether or not there is a collision between two objects.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{UpdateEnvironment (\mref{m5})}
+\begin{description}
+\item[Secrets:] Changing the background color during the gameplay.
+\item[Services:] Updating the background color and ground floor position. 
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{Score (\mref{m6})}
+\begin{description}
+\item[Secrets:] The data structure of the score.
+\item[Services:] Responsible for tracking and returning the current and high score.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
+
+\subsubsection{MainMenu (\mref{m7})}
+\begin{description}
+\item[Secrets:] Maintains different volume settings for  different sounds. 
+\item[Services:] Changing the volume according to user input and return the volume setting.
+\item[Implemented By:] [Pygame, Python3]
+\end{description}
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -286,17 +386,23 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+FR1 & \mref{m1}, \mref{m12}, \mref{m13}, \mref{m16}\\
+FR2 & \mref{m1}, \mref{m12}, \mref{m13}, \mref{m16}\\
+FR3 & \mref{m1}, \mref{m3}, \mref{m4}, \mref{m13}, \mref{m16}\\
+FR4 & \mref{m3}, \mref{m8}, \mref{m13}\\
+FR5 & \mref{m17}\\
+FR6 & \mref{m14}, \mref{m17}\\
+FR7 & \mref{m16}, \mref{m17}\\
+FR8 & \mref{m16}, \mref{m17}\\
+FR9 & \mref{m6}, \mref{m10}, \mref{m16}\\
+FR10 & \mref{m6}, \mref{m10}, \mref{m17}\\
+FR11 & \mref{m2}, \mref{m9}\\
+FR12 & \mref{m1}, \mref{m2}, \mref{m4}, \mref{m9}, \mref{m12}, \mref{m13}, \mref{m16}\\
+FR13 & \mref{m1}, \mref{m12}\\
+FR14 & \mref{m13}, \mref{m15}, \mref{m16}\\
+FR15 & \mref{m14}, \mref{m17}\\
+FR16 & \mref{m7}, \mref{m14}, \mref{m16}, \mref{m17}\\
+FR17 & \mref{m10}, \mref{m16}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -309,18 +415,12 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \toprule
 \textbf{AC} & \textbf{Modules}\\
 \midrule
-\acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+\acref{ac1} & \mref{m5}\\
+\acref{ac2} & \mref{m1}, \mref{m9}\\
+\acref{ac3} & \mref{m8}\\
+\acref{ac4} & \mref{m15}\\
+\acref{ac5} & \mref{m13}, \mref{m15}\\
+\acref{ac6} & \mref{m8}, \mref{m9}, \mref{m10}, \mref{m12}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -342,7 +442,7 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics[width=1\textwidth]{Module Hiearchy.png}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}
