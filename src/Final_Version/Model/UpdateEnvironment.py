@@ -1,7 +1,7 @@
 """@package docstring
 Documentation for this module.
  
-UpdateEnvironment clas
+UpdateEnvironment class
 Author: Dev^(enthusiases)
 This class is responsible for updating the floor and background colour throughtout
 the game.
@@ -22,10 +22,13 @@ class UpdateEnvironment():
     # Values of the red, blue, and green field
     RED = 0
     GREEN = 1
-    BLUE = 2
+    BLUE = 2 
 
     # Max rbg value
     MAX_RGB = 255
+
+    # value to change the rbg values of the background by
+    CHANGE_BG = 50
 
     ## Method that updates the left most position of the floor
     # @param floor_position : an integer that represents the x-axis value of the
@@ -53,9 +56,9 @@ class UpdateEnvironment():
         if (round(prevScore) != round(score) and round(score) % 50 == 0 and round(score) != 0):
             randomRGBChange = randint(1,3)      # Randomly select which value to change
             if (randomRGBChange == 1):
-                bg_rgb[RED] = (bg_rgb[RED] + 50) % MAX_RGB  # Increment value of red
+                bg_rgb[RED] = (bg_rgb[RED] + CHANGE_BG) % MAX_RGB  # Increment value of red
             elif (randomRGBChange == 2):
-                bg_rgb[GREEN] = (bg_rgb[GREEN] + 50) % MAX_RGB  # Increment value of blue
+                bg_rgb[GREEN] = (bg_rgb[GREEN] + CHANGE_BG) % MAX_RGB  # Increment value of blue
             else:
-                bg_rgb[BLUE] = (bg_rgb[BLUE] + 50) % MAX_RGB  # Increment value of green
+                bg_rgb[BLUE] = (bg_rgb[BLUE] + CHANGE_BG) % MAX_RGB  # Increment value of green
         return bg_rgb
