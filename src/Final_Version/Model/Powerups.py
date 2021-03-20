@@ -1,13 +1,13 @@
 import pygame
 import random
+sys.path.insert(1, '../View')
+from LoadAssets import *
 
 class Powerups(pygame.sprite.Sprite):
-    def __init__(self, screen, width, height, speed, powerup_img):
+    def __init__(self, screen, width, height, speed):
         pygame.sprite.Sprite.__init__(self)
-        if (powerup_img is None):
-            raise Exception("IllegalArguementException")
         self.screen = screen 
-        self.image = powerup_img
+        self.image = pygame.transform.scale(load_all_powerups[i], (width, height))
         self.width = width
         self.height = height
         self.name = random_name()
@@ -45,5 +45,4 @@ class Powerups(pygame.sprite.Sprite):
 
 def random_name():
     i = random.randint(0,3)
-    powerup_list = ["Invincibility", "Double Jump", "Score Boost", "Slo_mo"]
-    return powerup_list[i]
+    return i
