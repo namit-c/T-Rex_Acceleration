@@ -27,13 +27,25 @@ class DipslayEnvironment():
     def __init__(self, window, ):
         self.__game_screen = window
 
-    ## Draw score
-    def draw_score(score):
-        pass
 
-    ## Draw instructions
+    ## @brief display a message(string) to draw on screen 
+    #  @param msg String
+    #  @param msg_pos a tuple of (x,y) position to be drawn on screen
+    def display_msg(self, msg, msg_pos):
+       	pygame.font.init() # you have to call this at the start, 
+        my_font = pygame.font.SysFont('Comic Sans MS', 30)
+        text_surface = my_font.render(msg, False, (0, 0, 0))
+        self.__game_screen.blit(text_surface,msg_pos)
+
+    ## @brief drawing the score onto the screen
+    #  @param score Score object
+    def draw_score(score):
+        self.display_msg(displayMsg("Current Score is: " + str(score.get_score()), (250,10)) 
+
+    ## @brief drawing the game instructions onto the screen
+    #  @param instructions String
     def draw_instruction(instructions):
-        pass
+        self.displayMsg(instructions, (25,50)) 
 
     ## Method that draws the floor image on the game screen
     # @param floor : the image of the floor to be drawn on the screen
@@ -58,4 +70,5 @@ class DipslayEnvironment():
         else:
             self.__game_screen.fill(bg_rgb[RED], bg_rgb[GREEN], bg_rgb[BLUE])
             self.__game_screen(background, (0,0))
-            
+    
+
