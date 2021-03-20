@@ -97,3 +97,8 @@ class Obstacle(pygame.sprite.Sprite):
         self.__rect.left = x
         self.__rect.bottom = y + self.get_height() 
 
+    ## @brief get the current x and y position of the rectangle of obstacle
+    #  @return return a list of 2 elements [x,y] of the x and y positions of the rectangle
+    def get_pos(self):
+        return [self.get_rect().left, self.get_rect().bottom]
+
