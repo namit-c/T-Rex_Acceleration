@@ -19,8 +19,8 @@ class Dino(pygame.sprite.Sprite):
         self.is_double_jumping = False
         self.is_slo_mo = False
         self.movement = [0,0]
-        self._jumping_limit = 0
-        self._time = 0
+        self.__jumping_limit = 0
+        self.__time = 0
 
     def set_img(self, new_img):
         if(new_img is None):
@@ -56,9 +56,9 @@ class Dino(pygame.sprite.Sprite):
         if self.is_jumping == False and self.is_ducking == False:
             self.is_jumping = True
             self.movement[1] = -20
-            self._jumping_limit += 1
-        if self.is_double_jumping == True and self.is_jumping == True and self._jumping_limit < 3:
-            self._jumping_limit += 1
+            self.__jumping_limit += 1
+        if self.is_double_jumping == True and self.is_jumping == True and self.__jumping_limit < 3:
+            self.__jumping_limit += 1
             self.movement[1] = -20
 
 ## private method
@@ -66,25 +66,25 @@ class Dino(pygame.sprite.Sprite):
         if self.rect.bottom > self.screen_rect.bottom - 40:
             self.rect.bottom = self.screen_rect.bottom - 40
             self.isJumping = False
-            self._jumping_limit = 0
+            self.__jumping_limit = 0
 
     def invincible(self, inv_char):
         if(inv_char is None):
             raise Exception("IllegalArgumentException")
-        self._time = pygame.time.get_ticks()
+        self.__time = pygame.time.get_ticks()
         self.is_invincible = True
         self.is_double_jumping = False
         self.is_slo_mo = False
         self.set_img(inv_char)
 
     def double_jump(self):
-        self._time = pygame.time.get_ticks()
+        self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = True
         self.is_slo_mo = False
 
     def slo_mo(self):
-        self._time = pygame.time.get_ticks()
+        self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = False
         self.is_slo_mo = True
@@ -94,11 +94,11 @@ class Dino(pygame.sprite.Sprite):
         return self.is_double_jumping or self.is_invincible or self.is_slo_mo
 
     def update(self, char_img):
-        if self.isJumping:
+        if self.is_jumping:
             self.movement[1] += 1
         self.rect = self.rect.move(self.movement)   
         self.checkbounds()
-        if self.start_time + 5000 < pygame.time.get_ticks() and self.is_powered():
+        if self.__time + 5000 < pygame.time.get_ticks() and self.is_powered():
             self.is_invincible = False
             self.is_double_jumping = False
             self.is_slo_mo = False
