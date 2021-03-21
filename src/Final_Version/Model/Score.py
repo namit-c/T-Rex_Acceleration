@@ -43,3 +43,7 @@ class Score():
     # @return the high score of the current game session
     def get_score():
         return self.__high_score
+
+    ########################################################################
+    def get_start_time(self):
+        return self.__start_time

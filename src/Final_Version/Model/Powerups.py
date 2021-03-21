@@ -1,5 +1,6 @@
 import pygame
 import random
+import sys
 sys.path.insert(1, '../View')
 from LoadAssets import *
 
