@@ -1,4 +1,5 @@
 import random
+import sys
 sys.path.insert(1, '../Model')
 from Powerups import *
 
@@ -10,7 +11,7 @@ class DisplayPowerups():
         self.powerups_displayed = []
         self.__generate_time = time.time()
     def generate_powerups(self, speed):
-        if (self.__generate_time >= time.time() + randint(3,5))):
+        if (self.__generate_time >= time.time() + randint(3,5)):
             new_powerups = Powerups(self.game_screen, 50, 50, speed)
             self.powerups_displayed.append(new_powerups)
             self.__generate_time = time.time()

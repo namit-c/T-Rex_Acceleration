@@ -10,17 +10,18 @@ elements can be drawn.
 import pygame
 
 ## This is a class for the game window
-def DisplayWindow():
+class DisplayWindow():
 
-    ## Defining the constants for the dimensions of the screen
-    WIDTH = 800
-    HEIGHT = 600
 
     ## Constructor that creates the game screen
     def __init__(self):
+        ## Defining the constants for the dimensions of the screen
+        WIDTH = 800
+        HEIGHT = 600
+        
         self.__game_screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
     ## Method that returns the game windw
     # @return the game screen 
-    def get_game_screen():
+    def get_game_screen(self):
         return self.__game_screen

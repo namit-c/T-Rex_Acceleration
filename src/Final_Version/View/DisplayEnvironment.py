@@ -24,7 +24,7 @@ class DipslayEnvironment():
 
     ## Constructor the intitalize the game screen
     # @param window : the pygame screen that elements will be drawn on
-    def __init__(self, window, ):
+    def __init__(self, window):
         self.__game_screen = window
 
 
@@ -39,19 +39,19 @@ class DipslayEnvironment():
 
     ## @brief drawing the score onto the screen
     #  @param score Score object
-    def draw_score(score):
-        self.display_msg(displayMsg("Current Score is: " + str(score.get_score()), (250,10)) 
+    def draw_score(self, score):
+        self.display_msg("Current Score is: " + str(score.get_score()), (250,10)) 
 
     ## @brief drawing the game instructions onto the screen
     #  @param instructions String
-    def draw_instruction(instructions):
-        self.displayMsg(instructions, (25,50)) 
+    def draw_instruction(self, instructions):
+        self.display_msg(instructions, (25,50)) 
 
     ## Method that draws the floor image on the game screen
     # @param floor : the image of the floor to be drawn on the screen
     # @param floor_position : the x position of the left side of the floor
     # @exception ValueError : if the floor image does not exist (NULL)
-    def draw_floor(floor, floor_position):
+    def draw_floor(self, floor, floor_position):
         if not floor:
             raise ValueError("Floor image is NULL")
         else:
@@ -64,7 +64,7 @@ class DipslayEnvironment():
     # @param bg_rgb : a tuple of integers that represent that current rgb (red, green,
     # and blue) of the background
     # @exception ValueError : if the background image does ot exist (NULL)
-    def draw_background(background, bg_rgb):
+    def draw_background(self, background, bg_rgb):
         if not background:
             raise ValueError("Background image is NULL")
         else:
