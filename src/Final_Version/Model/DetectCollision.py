@@ -25,11 +25,10 @@ def detect_collision(character, element):
 def find_collision_obstacle(character, element_list):
     for element in element_list:
         is_collision = detect_collision(character, element)
-        print(is_collision)
         if (is_collision):
-            return True
+            return element
 
-    return False
+    return None 
 
 ## @brief Determine which element the character has collided with
 #  @param character pygame.sprite

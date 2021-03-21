@@ -93,7 +93,7 @@ class DisplayObstacle:
 
             
             # if obstacle is well beyond the screen window, then remove from obstacle_list
-            if x < -100:
+            if x < -500:
                 self.remove_obstacle(obstacle)
             
     

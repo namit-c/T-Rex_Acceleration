@@ -145,9 +145,10 @@ class GameController():
             # Detect collison (obstacles)
             is_obstacle_collision = DetectCollision.find_collision_obstacle(self.__character, display_obstacles.get_obstacle_list())
             #print(is_obstacle_collision)
-            if (is_obstacle_collision and not self.__character.is_invincible):
+            if (is_obstacle_collision != None and not self.__character.is_invincible):
                 running = False
-            elif (is_obstacle_collision and not self.__character.is_invincible):
+            elif (is_obstacle_collision != None and self.__character.is_invincible):
+                print("HERE")
                 display_obstacles.remove_obstacle(is_obstacle_collision)
                 ### Need to remove the obstacle and play sound
 
