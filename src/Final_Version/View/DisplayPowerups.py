@@ -2,6 +2,7 @@ import random
 import sys
 sys.path.insert(1, '../Model')
 from Powerups import *
+import time
 
 class DisplayPowerups():
     def __init__(self, game_screen):

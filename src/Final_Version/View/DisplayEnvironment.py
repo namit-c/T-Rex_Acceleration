@@ -9,22 +9,24 @@ This class is responsible for drawing the background elements on the screen.
 import pygame
 
 ## This is class used to draw environment elements on the screen
-class DipslayEnvironment():
-
-    ## Defining variables used in the class
-
-    # Position to the draw the floor
-    Y_POS = 450
-    X_OFFSET = 800
-
-    # Values of the red, blue, and green field
-    RED = 0
-    GREEN = 1
-    BLUE = 2 
+class DisplayEnvironment():
 
     ## Constructor the intitalize the game screen
     # @param window : the pygame screen that elements will be drawn on
     def __init__(self, window):
+        
+        ## Defining variables used in the class
+
+        # Position to the draw the floor
+        self.__Y_POS = 450
+        self.__X_OFFSET = 800
+
+        # Values of the red, blue, and green field
+        # FIX CONSTANTS
+        self.__RED = 0
+        self.__GREEN = 1
+        self.__BLUE = 2 
+
         self.__game_screen = window
 
 
@@ -55,8 +57,8 @@ class DipslayEnvironment():
         if not floor:
             raise ValueError("Floor image is NULL")
         else:
-            self.__game_screen.blit(floor, (floor_position, Y_POS))
-            self.__game_screen.blit(floor, (floor_position + X_OFFSET, Y_POS))
+            self.__game_screen.blit(floor, (floor_position, self.__Y_POS))
+            self.__game_screen.blit(floor, (floor_position + self.__X_OFFSET, self.__Y_POS))
 
 
     ## Method that draws the background on the game screen
@@ -68,7 +70,7 @@ class DipslayEnvironment():
         if not background:
             raise ValueError("Background image is NULL")
         else:
-            self.__game_screen.fill(bg_rgb[RED], bg_rgb[GREEN], bg_rgb[BLUE])
-            self.__game_screen(background, (0,0))
+            self.__game_screen.fill((bg_rgb[self.__RED], bg_rgb[self.__GREEN], bg_rgb[self.__BLUE])) 
+            self.__game_screen.blit(background, (0,0))
     
 

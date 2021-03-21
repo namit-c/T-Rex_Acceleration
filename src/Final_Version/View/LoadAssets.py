@@ -9,6 +9,7 @@ class LoadAssets():
     
     def load_background(self):
         image = pygame.image.load('../assets/background.png')
+        image = pygame.transform.scale(image, (800,800))
         if image is None:
             raise Exception("IllegalArgumentException")
         return image   
@@ -23,7 +24,7 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)
-        image = pygame.image.load('../assets/character_invisible.png')
+        image = pygame.image.load('../assets/character_invinsible.jpg')
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)

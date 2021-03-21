@@ -27,7 +27,7 @@ class Score():
         
     ## Method that updates the current score
     # @return the current and previous score after the score has been updated
-    def update_score():
+    def update_score(self):
         self.__previous_score = self.__current_score
         
         # Updating the current score based on current time and scale factor
@@ -41,7 +41,7 @@ class Score():
 
     ## Method to retrieve the high score of the current game session
     # @return the high score of the current game session
-    def get_score():
+    def get_score(self):
         return self.__high_score
 
     ########################################################################
