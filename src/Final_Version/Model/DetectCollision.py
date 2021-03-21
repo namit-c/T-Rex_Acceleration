@@ -25,7 +25,11 @@ def detect_collision(character, element):
 #  @param element_list list of pygame.sprite
 #  @return return the specific element that first collides with the character, if there is no collisio then return None
 def find_collision(character, element_list):
-    for element in element_list:
-        if (detect_collision(character, element)):
-            return element
-    return None
+    powerups_taken = pygame.sprite.spritecollideany(character, element_list)
+    if powerups_taken:
+        print("Happy")
+    return powerups_taken
+#   for element in element_list:
+#        if (detect_collision(character, element)):
+#            return element
+#    return None

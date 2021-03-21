@@ -38,7 +38,7 @@ class GameController():
         assets = LoadAssets.LoadAssets()       # Making a LoadAssets object
         self.__game_screen = screen.get_game_screen()   # Assigning the game display
         self.__obstacle_img = assets.load_all_obstacles()
-        self.__powerup_list = []
+        #self.__powerup_list = pygame.sprite.Group()
         
         self.__load_character = assets.load_character()
         self.__character = Character.Character(self.__game_screen, self.__load_character[0])
@@ -127,6 +127,10 @@ class GameController():
             #display_obstacles.update_obstacle_display()
 
             pygame.display.update()
+        
+            # Detect collision
+            powerups_taken = DetectCollision.find_collision(self.__character, display_powerups.get_powerups_list())
+            display_powerups.remove_powerups(powerups_taken)
 
 game = GameController()
 game.game_loop()

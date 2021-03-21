@@ -12,8 +12,11 @@ class DisplayPowerups():
         self.game_screen = game_screen
         self.powerups_displayed = pygame.sprite.Group()
         self.__generate_time = time.time()
+    def get_powerups_list(self):
+        return self.powerups_displayed
+    def remove_powerups(self, p):
+        self.powerups_displayed.remove(p)
     def generate_powerups(self, speed):
-        print("22")
         if (time.time() >= self.__generate_time + random.randint(3,5) and random.random() < 0.01):
             new_powerups = Powerups(self.game_screen, 50, 50, speed)
             self.powerups_displayed.add(new_powerups)
