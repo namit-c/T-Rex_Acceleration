@@ -37,12 +37,21 @@ class GameController():
         screen = DisplayWindow.DisplayWindow()    # Making a DisplayWindow object
         assets = LoadAssets.LoadAssets()       # Making a LoadAssets object
         self.__game_screen = screen.get_game_screen()   # Assigning the game display
-        self.__obstacle_list = []
+        self.__obstacle_img = assets.load_all_obstacles()
         self.__powerup_list = []
         
         self.__load_character = assets.load_character()
         self.__character = Character.Character(self.__game_screen, self.__load_character[0])
+      
+       
+        #temp = Obstacle.Obstacle("asda", 5,5,1, pygame.image.load('../assets/background.png'))
         
+        #self.__obstacle_obj_list = list()
+        #for i in range(len(self.__obstacle_img)):
+        #    width, height = self.__obstacle_img[i].get_size()
+        #    self.__obstacle_obj_list.append(Obstacle.Obstacle(" ", width, height, 5, self.__obstacle_img[0]))
+
+        #self.__obstacle_obj_list.append(temp)
         # background music 
 
         #####---------------
@@ -50,7 +59,8 @@ class GameController():
         self.__floor_position = 0
         self.__background = assets.load_background()
         self.__score_count = Score.Score()
-
+        self.__obstacle_pos_x = 600
+        self.__obstacle_pos_y = 370
     ## Method that checks the user input
     def check_user_input(self):
         for event in pygame.event.get():
@@ -85,6 +95,7 @@ class GameController():
         instructions = "To play: Jump is Up Arrow, Duck is Down Arrow"
         update_environment = UpdateEnvironment.UpdateEnvironment()
 
+        obstacle_spawn_time = time()
 
         # The game loop
         while running: 
@@ -101,7 +112,7 @@ class GameController():
             display_character.draw_character()
 
             # Drawing obstacles
-            
+            #obstacleSpawnTime = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time) 
             # Check user inputs
             self.check_user_input()
 
@@ -109,6 +120,7 @@ class GameController():
             self.__score_count.update_score()
             self.__character.update(self.__load_character[0])
             self.__floor_position = update_environment.update_floor(self.__floor_position, 5)
+            #display_obstacles.update_obstacle_display()
 
             pygame.display.update()
 
