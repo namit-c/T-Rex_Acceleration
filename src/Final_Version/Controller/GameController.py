@@ -116,10 +116,14 @@ class GameController():
             # Check user inputs
             self.check_user_input()
 
+            # Generate powerups
+            display_powerups.generate_powerups(-5)
+
             # update objects
             self.__score_count.update_score()
             self.__character.update(self.__load_character[0])
             self.__floor_position = update_environment.update_floor(self.__floor_position, 5)
+            display_powerups.update_powerups()
             #display_obstacles.update_obstacle_display()
 
             pygame.display.update()

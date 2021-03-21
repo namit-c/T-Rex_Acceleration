@@ -44,19 +44,19 @@ class LoadAssets():
 
     def load_all_powerups(self):
         powerups_list = []
-        image = pygame.image.load('../assets/powerup1.png')
+        image = pygame.image.load('../assets/powerups1.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
-        image = pygame.image.load('../assets/powerup2.png')
+        image = pygame.image.load('../assets/powerups2.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
-        image = pygame.image.load('../assets/powerup3.png')
+        image = pygame.image.load('../assets/powerups3.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
-        image = pygame.image.load('../assets/powerup4.png')
+        image = pygame.image.load('../assets/powerups4.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)

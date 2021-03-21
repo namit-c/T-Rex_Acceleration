@@ -2,21 +2,27 @@ import pygame
 import random
 import sys
 sys.path.insert(1, '../View')
-from LoadAssets import *
+import LoadAssets
 
 class Powerups(pygame.sprite.Sprite):
     def __init__(self, screen, width, height, speed):
         pygame.sprite.Sprite.__init__(self)
         self.screen = screen 
-        self.image = pygame.transform.scale(load_all_powerups[i], (width, height))
+        self.name = random_name()
         self.width = width
         self.height = height
-        self.name = random_name()
+        assets = LoadAssets.LoadAssets()
+        self.image = pygame.transform.scale(assets.load_all_powerups()[0], (width, height))
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
-        self.rect.left = self.screen_rect.left + 500
-        self.rect.bottom = self.screen_rect.bottom - 80
+        self.rect.left = self.screen_rect.right
+        self.rect.bottom = self.screen_rect.bottom - 100
         self.speed = speed
+
+    # Private method
+    def get_rect(self):
+        return self.rect
+
     def get_width(self):
         return self.width
     def set_width(self, new_width):
@@ -42,7 +48,7 @@ class Powerups(pygame.sprite.Sprite):
     def get_name(self):
         return self.name   
     def update(self):
-        self.rect = self.rect.move([self.movement,0]) 
+        self.rect = self.rect.move([self.speed,0]) 
 
 def random_name():
     i = random.randint(0,3)
