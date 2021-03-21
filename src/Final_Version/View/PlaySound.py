@@ -23,16 +23,17 @@ class PlaySound:
     #  @param duck pygame.mixer.sound
     #  @param collision pygame.mixer.sound
     #  @param powerup pygame.mixer.sound
-    def __init__(self, background, jump, duck, collision, powerup):
-        self.__bg_sound = background
-        self.__jump_sound = jump
-        self.__duck_sound = duck
-        self.__collision_sound = collision
-        self.__powerup_sound = powerup
+    def __init__(self, sound_list):
+        self.__bg_sound = sound_list[0]
+        self.__jump_sound = sound_list[1]
+        self.__duck_sound = sound_list[2]
+        self.__collision_sound = sound_list[3]
+        self.__powerup_sound = sound_list[4]
 
 
     ## @brief Play the background music on repeat
     def play_bg_music(self):
+        self.__bg_sound.set_volume(0.1)
         self.__bg_sound.play(-1)
 
     ## @brief Stop all audio in the queue

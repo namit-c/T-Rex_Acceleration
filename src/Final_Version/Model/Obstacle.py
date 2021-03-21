@@ -21,14 +21,14 @@ class Obstacle(pygame.sprite.Sprite):
     #  @param width width of image of obstacle
     #  @param height height of image of obstacle
     #  @param obstacle_img pygame.image 
-    def _init_(self, name, width, height, speed, obstacle_img):
-        super()._init_()
+    def __init__(self, name, width, height, speed, obstacle_img):
+        super().__init__()
         self.__name = name
         self.__width = width
         self.__height = height
         self.__speed = speed
         self.__img = obstacle_img
-        self.__rect = obstacle_img.get_rect()
+        self.rect = self.__img.get_rect()
 
 
     ## @brief get the width of an obstacle
@@ -84,18 +84,18 @@ class Obstacle(pygame.sprite.Sprite):
         if (new_img == None):
             raise TypeError ("Invalid Pygame.img")
         self.__img = new_img
-        self.__rect = new_img.get_rect()
+        self.rect = new_img.get_rect()
 
     ## @brief get the rectangle of an obstacle
     def get_rect(self):
-        return self.__rect
+        return self.rect
 
     ## @brief set the corridnates of the rectangle of the obstacle to the new position
     #  @param x new x position for the rectangle
     #  @param y new y position for the rectangle
     def set_rect(self, x, y):
-        self.__rect.left = x
-        self.__rect.bottom = y + self.get_height() 
+        self.rect.left = x
+        self.rect.bottom = y 
 
     ## @brief get the current x and y position of the rectangle of obstacle
     #  @return return a list of 2 elements [x,y] of the x and y positions of the rectangle

@@ -17,8 +17,19 @@ import pygame
 #  @param character pygame.sprite 
 #  @param element pygame.sprite
 #  @return return a boolean where if the character and element have collided then return True, otherwise return False 
-def detect_collision(character, element): 
+def detect_collision(character, element):
+    print(character.get_rect().left, character.get_rect().bottom, element.get_rect().left, element.get_rect().bottom)
     return character.get_rect().colliderect(element.get_rect())
+
+
+def find_collision_obstacle(character, element_list):
+    for element in element_list:
+        is_collision = detect_collision(character, element)
+        print(is_collision)
+        if (is_collision):
+            return True
+
+    return False
 
 ## @brief Determine which element the character has collided with
 #  @param character pygame.sprite
@@ -27,7 +38,7 @@ def detect_collision(character, element):
 def find_collision(character, element_list):
     powerups_taken = pygame.sprite.spritecollideany(character, element_list)
     if powerups_taken:
-    return powerups_taken
+        return powerups_taken
 #   for element in element_list:
 #        if (detect_collision(character, element)):
 #            return element

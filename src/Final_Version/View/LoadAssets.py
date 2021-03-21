@@ -33,10 +33,12 @@ class LoadAssets():
     def load_all_obstacles(self):
         obstacle_list = []
         image = pygame.image.load('../assets/obstacle1.png')
+        image = pygame.transform.scale(image, (70,100))
         if image is None:
             raise Exception("IllegalArgumentException")
         obstacle_list.append(image)
         image = pygame.image.load('../assets/obstacle2.png')
+        image = pygame.transform.scale(image, (120,100))
         if image is None:
             raise Exception("IllegalArgumentException")
         obstacle_list.append(image)
@@ -70,24 +72,25 @@ class LoadAssets():
 
     def load_sound(self):
         sound_list = []
-        sound = pygame.mixer.music.load('../assets/sound1.mp3')
-        if sound is None:
+        pygame.mixer.init()
+        bg_sound = pygame.mixer.Sound('../assets/bg_music.wav') 
+        if bg_sound is None:
             raise Exception("IllegalArgumentException")
-        sound_list.append(sound)
-        sound = pygame.mixer.music.load('../assets/sound2.mp3')
-        if sound is None:
+        sound_list.append(bg_sound)
+        jump_sound = pygame.mixer.Sound('../assets/game_over.wav') #
+        if jump_sound is None:
             raise Exception("IllegalArgumentException")
-        sound_list.append(sound)
-        sound = pygame.mixer.music.load('../assets/sound3.mp3')
-        if sound is None:
+        sound_list.append(jump_sound)
+        duck_sound = pygame.mixer.Sound('../assets/jumping_2.wav')
+        if duck_sound is None:
             raise Exception("IllegalArgumentException")
-        sound_list.append(sound)
-        sound = pygame.mixer.music.load('../assets/sound4.mp3')
-        if sound is None:
+        sound_list.append(duck_sound)
+        collision_sound = pygame.mixer.Sound('../assets/jumping_2.wav')
+        if collision_sound is None:
             raise Exception("IllegalArgumentException")
-        sound_list.append(sound)
-        sound = pygame.mixer.music.load('../assets/sound5.mp3')
-        if sound is None:
+        sound_list.append(collision_sound)
+        powerup_sound = pygame.mixer.Sound('../assets/jumping_2.wav')
+        if powerup_sound is None:
             raise Exception("IllegalArgumentException")
-        sound_list.append(sound)
+        sound_list.append(powerup_sound)
         return sound_list    

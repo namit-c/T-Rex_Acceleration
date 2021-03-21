@@ -38,13 +38,14 @@ class DisplayObstacle:
     #  @param current_y y position for obstacle to be drawn at
     #  @param obstacle Obstacle object
     def draw_obstacle(self, current_x, current_y, obstacle):
-        obstacleImg = obstacle.getImg()
+        obstacleImg = obstacle.get_img()
         
         # Scaling down the image to a fixed size
-        obstacleImg =  pygame.transform.scale(obstacleImg, (obstacle.get_width(), obstacle.get_height()))
-        
-        obstacle.setImg(obstacleImg)
-        self.__game_screen.blit(obstacleImg, (current_x, current_y))
+        #obstacleImg =  pygame.transform.scale(obstacleImg, (obstacle.get_width(), obstacle.get_height()))
+       
+        obstacle.set_rect(current_x, current_y)
+        #obstacle.set_img(obstacleImg)
+        self.__game_screen.blit(obstacleImg, (current_x, current_y - obstacle.get_height())) #bug with rect 
 
     ## @brief display a message(string) to draw on screen 
     #  @param msg String
@@ -63,8 +64,7 @@ class DisplayObstacle:
     #  @param obstacle_list list of obstacle objects
     #  @param prev_obstacle_spawn_time Keeping track of when the last obstacle was generated
     def generate_obstacle(self, obstacle_pos_x, obstacle_pos_y, obstacle_list, prev_obstacle_spawn_time):
-        random_index = randint(0, len(obstacle_list)) 
-      
+        random_index = randint(0, len(obstacle_list) - 1) 
         # If the current time from when the last obstacle was spawned someone between 3 and 5 second
         if (time.time() - prev_obstacle_spawn_time >= randint(3,5)):
             self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, obstacle_list[random_index])
@@ -85,11 +85,11 @@ class DisplayObstacle:
             x -= obstacle.get_speed()
 
             y = obstacle_pos[1] # y position of obstacle doesn't change
-
             
+
             # updating the current position of the obstacle and drawing the obstacle at new position
-            obstacle.set_rect(x, y)
-            self.draw_obstacle(x,y, obstacle)
+            #obstacle.set_rect(x, y)
+            self.draw_obstacle(x, y, obstacle)
 
             
             # if obstacle is well beyond the screen window, then remove from obstacle_list

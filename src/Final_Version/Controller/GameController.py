@@ -39,19 +39,18 @@ class GameController():
         self.__game_screen = screen.get_game_screen()   # Assigning the game display
         self.__obstacle_img = assets.load_all_obstacles()
         #self.__powerup_list = pygame.sprite.Group()
-        
+        self.__sound_list = assets.load_sound()
+
         self.__load_character = assets.load_character()
         self.__character = Character.Character(self.__game_screen, self.__load_character[0])
       
-       
-        #temp = Obstacle.Obstacle("asda", 5,5,1, pygame.image.load('../assets/background.png'))
-        
-        #self.__obstacle_obj_list = list()
-        #for i in range(len(self.__obstacle_img)):
-        #    width, height = self.__obstacle_img[i].get_size()
-        #    self.__obstacle_obj_list.append(Obstacle.Obstacle(" ", width, height, 5, self.__obstacle_img[0]))
+        self.__obstacle_obj_list = list()
+        for i in range(len(self.__obstacle_img)):
+            width, height = self.__obstacle_img[i].get_size()
+            self.__obstacle_obj_list.append(Obstacle.Obstacle(" ", width, height, 10, self.__obstacle_img[i]))
 
-        #self.__obstacle_obj_list.append(temp)
+        self.__play_sound = PlaySound.PlaySound(self.__sound_list)
+        
         # background music 
 
         #####---------------
@@ -59,8 +58,8 @@ class GameController():
         self.__floor_position = 0
         self.__background = assets.load_background()
         self.__score_count = Score.Score()
-        self.__obstacle_pos_x = 600
-        self.__obstacle_pos_y = 370
+        self.__obstacle_pos_x = 800
+        self.__obstacle_pos_y = 500
     ## Method that checks the user input
     def check_user_input(self):
         for event in pygame.event.get():
@@ -69,8 +68,10 @@ class GameController():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
                     self.__character.duck(self.__load_character[2], self.__load_character[1])
+                    self.__play_sound.play_duck_sound()
                 if event.key == pygame.K_UP:
                     self.__character.jump(self.__load_character[2],self.__load_character[1])
+                    self.__play_sound.play_jump_sound()
                 if event.key == pygame.K_p:
                     MenuController.pause_menu()
             elif event.type == pygame.KEYUP:
@@ -80,6 +81,7 @@ class GameController():
     ## The method that controls the flow of the game
     def game_loop(self):
         pygame.init()
+        
         clock = pygame.time.Clock()
         # font = pygame.font.SysFont(None, 30)
         running = True
@@ -96,7 +98,7 @@ class GameController():
         update_environment = UpdateEnvironment.UpdateEnvironment()
 
         obstacle_spawn_time = time()
-
+        self.__play_sound.play_bg_music()
         # The game loop
         while running: 
             clock.tick(45)
@@ -112,26 +114,34 @@ class GameController():
             display_character.draw_character()
 
             # Drawing obstacles
-            #obstacleSpawnTime = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time) 
+            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time) 
             # Check user inputs
             self.check_user_input()
 
             # Generate powerups
-            display_powerups.generate_powerups(-5)
+            display_powerups.generate_powerups(-10)
 
             # update objects
             current_score, prev_score = self.__score_count.update_score()
             update_environment.update_bg_colour(current_score, prev_score, bg_rgb)
             self.__character.update(self.__load_character[0])
-            self.__floor_position = update_environment.update_floor(self.__floor_position, 5)
+            self.__floor_position = update_environment.update_floor(self.__floor_position, 10)
             display_powerups.update_powerups()
-            #display_obstacles.update_obstacle_display()
+            display_obstacles.update_obstacle_display()
 
-            pygame.display.update()
         
             # Detect collision
             powerups_taken = DetectCollision.find_collision(self.__character, display_powerups.get_powerups_list())
+            
+            is_obstacle_collision = DetectCollision.find_collision_obstacle(self.__character, display_obstacles.get_obstacle_list())
+            #print(is_obstacle_collision)
+            if (is_obstacle_collision):
+                running = False
             display_powerups.remove_powerups(powerups_taken)
+
+
+            pygame.display.update()
+
 
 game = GameController()
 game.game_loop()
