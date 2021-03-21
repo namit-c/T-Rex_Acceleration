@@ -73,7 +73,7 @@ class Character(pygame.sprite.Sprite):
             self.__jumping_limit += 1
         if self.is_double_jumping == True and self.is_jumping == True and self.__jumping_limit < 3:
             self.__jumping_limit += 1
-            self.movement[1] = -20
+            self.movement[1] = -30
 
     ## private method
     def checkbounds(self):

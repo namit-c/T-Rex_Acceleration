@@ -130,14 +130,24 @@ class GameController():
             display_obstacles.update_obstacle_display()
 
         
-            # Detect collision
+            # Detect collision (powerups)
             powerups_taken = DetectCollision.find_collision(self.__character, display_powerups.get_powerups_list())
-            
+            if powerups_taken:
+                if powerups_taken.get_name() == 0:
+                    self.__character.invincible(self.__load_character[2])
+                elif powerups_taken.get_name() == 1:
+                    self.__character.double_jump()
+                elif powerups_taken.get_name() == 2:
+                    self.__character.slo_mo()
+                display_powerups.remove_powerups(powerups_taken)
+
+
+            # Detect collison (obstacles)
             is_obstacle_collision = DetectCollision.find_collision_obstacle(self.__character, display_obstacles.get_obstacle_list())
             #print(is_obstacle_collision)
             if (is_obstacle_collision):
                 running = False
-            display_powerups.remove_powerups(powerups_taken)
+
 
 
             pygame.display.update()

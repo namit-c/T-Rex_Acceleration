@@ -12,7 +12,7 @@ class Powerups(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         assets = LoadAssets.LoadAssets()
-        self.image = pygame.transform.scale(assets.load_all_powerups()[0], (width, height))
+        self.image = pygame.transform.scale(assets.load_all_powerups()[self.name], (width, height))
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.rect.left = self.screen_rect.right
