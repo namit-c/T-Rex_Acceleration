@@ -12,7 +12,6 @@ from time import time
 class Score():
 
     ## Defining constant for scaling the score
-    SCALE_FACTOR = 5
 
 
     ## Constructor that initializes different fields required to track the 
@@ -24,14 +23,15 @@ class Score():
         self.__current_score = 0
         self.__previous_score = 0
         self.__start_time = time()
-        
+        self.__SCALE_FACTOR = 5
+
     ## Method that updates the current score
     # @return the current and previous score after the score has been updated
     def update_score(self):
         self.__previous_score = self.__current_score
         
         # Updating the current score based on current time and scale factor
-        self.__current_score = round((time()-self.__start_time)*SCALE_FACTOR)
+        self.__current_score = round((time()-self.__start_time) * self.__SCALE_FACTOR)
 
         # Updating the high score if the current score is greater
         if self.__current_score > self.__high_score:

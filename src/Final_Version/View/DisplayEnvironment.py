@@ -18,7 +18,7 @@ class DisplayEnvironment():
         ## Defining variables used in the class
 
         # Position to the draw the floor
-        self.__Y_POS = 450
+        self.__Y_POS = 500
         self.__X_OFFSET = 800
 
         # Values of the red, blue, and green field

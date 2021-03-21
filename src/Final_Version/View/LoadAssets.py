@@ -9,7 +9,7 @@ class LoadAssets():
     
     def load_background(self):
         image = pygame.image.load('../assets/background.png')
-        image = pygame.transform.scale(image, (800,800))
+        image = image
         if image is None:
             raise Exception("IllegalArgumentException")
         return image   

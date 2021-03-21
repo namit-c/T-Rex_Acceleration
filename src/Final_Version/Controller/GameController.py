@@ -58,7 +58,7 @@ class GameController():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    self.__character.duck(self.__load_character[2], self.__load_character[2])
+                    self.__character.duck(self.__load_character[2], self.__load_character[1])
                 if event.key == pygame.K_UP:
                     self.__character.jump(self.__load_character[2],self.__load_character[1])
                 if event.key == pygame.K_p:
@@ -71,9 +71,10 @@ class GameController():
     def game_loop(self):
         pygame.init()
         clock = pygame.time.Clock()
-        font = pygame.font.SysFont(None, 30)
+        # font = pygame.font.SysFont(None, 30)
         running = True
         bg_rgb = [153, 255, 255]
+        instruction_time = time()
 
         # Defining Variables for the view methods
         display_obstacles = DisplayObstacle.DisplayObstacle(self.__game_screen)
@@ -82,7 +83,9 @@ class GameController():
         display_powerups = DisplayPowerups.DisplayPowerups(self.__game_screen)
         display_character = DisplayCharacter.DisplayCharacter(self.__game_screen, self.__character)
         instructions = "To play: Jump is Up Arrow, Duck is Down Arrow"
-        
+        update_environment = UpdateEnvironment.UpdateEnvironment()
+
+
         # The game loop
         while running: 
             clock.tick(45)
@@ -90,13 +93,23 @@ class GameController():
             # Drawing environment elements
             display_environment.draw_background(self.__background, bg_rgb)
             display_environment.draw_floor(self.__floor, self.__floor_position)
-            if(time() - self.__score_count.get_start_time() <= 5):
-                display_environment.draw_instruction(instructions) 
+            if(time() - instruction_time <= 5):
+                display_environment.draw_instruction(instructions)
             display_environment.draw_score(self.__score_count)
 
+            # Drawing character
             display_character.draw_character()
+
+            # Drawing obstacles
+            
+            # Check user inputs
             self.check_user_input()
+
+            # update objects
+            self.__score_count.update_score()
             self.__character.update(self.__load_character[0])
+            self.__floor_position = update_environment.update_floor(self.__floor_position, 5)
+
             pygame.display.update()
 
 game = GameController()

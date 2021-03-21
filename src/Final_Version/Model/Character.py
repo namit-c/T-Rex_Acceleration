@@ -11,7 +11,7 @@ class Character(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(char_img,(75,75))
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
-        self.rect.left = self.screen_rect.left + 100
+        self.rect.left = self.screen_rect.left + 99
         self.rect.bottom = self.screen_rect.bottom - 80
         self.is_ducking = False
         self.is_jumping = False
@@ -31,18 +31,18 @@ class Character(pygame.sprite.Sprite):
     def set_img(self, new_img):
         if(new_img is None):
             raise Exception("IllegalArgumentException")        
-        self.img = pygame.transform.scale(new_img, (75,75))
+        self.image = pygame.transform.scale(new_img, (75,75))
         self.rect = self.image.get_rect()
-        self.rect.bottom = self.screen_rect.bottom - 80
+        self.rect.bottom = self.screen_rect.bottom - 99
         self.rect.left = self.screen_rect.left + 100
     
     def set_ducking_img(self, new_img):
         if(new_img is None):
             raise Exception("IllegalArgumentException")       
-        self.img = pygame.transform.scale(new_img, (85,35))
+        self.image = pygame.transform.scale(new_img, (85,35))
         self.rect = self.image.get_rect()
-        self.rect.bottom = self.screen_rect.bottom - 80
-        self.rect.left = self.screen_rect.left + 100       
+        self.rect.bottom = self.screen_rect.bottom - 99
+        self.rect.left = self.screen_rect.left + 100     
     
     def duck(self, ducking_img, inv_ducking_img):
         if(ducking_img is None or inv_ducking_img is None):
@@ -77,8 +77,8 @@ class Character(pygame.sprite.Sprite):
 
     ## private method
     def checkbounds(self):
-        if self.rect.bottom > self.screen_rect.bottom - 80:
-            self.rect.bottom = self.screen_rect.bottom - 80
+        if self.rect.bottom > self.screen_rect.bottom - 99:
+            self.rect.bottom = self.screen_rect.bottom - 99
             self.is_jumping = False
             self.__jumping_limit = 0
 
