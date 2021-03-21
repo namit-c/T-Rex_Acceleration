@@ -27,7 +27,6 @@ def detect_collision(character, element):
 def find_collision(character, element_list):
     powerups_taken = pygame.sprite.spritecollideany(character, element_list)
     if powerups_taken:
-        print("Happy")
     return powerups_taken
 #   for element in element_list:
 #        if (detect_collision(character, element)):

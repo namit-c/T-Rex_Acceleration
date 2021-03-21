@@ -120,7 +120,8 @@ class GameController():
             display_powerups.generate_powerups(-5)
 
             # update objects
-            self.__score_count.update_score()
+            current_score, prev_score = self.__score_count.update_score()
+            update_environment.update_bg_colour(current_score, prev_score, bg_rgb)
             self.__character.update(self.__load_character[0])
             self.__floor_position = update_environment.update_floor(self.__floor_position, 5)
             display_powerups.update_powerups()
