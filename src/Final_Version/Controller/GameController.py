@@ -58,14 +58,14 @@ class GameController():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    self.__character.duck()
+                    self.__character.duck(self.__load_character[2], self.__load_character[2])
                 if event.key == pygame.K_UP:
                     self.__character.jump(self.__load_character[2],self.__load_character[1])
                 if event.key == pygame.K_p:
                     MenuController.pause_menu()
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
-                    self.__character.stand()
+                    self.__character.stand(self.__load_character[2], self.__load_character[0])
 
     ## The method that controls the flow of the game
     def game_loop(self):
@@ -80,6 +80,7 @@ class GameController():
         display_character = DisplayCharacter.DisplayCharacter(self.__game_screen, self.__character)
         display_environment = DisplayEnvironment.DisplayEnvironment(self.__game_screen)
         display_powerups = DisplayPowerups.DisplayPowerups(self.__game_screen)
+        display_character = DisplayCharacter.DisplayCharacter(self.__game_screen, self.__character)
         instructions = "To play: Jump is Up Arrow, Duck is Down Arrow"
         
         # The game loop
@@ -93,7 +94,9 @@ class GameController():
                 display_environment.draw_instruction(instructions) 
             display_environment.draw_score(self.__score_count)
 
+            display_character.draw_character()
             self.check_user_input()
+            self.__character.update(self.__load_character[0])
             pygame.display.update()
 
 game = GameController()
