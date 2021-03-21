@@ -2,7 +2,7 @@ import pygame
 import time
 from time import *
 
-class Dino(pygame.sprite.Sprite):
+class Character(pygame.sprite.Sprite):
     def __init__(self, screen, char_img):
         pygame.sprite.Sprite.__init__(self)
         if(screen is None or char_img is None):
@@ -61,7 +61,7 @@ class Dino(pygame.sprite.Sprite):
             self.__jumping_limit += 1
             self.movement[1] = -20
 
-## private method
+    ## private method
     def checkbounds(self):
         if self.rect.bottom > self.screen_rect.bottom - 40:
             self.rect.bottom = self.screen_rect.bottom - 40
@@ -89,7 +89,7 @@ class Dino(pygame.sprite.Sprite):
         self.is_double_jumping = False
         self.is_slo_mo = True
 
-## private method
+    ## private method
     def is_powered(self):
         return self.is_double_jumping or self.is_invincible or self.is_slo_mo
 
