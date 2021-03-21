@@ -9,15 +9,16 @@ view and model modules while handling the user input.
 
 import pygame
 from time import *
+import MenuController
 import sys
-sys.path.insert(1, '../Model')      # For importing modules from the Model directory
+sys.path.insert(1, '../Model/')      # For importing modules from the Model directory
 import Character
 import Obstacle
 import Powerups
 import DetectCollision
 import UpdateEnvironment
 import Score
-sys.path.append('../View')      # For importing modules from the View directory
+sys.path.insert(1, '../View')      # For importing modules from the View directory
 import DisplayObstacle
 import DisplayPowerups
 import DisplayEnvironment
@@ -26,15 +27,15 @@ import DisplayCharacter
 import PlaySound
 import DisplayMenu
 import LoadAssets
-IMPORT MENUCONTROLLER
+
 
 ## This class is the controller class for the entire game
 class GameController():
 
     ## Contructor to initialize the necessary state variables
     def __init__(self):
-        screen = DisplayWindow()    # Making a DisplayWindow object
-        assets = LoadAssets()       # Making a LoadAssets object
+        screen = DisplayWindow.DisplayWindow()    # Making a DisplayWindow object
+        assets = LoadAssets.LoadAssets()       # Making a LoadAssets object
         self.__game_screen = screen.get_game_screen()   # Assigning the game display
         self.__obstacle_list = []
         self.__powerup_list = []
