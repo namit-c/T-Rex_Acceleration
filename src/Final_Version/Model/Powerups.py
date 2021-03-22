@@ -36,7 +36,7 @@ class Powerups(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         self.height = new_height
     def get_speed(self):
-        return self.width
+        return self.speed
     def set_speed(self, new_speed):
         self.speed = new_speed
     def get_img(self):
@@ -48,7 +48,7 @@ class Powerups(pygame.sprite.Sprite):
     def get_name(self):
         return self.name   
     def update(self):
-        self.rect = self.rect.move([self.speed,0]) 
+        self.rect = self.rect.move([self.speed,0])
 
 def random_name():
     i = random.randint(0,3)
