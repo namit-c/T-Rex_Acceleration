@@ -69,11 +69,11 @@ class Character(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         if self.is_jumping == False and self.is_ducking == False:
             self.is_jumping = True
-            self.movement[1] = -20
+            self.movement[1] = -25
             self.__jumping_limit += 1
         if self.is_double_jumping == True and self.is_jumping == True and self.__jumping_limit < 3:
             self.__jumping_limit += 1
-            self.movement[1] = -30
+            self.movement[1] = -20
 
     ## private method
     def checkbounds(self):
@@ -116,4 +116,12 @@ class Character(pygame.sprite.Sprite):
             self.is_invincible = False
             self.is_double_jumping = False
             self.is_slo_mo = False
-            self.set_img(char_img)
+            left = self.rect.left
+            bottom = self.rect.bottom
+            if(char_img is None):
+                raise Exception("IllegalArgumentException")       
+            self.image = pygame.transform.scale(char_img, (85,35))
+            self.rect = self.image.get_rect()
+            self.rect.left = left
+            self.rect.bottom = bottom
+
