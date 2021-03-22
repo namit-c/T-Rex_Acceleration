@@ -24,7 +24,7 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)
-        image = pygame.image.load('../assets/character_invinsible.jpg')
+        image = pygame.image.load('../assets/character.gif')
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)
