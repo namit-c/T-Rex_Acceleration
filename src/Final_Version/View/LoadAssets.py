@@ -70,6 +70,23 @@ class LoadAssets():
             raise Exception("IllegalArgumentException")
         return image  
 
+
+    ## Method that loads the pause menu image and assigns it to a python variable
+    # @return a variable containing the pause menu image 
+    def load_pause_menu(self):
+        image = pygame.image.load('../assets/pausemenu.png')
+        if image is None:
+            raise Exception("IllegalArgumentException")
+        return image  
+
+    ## Method that loads the end menu image and assigns it to a python variable
+    # @return a variable containing the end menu image 
+    def load_end_menu(self):
+        image = pygame.image.load('../assets/endmenu.png')
+        if image is None:
+            raise Exception("IllegalArgumentException")
+        return image  
+
     def load_sound(self):
         sound_list = []
         pygame.mixer.init()
