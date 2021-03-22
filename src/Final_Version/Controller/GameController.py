@@ -25,7 +25,6 @@ import DisplayEnvironment
 import DisplayWindow
 import DisplayCharacter
 import PlaySound
-import DisplayMenu
 import LoadAssets
 
 
@@ -50,7 +49,10 @@ class GameController():
             self.__obstacle_obj_list.append(Obstacle.Obstacle(" ", width, height, 10, self.__obstacle_img[i]))
 
         self.__play_sound = PlaySound.PlaySound(self.__sound_list)
-        
+       
+        # Defining Menu controller
+        self.__menu_controller = MenuController.MenuController(self.__game_screen)
+ 
         # background music 
 
         #####---------------
@@ -60,6 +62,8 @@ class GameController():
         self.__score_count = Score.Score()
         self.__obstacle_pos_x = 800
         self.__obstacle_pos_y = 500
+
+        self.__is_paused = False
     ## Method that checks the user input
     def check_user_input(self):
         for event in pygame.event.get():
@@ -73,7 +77,12 @@ class GameController():
                     self.__character.jump(self.__load_character[2],self.__load_character[1])
                     self.__play_sound.play_jump_sound()
                 if event.key == pygame.K_p:
-                    MenuController.pause_menu()
+                    self.__is_paused = True
+                    user_response = self.__menu_controller.pause_menu()
+                    if (user_response == "Resume"):
+                        self.__is_paused = False
+                        return user_response
+                    
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
                     self.__character.stand(self.__load_character[2], self.__load_character[0])
@@ -96,7 +105,7 @@ class GameController():
         display_character = DisplayCharacter.DisplayCharacter(self.__game_screen, self.__character)
         instructions = "To play: Jump is Up Arrow, Duck is Down Arrow"
         update_environment = UpdateEnvironment.UpdateEnvironment()
-
+        
         obstacle_spawn_time = time()
         self.__play_sound.play_bg_music()
         # The game loop
@@ -116,7 +125,22 @@ class GameController():
             # Drawing obstacles
             obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time) 
             # Check user inputs
-            self.check_user_input()
+            user_response = self.check_user_input()
+            
+            if (user_response == "Resume"):
+                time_now = time()
+                #obstacle_speed_list = list()
+                #for obstacle in self.__obstacle_obj_list:
+                #    obstacle_speed_list.append(obstacle.get_speed())
+                #    obstacle.set_speed(0)
+
+                #powerup_speed_list = list()
+                #for powerup in display_powerups.get_powerups_list():
+                #    powerup_speed_list.append(powerup)
+                #    powerup.set_speed(0)
+                while (time() - time_now <= 5):
+                    self.__menu_controller.resume_menu()
+                    pygame.display.update()
 
             # Generate powerups
             display_powerups.generate_powerups(-10)
@@ -147,10 +171,11 @@ class GameController():
             #print(is_obstacle_collision)
             if (is_obstacle_collision != None and not self.__character.is_invincible):
                 running = False
-            elif (is_obstacle_collision != None and self.__character.is_invincible):
-                print("HERE")
+                self.__menu_controller.end_menu(current_score)
+            elif (is_obstacle_collision != None and self.__character.is_invincible): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
                 ### Need to remove the obstacle and play sound
+            
 
 
             pygame.display.update()

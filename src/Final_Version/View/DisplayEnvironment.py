@@ -47,7 +47,7 @@ class DisplayEnvironment():
     ## @brief drawing the game instructions onto the screen
     #  @param instructions String
     def draw_instruction(self, instructions):
-        self.display_msg(instructions, (25,50)) 
+        self.display_msg(instructions, (25,20)) 
 
     ## Method that draws the floor image on the game screen
     # @param floor : the image of the floor to be drawn on the screen
