@@ -42,12 +42,12 @@ class DisplayEnvironment():
     ## @brief drawing the score onto the screen
     #  @param score Score object
     def draw_score(self, score):
-        self.display_msg("Current Score is: " + str(score.get_score()), (250,10)) 
+        self.display_msg("Current Score is: " + str(score), (250,10)) 
 
     ## @brief drawing the game instructions onto the screen
     #  @param instructions String
     def draw_instruction(self, instructions):
-        self.display_msg(instructions, (25,20)) 
+        self.display_msg(instructions, (25,80)) 
 
     ## Method that draws the floor image on the game screen
     # @param floor : the image of the floor to be drawn on the screen
