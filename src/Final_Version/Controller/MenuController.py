@@ -16,19 +16,24 @@ class MenuController:
     def __init__(self, window):
         self.__display_menu = DisplayMenu.DisplayMenu(window)
         
-
-    def end_menu(self, score):
+    
+    def end_menu(self, current_score, high_score, img):
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                   sys.exit()
                 elif event.type == pygame.KEYDOWN:
-                  return
+                    if event.key == pygame.K_r:
+                        return "Restart"
+                    elif event.key == pygame.K_q:
+                        return "Quit"
+                    
     
-            self.__display_menu.end_menu_view(score) 
+            self.__display_menu.display_end_menu(current_score, high_score, img)
+            pygame.display.update()
     
-    def pause_menu(self):
+    def pause_menu(self, img):
         running = True
         while running:
             for event in pygame.event.get():
@@ -40,12 +45,9 @@ class MenuController:
                         return "Resume"
                     elif event.key == pygame.K_q:
                         return "Quit"
-            self.__display_menu.pause_menu_view()
+            self.__display_menu.display_pause_menu(img)
+            pygame.display.update()
 
-    def resume_menu(self):
-        time_now = time()
-
-        current_time = time_now
-        while (current_time - time_now <= 5):
-            self.__display_menu.resume_back_view(round(5 - (current_time - time_now)))
-            current_time = time()
+    def resume_menu(self, current_time):
+        self.__display_menu.display_resume_menu(round(current_time))
+        pygame.display.update()

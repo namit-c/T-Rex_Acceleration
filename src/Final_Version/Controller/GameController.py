@@ -24,6 +24,7 @@ import DisplayPowerups
 import DisplayEnvironment
 import DisplayWindow
 import DisplayCharacter
+import DisplayMenu
 import PlaySound
 import LoadAssets
 
@@ -53,6 +54,11 @@ class GameController():
         # Defining Menu controller
         self.__menu_controller = MenuController.MenuController(self.__game_screen)
  
+
+        # Load Menu
+        self.__main_menu_img = assets.load_main_menu()
+        self.__pause_menu_img = assets.load_pause_menu()
+        self.__end_menu_img = assets.load_end_menu()
         # background music 
 
         #####---------------
@@ -78,9 +84,8 @@ class GameController():
                     self.__play_sound.play_jump_sound()
                 if event.key == pygame.K_p:
                     self.__is_paused = True
-                    user_response = self.__menu_controller.pause_menu()
+                    user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
                     if (user_response == "Resume"):
-                        self.__is_paused = False
                         return user_response
                     
             elif event.type == pygame.KEYUP:
@@ -88,10 +93,10 @@ class GameController():
                     self.__character.stand(self.__load_character[2], self.__load_character[0])
 
     ## The method that controls the flow of the game
-    def game_loop(self):
-        pygame.init()
+    def game_loop(self, clock):
+        #pygame.init()
         
-        clock = pygame.time.Clock()
+        #clock = pygame.time.Clock()
         # font = pygame.font.SysFont(None, 30)
         running = True
         bg_rgb = [153, 255, 255]
@@ -117,7 +122,7 @@ class GameController():
             display_environment.draw_floor(self.__floor, self.__floor_position)
             if(time() - instruction_time <= 5):
                 display_environment.draw_instruction(instructions)
-            display_environment.draw_score(self.__score_count)
+            display_environment.draw_score(self.__score_count.get_current_score())
 
             # Drawing character
             display_character.draw_character()
@@ -126,21 +131,52 @@ class GameController():
             obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time) 
             # Check user inputs
             user_response = self.check_user_input()
+            obstacle_speed_list = None
+            powerup_speed_list = None
             
+            start_time = None
             if (user_response == "Resume"):
-                time_now = time()
-                #obstacle_speed_list = list()
-                #for obstacle in self.__obstacle_obj_list:
-                #    obstacle_speed_list.append(obstacle.get_speed())
-                #    obstacle.set_speed(0)
+                start_time = time()
+                obstacle_speed_list = list()
+                for obstacle in display_obstacles.get_obstacle_list() :
+                    obstacle_speed_list.append(obstacle.get_speed())
+                    obstacle.set_speed(0)
 
-                #powerup_speed_list = list()
-                #for powerup in display_powerups.get_powerups_list():
-                #    powerup_speed_list.append(powerup)
-                #    powerup.set_speed(0)
-                while (time() - time_now <= 5):
-                    self.__menu_controller.resume_menu()
+                powerup_speed_list = list()
+                for powerup in display_powerups.get_powerups_list():
+                    powerup_speed_list.append(powerup.get_speed())
+                    powerup.set_speed(0)
+                
+                current_time = time()
+                while (current_time - start_time <= 5):
+                    #self.__menu_controller.resume_menu()
+                    display_environment.draw_background(self.__background, bg_rgb)
+                    display_environment.draw_floor(self.__floor, self.__floor_position)
+
+                    display_character.draw_character()
+                    display_powerups.update_powerups()
+                    display_obstacles.update_obstacle_display()
+
+                    self.__menu_controller.resume_menu(5 - (current_time - start_time))
+
+                    current_time = time()
                     pygame.display.update()
+                
+                current_obstacle_list = display_obstacles.get_obstacle_list()
+                for i in range(len(current_obstacle_list)):
+                    current_obstacle_list[i].set_speed(obstacle_speed_list[i])
+
+
+                current_powerup_list = display_powerups.get_powerups_list()
+                index = 0
+                for element in current_powerup_list:
+                    element.set_speed(powerup_speed_list[index])
+                    index += 1
+
+
+                self.__is_paused = False
+
+                
 
             # Generate powerups
             display_powerups.generate_powerups(-10)
@@ -171,15 +207,53 @@ class GameController():
             #print(is_obstacle_collision)
             if (is_obstacle_collision != None and not self.__character.is_invincible):
                 running = False
-                self.__menu_controller.end_menu(current_score)
+                self.__menu_controller.end_menu(current_score, self.__score_count.get_score() ,self.__end_menu_img)
+                self.__score_count.reset_score() 
             elif (is_obstacle_collision != None and self.__character.is_invincible): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
-                ### Need to remove the obstacle and play sound
-            
 
 
             pygame.display.update()
 
+    def main_menu(self, font):
+        running = True
+        while running:
+            action = None
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        action = "Play"
+
+            
+            display_menu = DisplayMenu.DisplayMenu(self.__game_screen)
+            display_menu.display_main_menu(self.__main_menu_img)
+            self.__score_count.reset_score()
+            if action == "Play" or action == "Quit":
+              running = False
+              return action
+
+            pygame.display.update()
+    
+    def run_game(self):
+        pygame.init()
+                
+        clock = pygame.time.Clock()
+
+        font = pygame.font.Font("../assets/Acceleration-Reaction.ttf", 30)
+
+        running = True
+
+        while running:
+            action = self.main_menu(font)
+
+            if action == "Play":
+                self.game_loop(clock)
+            else:
+                running = False
+
 
 game = GameController()
-game.game_loop()
+game.run_game()
