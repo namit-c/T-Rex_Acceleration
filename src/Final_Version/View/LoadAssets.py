@@ -1,12 +1,28 @@
+"""@package docstring
+Documentation for this module.
+ 
+LoadAssets class
+Author: Dev^(enthusiases)
+This class is responsible for load all images and sounds needed for the game.
+"""
+
 import pygame
 
+## This is a class for assets loading
 class LoadAssets():
+
+    ## @brief load floor image
+    #  @return return a pygame.iamge
+    #  @exception Exception IllegalArguementException
     def load_floor(self):
         image = pygame.image.load('../assets/floor.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         return image
-    
+
+    ## @brief load background image
+    #  @return return a pygame.iamge
+    #  @exception Exception IllegalArguementException    
     def load_background(self):
         image = pygame.image.load('../assets/background.png')
         image = image
@@ -14,6 +30,9 @@ class LoadAssets():
             raise Exception("IllegalArgumentException")
         return image   
 
+    ## @brief load character images 
+    #  @return return a sequency of pygame.image
+    #  @exception Exception IllegalArguementException
     def load_character(self):
         char_list = []
         image = pygame.image.load('../assets/character.png')
@@ -30,6 +49,9 @@ class LoadAssets():
         char_list.append(image)
         return char_list 
 
+    ## @brief load images of all obstacles 
+    #  @return return a sequency of pygame.image
+    #  @exception Exception IllegalArguementException
     def load_all_obstacles(self):
         obstacle_list = []
         image = pygame.image.load('../assets/obstacle1.png')
@@ -44,6 +66,9 @@ class LoadAssets():
         obstacle_list.append(image)
         return obstacle_list                 
 
+    ## @brief load images of all powerups 
+    #  @return return a sequency of pygame.image
+    #  @exception Exception IllegalArguementException
     def load_all_powerups(self):
         powerups_list = []
         image = pygame.image.load('../assets/powerups1.png')
@@ -64,6 +89,9 @@ class LoadAssets():
         powerups_list.append(image)
         return powerups_list 
 
+    ## @brief load the image of main menu 
+    #  @return return a pygame.image
+    #  @exception Exception IllegalArguementException
     def load_main_menu(self):
         image = pygame.image.load('../assets/mainmenu.png')
         if image is None:
@@ -71,22 +99,28 @@ class LoadAssets():
         return image  
 
 
-    ## Method that loads the pause menu image and assigns it to a python variable
-    # @return a variable containing the pause menu image 
+    ## @brief load the pause menu image
+    # @return pygame.image containing the pause menu image 
+    #  @exception Exception IllegalArguementException
     def load_pause_menu(self):
         image = pygame.image.load('../assets/pausemenu.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         return image  
 
-    ## Method that loads the end menu image and assigns it to a python variable
-    # @return a variable containing the end menu image 
+    ## @brief load the end menu image
+    # @return pygame.image containing the end menu image 
+    #  @exception Exception IllegalArguementException 
     def load_end_menu(self):
         image = pygame.image.load('../assets/endmenu.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         return image  
 
+
+    ## @brief load all sound effects 
+    #  @return return a sequency of pygame.mixer
+    #  @exception Exception IllegalArguementException
     def load_sound(self):
         sound_list = []
         pygame.mixer.init()
