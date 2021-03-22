@@ -18,7 +18,6 @@ import pygame
 #  @param element pygame.sprite
 #  @return return a boolean where if the character and element have collided then return True, otherwise return False 
 def detect_collision(character, element):
-    print(character.get_rect().left, character.get_rect().bottom, element.get_rect().left, element.get_rect().bottom)
     return character.get_rect().colliderect(element.get_rect())
 
 
