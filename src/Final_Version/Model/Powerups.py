@@ -36,7 +36,7 @@ class Powerups(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         self.height = new_height
     def get_speed(self):
-        return self.width
+        return self.speed
     def set_speed(self, new_speed):
         self.speed = new_speed
     def get_img(self):
