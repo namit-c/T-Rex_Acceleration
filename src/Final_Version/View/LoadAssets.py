@@ -81,7 +81,7 @@ class LoadAssets():
 
     ## Method that loads the end menu image and assigns it to a python variable
     # @return a variable containing the end menu image 
-    def load_main_menu(self):
+    def load_end_menu(self):
         image = pygame.image.load('../assets/endmenu.png')
         if image is None:
             raise Exception("IllegalArgumentException")

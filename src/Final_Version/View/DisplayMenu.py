@@ -15,7 +15,7 @@ class DisplayMenu():
 
     ## Constructor used to initialize the screen where the menus will be drawn 
     # @param window : the game screen, a pygame.display object, where elements are drawn
-    def DisplayMenu(self, window):
+    def __init__(self, window):
         self.__game_screen = window
 
     ## Method used to display the main menu on the screen
