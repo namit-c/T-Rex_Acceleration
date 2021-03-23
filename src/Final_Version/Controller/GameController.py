@@ -78,9 +78,10 @@ class GameController():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
                     self.__character.duck(self.__load_character[0], self.__load_character[2])
-                    self.__play_sound.play_duck_sound()
+                    if self.__character.is_ducking:
+                        self.__play_sound.play_duck_sound()
                 if event.key == pygame.K_UP:
-                    if not self.__character.is_jumping or self.__character.is_double_jumping:
+                    if not self.__character.is_jumping or (self.__character.is_double_jumping and self.__character.get_limit() < 3):
                         self.__play_sound.play_jump_sound()
                     self.__character.jump(self.__load_character[2],self.__load_character[1])
                 if event.key == pygame.K_p:

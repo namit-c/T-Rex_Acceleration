@@ -146,7 +146,11 @@ class Character(pygame.sprite.Sprite):
         self.is_invincible = True
         self.is_double_jumping = False
         self.is_slo_mo = False
-        self.set_img(inv_char, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+        if self.is_ducking:
+            self.set_ducking_img(inv_char, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+        else:
+            self.set_img(inv_char, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+          
 
     ## @brief allow the character to do double jump
     def double_jump(self):
@@ -182,8 +186,15 @@ class Character(pygame.sprite.Sprite):
             left = self.rect.left
             bottom = self.rect.bottom
             if(char_img is None):
-                raise Exception("IllegalArgumentException")       
-            self.image = pygame.transform.scale(char_img, Character.NORMAL_SIZE)
-            self.set_img(char_img, bottom, left)
+                raise Exception("IllegalArgumentException") 
+            if not self.is_ducking:      
+                self.image = char_img 
+                self.set_img(char_img, bottom, left)
+            else:
+                self.image = char_img
+                self.set_ducking_img(char_img, bottom, left)
+
+    def get_limit(self):
+        return self.__jumping_limit
 
 
