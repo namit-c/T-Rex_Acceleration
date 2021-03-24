@@ -7,7 +7,6 @@ This class is responsible for drawing the background elements on the screen.
 """
 
 import pygame
-
 ## This is class used to draw environment elements on the screen
 class DisplayEnvironment():
 
@@ -41,14 +40,15 @@ class DisplayEnvironment():
 
     ## @brief drawing the score onto the screen
     #  @param score Score object
-    def draw_score(self, score):
+    def draw_score(self, score, clock):
         self.display_msg("Current Score is: " + str(score), (250,10)) 
+        self.display_msg("FPS: " + str(int(clock.get_fps())), (10,10)) 
 
     ## @brief drawing the game instructions onto the screen
     #  @param instructions String
     def draw_instruction(self, instructions):
         self.display_msg(instructions, (25,80)) 
-
+    
     ## Method that draws the floor image on the game screen
     # @param floor : the image of the floor to be drawn on the screen
     # @param floor_position : the x position of the left side of the floor
