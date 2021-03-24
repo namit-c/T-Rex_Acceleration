@@ -27,7 +27,8 @@ class MenuController:
                     if event.key == pygame.K_r:
                         return "Restart"
                     elif event.key == pygame.K_q:
-                        return "Quit"
+                        sys.exit()
+                        #return "Quit"
                     
     
             self.__display_menu.display_end_menu(current_score, high_score, img)
@@ -45,6 +46,7 @@ class MenuController:
                         return "Resume"
                     elif event.key == pygame.K_q:
                         return "Quit"
+
             self.__display_menu.display_pause_menu(img)
             pygame.display.update()
 
