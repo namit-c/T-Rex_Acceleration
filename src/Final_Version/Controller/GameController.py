@@ -215,7 +215,8 @@ class GameController():
             if (is_obstacle_collision != None and not self.__character.is_invincible):
                 running = False
                 self.__menu_controller.end_menu(current_score, self.__score_count.get_score() ,self.__end_menu_img)
-                self.__score_count.reset_score() 
+                self.__score_count.reset_score()
+                self.__game_speed = 10
             elif (is_obstacle_collision != None and self.__character.is_invincible): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
             
