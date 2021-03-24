@@ -23,7 +23,7 @@ class Character(pygame.sprite.Sprite):
     DUCKING_SIZE = (85,35)
     X_OFFSET = 99
     Y_OFFSET = 80
-    JUMPING_SPEED = -25
+    JUMPING_SPEED = -20
     DOUBLEJUMPING_SPEED = -20
     GRAVITY = 1
     DURARION = 5000
