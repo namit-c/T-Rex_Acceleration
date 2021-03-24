@@ -40,14 +40,14 @@ class GameController():
         self.__obstacle_img = assets.load_all_obstacles()
         #self.__powerup_list = pygame.sprite.Group()
         self.__sound_list = assets.load_sound()
-
+        self.__game_speed = 10
         self.__load_character = assets.load_character()
         self.__character = Character.Character(self.__game_screen, self.__load_character[0])
       
         self.__obstacle_obj_list = list()
         for i in range(len(self.__obstacle_img)):
             width, height = self.__obstacle_img[i].get_size()
-            self.__obstacle_obj_list.append(Obstacle.Obstacle(" ", width, height, 10, self.__obstacle_img[i]))
+            self.__obstacle_obj_list.append(Obstacle.Obstacle(" ", width, height, self.__game_speed, self.__obstacle_img[i]))
 
         self.__play_sound = PlaySound.PlaySound(self.__sound_list)
        
@@ -60,6 +60,9 @@ class GameController():
         self.__pause_menu_img = assets.load_pause_menu()
         self.__end_menu_img = assets.load_end_menu()
         # background music 
+
+        self.__play_sound.play_bg_music()
+        
 
         #####---------------
         self.__floor = assets.load_floor()
@@ -89,15 +92,16 @@ class GameController():
                     user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
                     if (user_response == "Resume"):
                         return user_response
+                    elif (user_response == "Quit"):
+                        return user_response
                     
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
                     self.__character.stand(self.__load_character[2], self.__load_character[0])
 
     ## The method that controls the flow of the game
-    def game_loop(self, clock):
+    def game_loop(self, clock, game_start_time):
         #pygame.init()
-        
         #clock = pygame.time.Clock()
         # font = pygame.font.SysFont(None, 30)
         running = True
@@ -113,18 +117,17 @@ class GameController():
         instructions = "To play: Jump is Up Arrow, Duck is Down Arrow"
         update_environment = UpdateEnvironment.UpdateEnvironment()
         
-        obstacle_spawn_time = time()
-        self.__play_sound.play_bg_music()
+        obstacle_spawn_time = time() 
         # The game loop
         while running: 
-            clock.tick(45)
+            clock.tick(60)
 
             # Drawing environment elements
             display_environment.draw_background(self.__background, bg_rgb)
             display_environment.draw_floor(self.__floor, self.__floor_position)
             if(time() - instruction_time <= 5):
                 display_environment.draw_instruction(instructions)
-            display_environment.draw_score(self.__score_count.get_current_score())
+            display_environment.draw_score(self.__score_count.get_current_score(), clock)
 
             # Drawing character
             display_character.draw_character()
@@ -179,15 +182,17 @@ class GameController():
                 self.__is_paused = False
 
                 
+            elif(user_response == "Quit"):
+                running = False
 
             # Generate powerups
-            display_powerups.generate_powerups(-10)
+            display_powerups.generate_powerups(-self.__game_speed)
 
             # update objects
-            current_score, prev_score = self.__score_count.update_score()
+            current_score, prev_score = self.__score_count.update_score(game_start_time)
             update_environment.update_bg_colour(current_score, prev_score, bg_rgb)
             self.__character.update(self.__load_character[0])
-            self.__floor_position = update_environment.update_floor(self.__floor_position, 10)
+            self.__floor_position = update_environment.update_floor(self.__floor_position, self.__game_speed)
             display_powerups.update_powerups()
             display_obstacles.update_obstacle_display()
 
@@ -213,9 +218,17 @@ class GameController():
                 self.__score_count.reset_score() 
             elif (is_obstacle_collision != None and self.__character.is_invincible): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
-
-
+            
+            self.increase_game_speed()
             pygame.display.update()
+    def increase_game_speed(self):
+        score = self.__score_count.get_current_score()
+        if (score != 0 and score % 50 == 0 and self.__game_speed <= 25):
+            self.__game_speed += 0.5
+            
+            for obstacle in self.__obstacle_obj_list:
+                obstacle.set_speed(self.__game_speed)
+
 
     def main_menu(self, font):
         running = True
@@ -228,7 +241,9 @@ class GameController():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         action = "Play"
-
+                    if event.key == pygame.K_q:
+                        self.__play_sound.stop_music()
+                        running = False
             
             display_menu = DisplayMenu.DisplayMenu(self.__game_screen)
             display_menu.display_main_menu(self.__main_menu_img)
@@ -252,10 +267,11 @@ class GameController():
             action = self.main_menu(font)
 
             if action == "Play":
-                self.game_loop(clock)
+                game_start_time = time()
+                self.game_loop(clock, game_start_time)
             else:
                 running = False
 
-
+        
 game = GameController()
 game.run_game()
