@@ -29,7 +29,9 @@ class Obstacle(pygame.sprite.Sprite):
         self.__speed = speed
         self.__img = obstacle_img
         self.rect = self.__img.get_rect()
-
+    
+    def get_name(self):
+        return self.__name
 
     ## @brief get the width of an obstacle
     #  @return return the width of an  width

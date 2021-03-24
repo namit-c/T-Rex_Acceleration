@@ -47,8 +47,8 @@ class GameController():
         self.__obstacle_obj_list = list()
         for i in range(len(self.__obstacle_img)):
             width, height = self.__obstacle_img[i].get_size()
-            self.__obstacle_obj_list.append(Obstacle.Obstacle(" ", width, height, self.__game_speed, self.__obstacle_img[i]))
-
+            self.__obstacle_obj_list.append(Obstacle.Obstacle("Obstacle-"+ str(i+1), width, height, self.__game_speed, self.__obstacle_img[i]))
+        
         self.__play_sound = PlaySound.PlaySound(self.__sound_list)
        
         # Defining Menu controller

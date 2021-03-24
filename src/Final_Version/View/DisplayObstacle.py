@@ -15,6 +15,7 @@ import time
 import Obstacle
 import DetectCollision
 from random import randint
+import math
 
 class DisplayObstacle:
     ## @brief Constructor for DisplayObstacle
@@ -42,7 +43,9 @@ class DisplayObstacle:
         
         # Scaling down the image to a fixed size
         #obstacleImg =  pygame.transform.scale(obstacleImg, (obstacle.get_width(), obstacle.get_height()))
-       
+        
+        if (obstacle.get_name() == "Obstacle-3"):
+            current_y = self.tumbleweed_math_func(current_x)
         obstacle.set_rect(current_x, current_y)
         #obstacle.set_img(obstacleImg)
         self.__game_screen.blit(obstacleImg, (current_x, current_y - obstacle.get_height())) #bug with rect 
@@ -98,6 +101,16 @@ class DisplayObstacle:
             # if obstacle is well beyond the screen window, then remove from obstacle_list
             if x < -500:
                 self.remove_obstacle(obstacle)
-            
     
-         
+
+    def tumbleweed_math_func(self, current_x):
+        screen_width, screen_height = pygame.display.get_surface().get_size()
+        
+        output = screen_height - 50000*math.fabs(math.fabs(-(current_x -  (799))**(-1)*math.sin(1/50*current_x))) - 50
+        print(output)
+        return output 
+
+
+
+    
+     

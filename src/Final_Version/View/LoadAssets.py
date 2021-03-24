@@ -64,6 +64,9 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         obstacle_list.append(image)
+        image = pygame.image.load('../assets/tumbleweed.png')
+        image = pygame.transform.scale(image, (60,60))
+        obstacle_list.append(image)
         return obstacle_list                 
 
     ## @brief load images of all powerups 
