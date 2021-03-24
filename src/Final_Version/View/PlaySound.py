@@ -30,7 +30,7 @@ class PlaySound:
         self.__collision_sound = sound_list[3]
         self.__powerup_sound = sound_list[4]
 
-
+        self.__SOUND_EFFECT_VOL = 0.25
     ## @brief Play the background music on repeat
     def play_bg_music(self):
         self.__bg_sound.set_volume(0.1)
@@ -42,18 +42,23 @@ class PlaySound:
 
     ## @brief Play the jump sound effect once
     def play_jump_sound(self):
+        self.__jump_sound.set_volume(self.__SOUND_EFFECT_VOL)
         self.__jump_sound.play()
 
     ## @brief Play the duck sound effect once
     def play_duck_sound(self):
+        self.__duck_sound.set_volume(self.__SOUND_EFFECT_VOL)
+
         self.__duck_sound.play()
 
     ## @brief Play the collision sound effect once
     def play_collision_sound(self):
+        self.__collision_sound.set_volume(self.__SOUND_EFFECT_VOL)
         self.__collision_sound.play()
     
     ## @brief Play the powerup sound effect once
     def play_powerup_sound(self):
+        self.__powerup_sound.set_volume(self.__SOUND_EFFECT_VOL)
         self.__powerup_sound.play()
 
 
