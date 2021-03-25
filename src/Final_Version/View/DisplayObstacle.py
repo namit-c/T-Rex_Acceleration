@@ -107,7 +107,7 @@ class DisplayObstacle:
         screen_width, screen_height = pygame.display.get_surface().get_size()
         
         output = screen_height - 50000*math.fabs(math.fabs(-(current_x -  (799))**(-1)*math.sin(1/50*current_x))) - 50
-        print(output)
+        #print(output)
         return output 
 
 

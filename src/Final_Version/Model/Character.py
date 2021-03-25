@@ -90,15 +90,15 @@ class Character(pygame.sprite.Sprite):
     #  @param ducking_img new image to show the ducking
     #  @param inv_ducking_img new image to show the ducking, invincible version
     #  @exception Exception IllegalArguementException     
-    def duck(self, ducking_img, inv_ducking_img):
-        if(ducking_img is None or inv_ducking_img is None):
+    def duck(self, char_img, inv_img):
+        if(char_img is None or inv_img is None):
             raise Exception("IllegalArgumentException")
         if self.is_jumping == False:
             self.is_ducking = True
             if self.is_invincible == False:
-                self.set_ducking_img(ducking_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+                self.set_ducking_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
             else: 
-                self.set_ducking_img(inv_ducking_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+                self.set_ducking_img(inv_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
 
     ## @brief make the character stand up after ducking 
     #  @param inv_char new image to show the character, invincible version
@@ -153,18 +153,28 @@ class Character(pygame.sprite.Sprite):
           
 
     ## @brief allow the character to do double jump
-    def double_jump(self):
+    #  @param char_img the image of double_jumping status
+    def double_jump(self, char_img):
         self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = True
         self.is_slo_mo = False
+        if self.is_ducking:
+            self.set_ducking_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+        else:
+            self.set_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)          
 
     ## @brief allow the character to slow the obstacles and powerups down
-    def slo_mo(self):
+    #  @param char_img the image of slo_mo status
+    def slo_mo(self,char_img):
         self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = False
         self.is_slo_mo = True
+        if self.is_ducking:
+            self.set_ducking_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+        else:
+            self.set_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)          
 
     ## @brief private method, check if the character gets a special ability
     #  @return return True if the character gets a special ability
@@ -196,5 +206,19 @@ class Character(pygame.sprite.Sprite):
 
     def get_limit(self):
         return self.__jumping_limit
+
+    def reset(self, char_img):
+        self.image = pygame.transform.scale(char_img, Character.NORMAL_SIZE)
+        self.rect = self.image.get_rect()
+        self.rect.left = self.screen_rect.left + Character.X_OFFSET
+        self.rect.bottom = self.screen_rect.bottom - Character.Y_OFFSET
+        self.is_ducking = False
+        self.is_jumping = False
+        self.is_invincible = False
+        self.is_double_jumping = False
+        self.is_slo_mo = False
+        self.movement = [0,0]
+        self.__jumping_limit = 0
+        self.__time = 0
 
 

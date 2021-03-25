@@ -12,6 +12,7 @@ import pygame
 import time
 sys.path.insert(1, '../Model')
 from Powerups import *
+import DetectCollision
 
 ## This is a class for powerups displaying
 class DisplayPowerups():
@@ -38,11 +39,16 @@ class DisplayPowerups():
 
     ## @brief randomly generate a powerup
     #  @param speed the speed of the powerup
-    def generate_powerups(self, speed):
+    def generate_powerups(self, speed, obstacles):
         if (time.time() >= self.__generate_time + random.randint(3,5) and random.random() < 0.01):
+            overlapping = False
             new_powerups = Powerups(self.game_screen, 50, 50, speed)
-            self.powerups_displayed.add(new_powerups)
-            self.__generate_time = time.time()
+            for obstacle in obstacles:
+                if DetectCollision.detect_collision(obstacle, new_powerups):
+                    overlapping = True
+            if not overlapping:
+                self.powerups_displayed.add(new_powerups)
+                self.__generate_time = time.time()
 
     ## @brief draw a powerup on the screen
     #  @param powerups the powerup to be drawn

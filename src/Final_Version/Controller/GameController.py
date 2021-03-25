@@ -186,7 +186,7 @@ class GameController():
                 running = False
 
             # Generate powerups
-            display_powerups.generate_powerups(-self.__game_speed)
+            display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list)
 
             # update objects
             current_score, prev_score = self.__score_count.update_score(game_start_time)
@@ -203,9 +203,11 @@ class GameController():
                 if powerups_taken.get_name() == 0:
                     self.__character.invincible(self.__load_character[2])
                 elif powerups_taken.get_name() == 1:
-                    self.__character.double_jump()
+                    self.__character.double_jump(self.__load_character[0])
                 elif powerups_taken.get_name() == 2:
-                    self.__character.slo_mo()
+                    self.__character.slo_mo(self.__load_character[0])
+                else:
+                    self.__score_count.boost()
                 display_powerups.remove_powerups(powerups_taken)
 
 
@@ -217,6 +219,7 @@ class GameController():
                 self.__menu_controller.end_menu(current_score, self.__score_count.get_score() ,self.__end_menu_img)
                 self.__score_count.reset_score()
                 self.__game_speed = 10
+                self.__character.reset(self.__load_character[0])
             elif (is_obstacle_collision != None and self.__character.is_invincible): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
             
@@ -224,11 +227,14 @@ class GameController():
             pygame.display.update()
     def increase_game_speed(self):
         score = self.__score_count.get_current_score()
-        if (score != 0 and score % 50 == 0 and self.__game_speed <= 25):
-            self.__game_speed += 0.5
-            
-            for obstacle in self.__obstacle_obj_list:
-                obstacle.set_speed(self.__game_speed)
+        #if (score != 0 and score % 50 == 0 and self.__game_speed <= 15):
+        if self.__character.is_slo_mo:
+            self.__game_speed = 10
+        else:
+            self.__game_speed = 0.5*(score // 50) + 10
+
+        for obstacle in self.__obstacle_obj_list:
+            obstacle.set_speed(self.__game_speed)
 
 
     def main_menu(self, font):
