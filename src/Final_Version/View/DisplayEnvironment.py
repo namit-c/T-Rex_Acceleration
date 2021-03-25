@@ -34,14 +34,14 @@ class DisplayEnvironment():
     #  @param msg_pos a tuple of (x,y) position to be drawn on screen
     def display_msg(self, msg, msg_pos):
        	pygame.font.init() # you have to call this at the start, 
-        my_font = pygame.font.SysFont('Comic Sans MS', 30)
-        text_surface = my_font.render(msg, False, (0, 0, 0))
+        my_font = pygame.font.Font('../assets/Sangharia Demo.ttf', 50)
+        text_surface = my_font.render(msg, True, (255, 255, 255))
         self.__game_screen.blit(text_surface,msg_pos)
 
     ## @brief drawing the score onto the screen
     #  @param score Score object
     def draw_score(self, score, clock):
-        self.display_msg("Current Score is: " + str(score), (250,10)) 
+        self.display_msg("Score: " + str(score), (250,10)) 
         self.display_msg("FPS: " + str(int(clock.get_fps())), (10,10)) 
 
     ## @brief drawing the game instructions onto the screen
