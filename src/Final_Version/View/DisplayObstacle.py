@@ -73,19 +73,25 @@ class DisplayObstacle:
         random_index = randint(0, len(obstacle_list) - 1)
 
         random_time = 2 + (random() * (4 - 2))
+
+        current_time = time.time()
         # If the current time from when the last obstacle was spawned someone between 3 and 5 second
-        if (time.time() - prev_obstacle_spawn_time >= random_time):
+        if (current_time - prev_obstacle_spawn_time > random_time and current_time != prev_obstacle_spawn_time):
             self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, obstacle_list[random_index])
-            self.__obstacleList.append(obstacle_list[random_index])
+            selected_obstacle = obstacle_list[random_index]
+            new_obstacle = Obstacle.Obstacle(selected_obstacle.get_name(), selected_obstacle.get_width(), selected_obstacle.get_height(), selected_obstacle.get_speed(), selected_obstacle.get_img())
+
+            self.__obstacleList.append(selected_obstacle)
             
-            prev_obstacle_spawn_time = time.time()
-        print([(obstacle.get_name(), obstacle.get_speed()) for obstacle in self.get_obstacle_list()])
+            prev_obstacle_spawn_time = current_time 
+            #print("Generated", (obstacle_list[random_index].get_name(), obstacle_list[random_index].get_speed()), "At:", obstacle_pos_x, obstacle_pos_y)
+            #print( [(obstacle.get_name(), obstacle.get_speed()) for obstacle in self.get_obstacle_list()])
         return prev_obstacle_spawn_time
        
     ## @brief update all obstacle objects on the screen to be drawn to there new position. If an obstacle X position is less than
     #         -100 pixels, then remove the current obstacle from the obstacle list.
     def update_obstacle_display(self):
-        #print([obstacle.get_name() for obstacle in self.get_obstacle_list()])
+        #print([(obstacle.get_name(), obstacle.get_pos()) for obstacle in self.get_obstacle_list()])
         for obstacle in self.get_obstacle_list():
             
             obstacle_pos = obstacle.get_pos() #returns [x,y] 
@@ -102,7 +108,8 @@ class DisplayObstacle:
             
             # if obstacle is well beyond the screen window, then remove from obstacle_list
             if x < -100:
-                self.remove_obstacle(obstacle)
+                #self.remove_obstacle(obstacle)
+                self.__obstacleList.pop(0)
     
 
     def tumbleweed_math_func(self, current_x):
