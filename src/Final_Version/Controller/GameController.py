@@ -69,7 +69,7 @@ class GameController():
         self.__floor_position = 0
         self.__background = assets.load_background()
         self.__score_count = Score.Score()
-        self.__obstacle_pos_x = 800
+        self.__obstacle_pos_x = 900
         self.__obstacle_pos_y = 500
 
         self.__is_paused = False
@@ -120,7 +120,7 @@ class GameController():
         obstacle_spawn_time = time() 
         # The game loop
         while running: 
-            clock.tick(60)
+            clock.tick(45)
 
             # Drawing environment elements
             display_environment.draw_background(self.__background, bg_rgb)
@@ -178,6 +178,7 @@ class GameController():
                     element.set_speed(powerup_speed_list[index])
                     index += 1
 
+                print("HERE")
 
                 self.__is_paused = False
 

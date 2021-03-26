@@ -39,7 +39,7 @@ class Powerups(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.rect.left = self.screen_rect.right
-        self.rect.bottom = self.screen_rect.bottom - Powerups.Y_OFFSET - 90
+        self.rect.bottom = self.screen_rect.bottom - Powerups.Y_OFFSET 
         self.speed = speed
 
     ## @brief get the rect of a powerup

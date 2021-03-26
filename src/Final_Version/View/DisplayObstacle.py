@@ -14,7 +14,7 @@ import pygame
 import time
 import Obstacle
 import DetectCollision
-from random import randint
+from random import *
 import math
 
 class DisplayObstacle:
@@ -38,13 +38,13 @@ class DisplayObstacle:
     #  @param current_x x position for obstacle to be drawn at
     #  @param current_y y position for obstacle to be drawn at
     #  @param obstacle Obstacle object
-    def draw_obstacle(self, current_x, current_y, obstacle):
+    def draw_obstacle(self,current_x, current_y, obstacle):
         obstacleImg = obstacle.get_img()
         
         # Scaling down the image to a fixed size
         #obstacleImg =  pygame.transform.scale(obstacleImg, (obstacle.get_width(), obstacle.get_height()))
         
-        if (obstacle.get_name() == "Obstacle-3"):
+        if (obstacle.get_name() == "Obstacle-4"):
             current_y = self.tumbleweed_math_func(current_x)
         obstacle.set_rect(current_x, current_y)
         #obstacle.set_img(obstacleImg)
@@ -70,20 +70,22 @@ class DisplayObstacle:
     #  @param obstacle_list list of obstacle objects
     #  @param prev_obstacle_spawn_time Keeping track of when the last obstacle was generated
     def generate_obstacle(self, obstacle_pos_x, obstacle_pos_y, obstacle_list, prev_obstacle_spawn_time):
-        random_index = randint(0, len(obstacle_list) - 1) 
+        random_index = randint(0, len(obstacle_list) - 1)
+
+        random_time = 2 + (random() * (4 - 2))
         # If the current time from when the last obstacle was spawned someone between 3 and 5 second
-        if (time.time() - prev_obstacle_spawn_time >= randint(3,5)):
+        if (time.time() - prev_obstacle_spawn_time >= random_time):
             self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, obstacle_list[random_index])
-            
             self.__obstacleList.append(obstacle_list[random_index])
             
             prev_obstacle_spawn_time = time.time()
-
+        print([(obstacle.get_name(), obstacle.get_speed()) for obstacle in self.get_obstacle_list()])
         return prev_obstacle_spawn_time
        
     ## @brief update all obstacle objects on the screen to be drawn to there new position. If an obstacle X position is less than
     #         -100 pixels, then remove the current obstacle from the obstacle list.
     def update_obstacle_display(self):
+        #print([obstacle.get_name() for obstacle in self.get_obstacle_list()])
         for obstacle in self.get_obstacle_list():
             
             obstacle_pos = obstacle.get_pos() #returns [x,y] 
@@ -99,15 +101,23 @@ class DisplayObstacle:
 
             
             # if obstacle is well beyond the screen window, then remove from obstacle_list
-            if x < -500:
+            if x < -100:
                 self.remove_obstacle(obstacle)
     
 
     def tumbleweed_math_func(self, current_x):
         screen_width, screen_height = pygame.display.get_surface().get_size()
-        
+       
+        #if (400 <= current_x and current_x <= 800):
+        #    output = (-1/75)*(current_x-800)*(current_x - 400) + 500
+        #elif (200 <= current_x and current_x < 400):
+        #    output =  (-1/50)*(current_x-400)*(current_x - 200) + 500
+        #else:
+        #    output =  (-1/100)*(current_x-200)*(current_x)  + 500
+        #r = 100
+        #output = math.sqrt(r**2 - ((current_x - 2 *r) % (2*r)) - r)** 2 - 9400
+        #output = -1/75*(current_x-800)*(current_x - 400)
         output = screen_height - 50000*math.fabs(math.fabs(-(current_x -  (799))**(-1)*math.sin(1/50*current_x))) - 50
-        #print(output)
         return output 
 
 

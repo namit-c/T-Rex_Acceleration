@@ -42,7 +42,7 @@ class DisplayPowerups():
     def generate_powerups(self, speed, obstacles):
         if (time.time() >= self.__generate_time + random.randint(3,5) and random.random() < 0.01):
             overlapping = False
-            new_powerups = Powerups(self.game_screen, 50, 50, speed)
+            new_powerups = Powerups(self.game_screen, 65, 65, speed)
             for obstacle in obstacles:
                 if DetectCollision.detect_collision(obstacle, new_powerups):
                     overlapping = True

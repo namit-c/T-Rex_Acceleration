@@ -59,11 +59,16 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         obstacle_list.append(image)
+        image = pygame.transform.scale(image, (56, 80))
+        obstacle_list.append(image)
         image = pygame.image.load('../assets/obstacle2.png')
         image = pygame.transform.scale(image, (120,100))
         if image is None:
             raise Exception("IllegalArgumentException")
         obstacle_list.append(image)
+        
+        image = pygame.transform.scale(image, (96, 80))
+
         image = pygame.image.load('../assets/tumbleweed.png')
         image = pygame.transform.scale(image, (60,60))
         obstacle_list.append(image)
@@ -74,11 +79,11 @@ class LoadAssets():
     #  @exception Exception IllegalArguementException
     def load_all_powerups(self):
         powerups_list = []
-        image = pygame.image.load('../assets/powerups1.png')
+        image = pygame.image.load('../assets/invicibility_powerup.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
-        image = pygame.image.load('../assets/powerups2.jpg')
+        image = pygame.image.load('../assets/double_jump_powerup.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
@@ -86,7 +91,7 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
-        image = pygame.image.load('../assets/powerups4.jpg')
+        image = pygame.image.load('../assets/score_boost.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
