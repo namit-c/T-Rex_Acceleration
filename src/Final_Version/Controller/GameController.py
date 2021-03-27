@@ -263,10 +263,11 @@ class GameController():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         action = "Play"
-                    if event.key == pygame.K_q:
+                    elif event.key == pygame.K_q:
                         self.__play_sound.stop_music()
                         running = False
-            
+                    elif event.key == pygame.K_s:
+                        self.__menu_controller.setting_menu(self.__play_sound)
             display_menu = DisplayMenu.DisplayMenu(self.__game_screen)
             display_menu.display_main_menu(self.__main_menu_img)
             self.__score_count.reset_score()
