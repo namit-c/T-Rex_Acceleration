@@ -50,10 +50,11 @@ class GameController():
             self.__obstacle_obj_list.append(Obstacle.Obstacle("Obstacle-"+ str(i+1), width, height, self.__game_speed, self.__obstacle_img[i]))
         
         self.__play_sound = PlaySound.PlaySound(self.__sound_list)
-       
+         
         # Defining Menu controller
         self.__menu_controller = MenuController.MenuController(self.__game_screen)
  
+        self.__pause_time = 0 
 
         # Load Menu
         self.__main_menu_img = assets.load_main_menu()
@@ -74,7 +75,7 @@ class GameController():
 
         self.__is_paused = False
     ## Method that checks the user input
-    def check_user_input(self):
+    def check_user_input(self, game_start_time):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -89,8 +90,10 @@ class GameController():
                     self.__character.jump(self.__load_character[2],self.__load_character[1])
                 if event.key == pygame.K_p:
                     self.__is_paused = True
+                    self.__pause_time = time()
                     user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
                     if (user_response == "Resume"):
+                        self.__pause_time = time() - self.__pause_time
                         return user_response
                     elif (user_response == "Quit"):
                         return user_response
@@ -132,20 +135,19 @@ class GameController():
             # Drawing character
             display_character.draw_character()
 
-            # Drawing obstacles
-            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time) 
             # Check user inputs
-            user_response = self.check_user_input()
+            user_response = self.check_user_input(game_start_time)
             obstacle_speed_list = None
             powerup_speed_list = None
             
             start_time = None
             if (user_response == "Resume"):
                 start_time = time()
-                obstacle_speed_list = list()
                 for obstacle in display_obstacles.get_obstacle_list() :
-                    obstacle_speed_list.append(obstacle.get_speed())
                     obstacle.set_speed(0)
+                
+                for i in range(len(self.__obstacle_obj_list)):
+                    self.__obstacle_obj_list[i].set_speed(0)
 
                 powerup_speed_list = list()
                 for powerup in display_powerups.get_powerups_list():
@@ -169,23 +171,29 @@ class GameController():
                 
                 current_obstacle_list = display_obstacles.get_obstacle_list()
                 for i in range(len(current_obstacle_list)):
-                    current_obstacle_list[i].set_speed(obstacle_speed_list[i])
+                    current_obstacle_list[i].set_speed(self.__game_speed)
 
+                for i in range(len(self.__obstacle_obj_list)):
+                    self.__obstacle_obj_list[i].set_speed(self.__game_speed)
 
                 current_powerup_list = display_powerups.get_powerups_list()
                 index = 0
                 for element in current_powerup_list:
                     element.set_speed(powerup_speed_list[index])
                     index += 1
-
-                print("HERE")
-
+                
+                game_start_time += self.__pause_time + 5
+                
                 self.__is_paused = False
 
                 
             elif(user_response == "Quit"):
                 running = False
 
+            # Generate Obstacle
+
+            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time + self.__pause_time) 
+            
             # Generate powerups
             display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list)
 
@@ -227,6 +235,9 @@ class GameController():
                 display_obstacles.remove_obstacle(is_obstacle_collision)
                 self.__play_sound.play_collision_sound()
             
+            if (self.__pause_time > 0):
+                self.__pause_time = 0
+
             self.increase_game_speed()
             pygame.display.update()
     def increase_game_speed(self):
