@@ -84,6 +84,8 @@ class DisplayObstacle:
             self.__obstacleList.append(selected_obstacle)
             
             prev_obstacle_spawn_time = current_time 
+
+            
             #print("Generated", (obstacle_list[random_index].get_name(), obstacle_list[random_index].get_speed()), "At:", obstacle_pos_x, obstacle_pos_y)
             #print( [(obstacle.get_name(), obstacle.get_speed()) for obstacle in self.get_obstacle_list()])
         return prev_obstacle_spawn_time
@@ -102,7 +104,7 @@ class DisplayObstacle:
             
 
             # updating the current position of the obstacle and drawing the obstacle at new position
-            #obstacle.set_rect(x, y)
+            obstacle.set_rect(x, y)
             self.draw_obstacle(x, y, obstacle)
 
             
@@ -112,7 +114,7 @@ class DisplayObstacle:
                 self.__obstacleList.pop(0)
     
 
-    def tumbleweed_math_func(self, current_x):
+    def tumbleweed_math_func(self, t):
         screen_width, screen_height = pygame.display.get_surface().get_size()
        
         #if (400 <= current_x and current_x <= 800):
@@ -124,7 +126,7 @@ class DisplayObstacle:
         #r = 100
         #output = math.sqrt(r**2 - ((current_x - 2 *r) % (2*r)) - r)** 2 - 9400
         #output = -1/75*(current_x-800)*(current_x - 400)
-        output = screen_height - 50000*math.fabs(math.fabs(-(current_x -  (799))**(-1)*math.sin(1/50*current_x))) - 50
+        output = screen_height - 50000*math.fabs(math.fabs(-(t -  (799))**(-1)*math.sin(1/50*t))) - 50
         return output 
 
 
