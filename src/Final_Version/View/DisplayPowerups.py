@@ -60,3 +60,5 @@ class DisplayPowerups():
         for element in self.powerups_displayed:
             self.draw_powerups(element)
             element.update()
+            if element.get_rect().right < 0:
+                self.powerups_displayed.remove(element)
