@@ -25,10 +25,12 @@ class PlaySound:
     #  @param powerup pygame.mixer.sound
     def __init__(self, sound_list):
         self.__bg_sound = sound_list[0]
-        self.__jump_sound = sound_list[1]
-        self.__duck_sound = sound_list[2]
-        self.__collision_sound = sound_list[3]
+        self.__game_over = sound_list[1]
+        self.__jump_sound = sound_list[2]
+        self.__duck_sound = sound_list[3]
+        self.__collision_sound = sound_list[5]
         self.__powerup_sound = sound_list[4]
+
 
         self.__SOUND_EFFECT_VOL = 0.25
     ## @brief Play the background music on repeat
@@ -39,6 +41,11 @@ class PlaySound:
     ## @brief Stop all audio in the queue
     def stop_music(self):
         pygame.mixer.music.stop()
+
+    ## @brief Play the jump sound effect once
+    def play_game_over_sound(self):
+        self.__jump_sound.set_volume(self.__SOUND_EFFECT_VOL)
+        self.__game_over.play()
 
     ## @brief Play the jump sound effect once
     def play_jump_sound(self):
