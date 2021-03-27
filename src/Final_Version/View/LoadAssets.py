@@ -87,7 +87,7 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)
-        image = pygame.image.load('../assets/powerups3.jpg')
+        image = pygame.image.load('../assets/slo_mo.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         powerups_list.append(image)

@@ -77,12 +77,12 @@ class DisplayObstacle:
         current_time = time.time()
         # If the current time from when the last obstacle was spawned someone between 3 and 5 second
         if (current_time - prev_obstacle_spawn_time > random_time and current_time != prev_obstacle_spawn_time):
-            self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, obstacle_list[random_index])
+
             selected_obstacle = obstacle_list[random_index]
             new_obstacle = Obstacle.Obstacle(selected_obstacle.get_name(), selected_obstacle.get_width(), selected_obstacle.get_height(), selected_obstacle.get_speed(), selected_obstacle.get_img())
 
-            self.__obstacleList.append(selected_obstacle)
-            
+            self.__obstacleList.append(new_obstacle)
+            self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, new_obstacle) 
             prev_obstacle_spawn_time = current_time 
 
             
@@ -110,8 +110,8 @@ class DisplayObstacle:
             
             # if obstacle is well beyond the screen window, then remove from obstacle_list
             if x < -100:
-                #self.remove_obstacle(obstacle)
-                self.__obstacleList.pop(0)
+                self.remove_obstacle(obstacle)
+                #self.__obstacleList.pop(0)
     
 
     def tumbleweed_math_func(self, t):
