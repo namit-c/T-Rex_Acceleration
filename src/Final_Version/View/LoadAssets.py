@@ -35,7 +35,8 @@ class LoadAssets():
     #  @exception Exception IllegalArguementException
     def load_character(self):
         char_list = []
-        image = pygame.image.load('../assets/character.png')
+        # Loading images for the running character
+        image = [pygame.image.load('../assets/R1.png'), pygame.image.load('../assets/R2.png'), pygame.image.load('../assets/R3.png')]
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)

@@ -36,8 +36,12 @@ class Character(pygame.sprite.Sprite):
         if(screen is None or char_img is None):
             raise Exception("IllegalArgumentException")
         self.screen = screen
-        self.image = pygame.transform.scale(char_img, Character.NORMAL_SIZE)
-        self.rect = self.image.get_rect()
+        # MADE THE IMAGE INTO A LIST; NEED TO CHANGE ALL THE IMAGE 
+        self.image = []
+        for img_num in range(len(char_img)):
+            self.image.append(pygame.transform.scale(char_img[img_num], Character.NORMAL_SIZE))
+        self.rect = self.image[0].get_rect()
+        # ------------------------------------------------------------
         self.screen_rect = screen.get_rect()
         self.rect.left = self.screen_rect.left + Character.X_OFFSET
         self.rect.bottom = self.screen_rect.bottom - Character.Y_OFFSET
@@ -57,8 +61,9 @@ class Character(pygame.sprite.Sprite):
 
     ## @brief getter, get the image of the character
     #  @return return the image of the character  
-    def get_img(self):
-        return self.image
+    def get_img(self, img_num):
+        # Changed so the image retured is a one of the images in the list
+        return self.image[img_num//15]
 
     ## @brief change the image of the character
     #  @param new_img new img to set the current image to
@@ -67,9 +72,15 @@ class Character(pygame.sprite.Sprite):
     #  @exception Exception IllegalArguementException 
     def set_img(self, new_img, bot, left):
         if(new_img is None):
-            raise Exception("IllegalArgumentException")        
-        self.image = pygame.transform.scale(new_img, Character.NORMAL_SIZE)
-        self.rect = self.image.get_rect()
+            raise Exception("IllegalArgumentException")
+        # For the moving character ---- NOT YET WORKING PROPERLY
+        if not isinstance(new_img, list):
+            self.image[0] = pygame.transform.scale(new_img, Character.NORMAL_SIZE)
+        else:
+            for img_num in range(len(self.image)):
+                self.image[img_num] = pygame.transform.scale(new_img[img_num], Character.NORMAL_SIZE)
+        self.rect = self.image[0].get_rect()
+         # ----------------------------------------------------------------
         self.rect.bottom = bot
         self.rect.left = left
 
@@ -80,9 +91,16 @@ class Character(pygame.sprite.Sprite):
     #  @exception Exception IllegalArguementException     
     def set_ducking_img(self, new_img, bot, left):
         if(new_img is None):
-            raise Exception("IllegalArgumentException")       
-        self.image = pygame.transform.scale(new_img, Character.DUCKING_SIZE)
-        self.rect = self.image.get_rect()
+            raise Exception("IllegalArgumentException")
+        # For the moving character ---- NOT YET WORKING PROPERLY
+        if not isinstance(new_img, list):
+            self.image[0] = pygame.transform.scale(new_img, Character.DUCKING_SIZE)
+        else:
+            for img_num in range(len(self.image)):
+                self.image[img_num] = pygame.transform.scale(new_img[img_num], Character.DUCKING_SIZE)
+        self.rect = self.image[0].get_rect()
+         # ----------------------------------------------------------------
+        self.rect = self.image[0].get_rect()
         self.rect.bottom = bot
         self.rect.left = left 
 
@@ -212,8 +230,10 @@ class Character(pygame.sprite.Sprite):
         return self.__jumping_limit
 
     def reset(self, char_img):
-        self.image = pygame.transform.scale(char_img, Character.NORMAL_SIZE)
-        self.rect = self.image.get_rect()
+        self.image = char_img
+        for img_num in range(len(char_img)):
+            self.image[img_num] = pygame.transform.scale(char_img[img_num], Character.NORMAL_SIZE)
+        self.rect = self.image[0].get_rect()
         self.rect.left = self.screen_rect.left + Character.X_OFFSET
         self.rect.bottom = self.screen_rect.bottom - Character.Y_OFFSET
         self.is_ducking = False

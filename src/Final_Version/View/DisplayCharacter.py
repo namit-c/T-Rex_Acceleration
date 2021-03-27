@@ -19,8 +19,12 @@ class DisplayCharacter():
     def __init__(self, window, character):
         self.game_screen = window
         self.game_character = character
+        self.__steps = 0
 
     ## @brief draw the character onto the screen
     def draw_character(self):
-        self.game_screen.blit(self.game_character.get_img(), self.game_character.get_rect())
+        if self.__steps >= 45:
+            self.__steps = 0
+        self.game_screen.blit(self.game_character.get_img(self.__steps), self.game_character.get_rect())
+        self.__steps += 1
         pygame.draw.rect(self.game_screen, (255,0,0), self.game_character.get_rect(), 2)
