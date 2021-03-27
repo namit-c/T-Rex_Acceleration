@@ -98,6 +98,8 @@ class DisplayObstacle:
             
             obstacle_pos = obstacle.get_pos() #returns [x,y] 
             x = obstacle_pos[0]
+            if obstacle.get_name() == "Obstacle-4":
+                x -= 0.3 * obstacle.get_speed()
             x -= obstacle.get_speed()
 
             y = obstacle_pos[1] # y position of obstacle doesn't change
@@ -126,7 +128,7 @@ class DisplayObstacle:
         #r = 100
         #output = math.sqrt(r**2 - ((current_x - 2 *r) % (2*r)) - r)** 2 - 9400
         #output = -1/75*(current_x-800)*(current_x - 400)
-        output = screen_height - 50000*math.fabs(math.fabs(-(t -  (799))**(-1)*math.sin(1/50*t))) - 50
+        output = screen_height - 100000*math.fabs(math.fabs(-(t -  (799))**(-1)*math.sin(1/100*t))) - 90
         return output 
 
 
