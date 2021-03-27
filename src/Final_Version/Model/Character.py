@@ -119,7 +119,6 @@ class Character(pygame.sprite.Sprite):
     #  @param ducking_img new image to show the jumping
     #  @exception Exception IllegalArguementException 
     def jump(self, inv_jumping_char, jumping_img):
-        print("jump call")
         if(inv_jumping_char is None or jumping_img is None):
             raise Exception("IllegalArgumentException")
         if self.is_jumping == False and self.is_ducking == False:
@@ -141,7 +140,6 @@ class Character(pygame.sprite.Sprite):
     #  @param inv_char new image to show invincibility of the character
     #  @exception Exception IllegalArguementException 
     def invincible(self, inv_char):
-        print("powerup")
         if(inv_char is None):
             raise Exception("IllegalArgumentException")
         self.__time = pygame.time.get_ticks()
@@ -158,7 +156,6 @@ class Character(pygame.sprite.Sprite):
     ## @brief allow the character to do double jump
     #  @param char_img the image of double_jumping status
     def double_jump(self, char_img):
-        print("powerup")
         self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = True
@@ -173,7 +170,6 @@ class Character(pygame.sprite.Sprite):
     ## @brief allow the character to slow the obstacles and powerups down
     #  @param char_img the image of slo_mo status
     def slo_mo(self,char_img):
-        print("powerup")
         self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = False
@@ -194,7 +190,6 @@ class Character(pygame.sprite.Sprite):
     #  @exception Exception IllegalArguementException 
     def update(self, char_img):
         if self.is_jumping:
-            print("gravity")
             self.movement[1] += Character.GRAVITY
         self.rect = self.rect.move(self.movement)   
         self.checkbounds()

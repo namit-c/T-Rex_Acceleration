@@ -201,6 +201,7 @@ class GameController():
             # Detect collision (powerups)
             powerups_taken = DetectCollision.find_collision(self.__character, display_powerups.get_powerups_list())
             if powerups_taken:
+                self.__play_sound.play_powerup_sound()
                 if powerups_taken.get_name() == 0:
                     self.__character.invincible(self.__load_character[2])
                 elif powerups_taken.get_name() == 1:
@@ -217,12 +218,14 @@ class GameController():
             #print(is_obstacle_collision)
             if (is_obstacle_collision != None and not self.__character.is_invincible):
                 running = False
+                self.__play_sound.play_game_over_sound()
                 self.__menu_controller.end_menu(current_score, self.__score_count.get_score() ,self.__end_menu_img)
                 self.__score_count.reset_score()
                 self.__game_speed = 10
                 self.__character.reset(self.__load_character[0])
             elif (is_obstacle_collision != None and self.__character.is_invincible): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
+                self.__play_sound.play_collision_sound()
             
             self.increase_game_speed()
             pygame.display.update()

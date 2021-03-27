@@ -136,19 +136,23 @@ class LoadAssets():
         if bg_sound is None:
             raise Exception("IllegalArgumentException")
         sound_list.append(bg_sound)
-        jump_sound = pygame.mixer.Sound('../assets/game_over.wav') #
+        jump_sound = pygame.mixer.Sound('../assets/game_over.wav') 
         if jump_sound is None:
             raise Exception("IllegalArgumentException")
         sound_list.append(jump_sound)
-        duck_sound = pygame.mixer.Sound('../assets/jumping_2.wav')
+        duck_sound = pygame.mixer.Sound('../assets/jump.wav')
         if duck_sound is None:
             raise Exception("IllegalArgumentException")
         sound_list.append(duck_sound)
-        collision_sound = pygame.mixer.Sound('../assets/jumping_2.wav')
+        collision_sound = pygame.mixer.Sound('../assets/duck.wav')
         if collision_sound is None:
             raise Exception("IllegalArgumentException")
         sound_list.append(collision_sound)
-        powerup_sound = pygame.mixer.Sound('../assets/jumping_2.wav')
+        powerup_sound = pygame.mixer.Sound('../assets/obtain_powerups.wav')
+        if powerup_sound is None:
+            raise Exception("IllegalArgumentException")
+        sound_list.append(powerup_sound)
+        powerup_sound = pygame.mixer.Sound('../assets/breaking_obstacle.wav')
         if powerup_sound is None:
             raise Exception("IllegalArgumentException")
         sound_list.append(powerup_sound)
