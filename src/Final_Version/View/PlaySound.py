@@ -33,9 +33,23 @@ class PlaySound:
 
 
         self.__SOUND_EFFECT_VOL = 0.25
+        self.__BACKGROUND_VOL = 0.1
+
+    def set_sound_effect(self, sound_setting):
+        self.__SOUND_EFFECT_VOL = sound_setting
+
+    def get_sound_effect(self):
+        return self.__SOUND_EFFECT_VOL
+
+    def set_background(self, sound_setting):
+        self.__BACKGROUND_VOL = sound_setting
+
+    def get_background(self):
+        return self.__BACKGROUND_VOL
+
     ## @brief Play the background music on repeat
     def play_bg_music(self):
-        self.__bg_sound.set_volume(0.1)
+        self.__bg_sound.set_volume(self.__BACKGROUND_VOL)
         self.__bg_sound.play(-1)
 
     ## @brief Stop all audio in the queue

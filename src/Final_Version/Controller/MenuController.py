@@ -16,7 +16,15 @@ class MenuController:
     def __init__(self, window):
         self.__display_menu = DisplayMenu.DisplayMenu(window)
         
-    
+    def setting_menu(self, play_sound):
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+            self.__display_menu.display_setting_menu(play_sound)
+            pygame.display.update()
+
     def end_menu(self, current_score, high_score, img):
         running = True
         while running:
