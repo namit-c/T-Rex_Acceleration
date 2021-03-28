@@ -16,13 +16,30 @@ class MenuController:
     def __init__(self, window):
         self.__display_menu = DisplayMenu.DisplayMenu(window)
         
-    def setting_menu(self, play_sound):
+    def setting_menu(self, play_sound, setting_menu_img):
         running = True
+
+        current_background = play_sound.get_background()
+        current_sound_effect = play_sound.get_sound_effect()
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
-            self.__display_menu.display_setting_menu(play_sound)
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_s:
+                        play_sound.set_sound_effect(current_sound_effect)
+                        play_sound.set_background(current_background)
+
+                        print(play_sound.get_sound_effect(), play_sound.get_background())
+                        pygame.mixer.stop()
+                        play_sound.play_bg_music()
+                    
+                    elif event.key == pygame.K_q:
+                        running = False
+
+            current_sound_effect, current_background = self.__display_menu.display_setting_menu(play_sound, current_sound_effect, current_background, setting_menu_img)
+
             pygame.display.update()
 
     def end_menu(self, current_score, high_score, img):

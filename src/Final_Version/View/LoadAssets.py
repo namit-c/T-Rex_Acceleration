@@ -126,6 +126,14 @@ class LoadAssets():
             raise Exception("IllegalArgumentException")
         return image  
 
+    ## @brief load the setting menu image
+    # @return pygame.image containing the setting menu image 
+    #  @exception Exception IllegalArguementException 
+    def load_settting_menu(self):
+        image = pygame.image.load('../assets/setting_menu.png')
+        if image is None:
+            raise Exception("IllegalArgumentException")
+        return image  
 
     ## @brief load all sound effects 
     #  @return return a sequency of pygame.mixer
