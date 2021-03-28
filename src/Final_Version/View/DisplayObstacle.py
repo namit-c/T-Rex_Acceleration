@@ -22,17 +22,17 @@ class DisplayObstacle:
     #  @param game_window pygame.display
     def __init__(self, game_window):
         self.__game_screen = game_window
-        self.__obstacleList = list()
+        self.__obstacle_list = pygame.sprite.Group()
 
     ## @brief get the list of obstacles
     #  @return returns the list of obstacles
     def get_obstacle_list(self):
-        return self.__obstacleList
+        return self.__obstacle_list
 
     ## @brief remove a obstacle from the obstacle list
     #  @param obstacle obstacle type
     def remove_obstacle(self, obstacle):
-        self.__obstacleList.remove(obstacle)
+        self.__obstacle_list.remove(obstacle)
     
     ## @brief drawing the obstacle onto the screen at a specific location
     #  @param current_x x position for obstacle to be drawn at
@@ -49,7 +49,6 @@ class DisplayObstacle:
         obstacle.set_rect(current_x, current_y)
         #obstacle.set_img(obstacleImg)
         self.__game_screen.blit(obstacleImg, (current_x, current_y - obstacle.get_height())) #bug with rect 
-
         # TESTING PURPOSES: draw rectangle border
         pygame.draw.rect(self.__game_screen, (255,0,0), obstacle.get_rect(), 2)
 
@@ -69,7 +68,7 @@ class DisplayObstacle:
     #  @param obstacle_pos_y y position to draw obstacle on screen
     #  @param obstacle_list list of obstacle objects
     #  @param prev_obstacle_spawn_time Keeping track of when the last obstacle was generated
-    def generate_obstacle(self, obstacle_pos_x, obstacle_pos_y, obstacle_list, prev_obstacle_spawn_time):
+    def generate_obstacle(self, obstacle_pos_x, obstacle_pos_y, obstacle_list, prev_obstacle_spawn_time, powerups_list):
         random_index = randint(0, len(obstacle_list) - 1)
 
         random_time = 2 + (random() * (4 - 2))
@@ -80,10 +79,13 @@ class DisplayObstacle:
 
             selected_obstacle = obstacle_list[random_index]
             new_obstacle = Obstacle.Obstacle(selected_obstacle.get_name(), selected_obstacle.get_width(), selected_obstacle.get_height(), selected_obstacle.get_speed(), selected_obstacle.get_img())
-
-            self.__obstacleList.append(new_obstacle)
-            self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, new_obstacle) 
-            prev_obstacle_spawn_time = current_time 
+            
+            overlapping = DetectCollision.find_collision(new_obstacle, powerups_list)
+            print(overlapping)
+            if not overlapping:
+                self.__obstacle_list.add(new_obstacle)
+                self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, new_obstacle) 
+                prev_obstacle_spawn_time = current_time 
 
             
             #print("Generated", (obstacle_list[random_index].get_name(), obstacle_list[random_index].get_speed()), "At:", obstacle_pos_x, obstacle_pos_y)
@@ -103,7 +105,6 @@ class DisplayObstacle:
             x -= obstacle.get_speed()
 
             y = obstacle_pos[1] # y position of obstacle doesn't change
-            
 
             # updating the current position of the obstacle and drawing the obstacle at new position
             obstacle.set_rect(x, y)

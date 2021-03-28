@@ -99,8 +99,10 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.left = x
         self.rect.bottom = y 
 
+    def set_rect2(self, new_rect):
+        self.rect = new_rect
+        
     ## @brief get the current x and y position of the rectangle of obstacle
     #  @return return a list of 2 elements [x,y] of the x and y positions of the rectangle
     def get_pos(self):
         return [self.rect.left, self.rect.bottom]
-

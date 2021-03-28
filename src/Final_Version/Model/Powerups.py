@@ -105,6 +105,7 @@ class Powerups(pygame.sprite.Sprite):
     def update(self):
         self.rect = self.rect.move([self.speed,0])
 
+
 # static method, generate a random number between 0 and 3
 def random_name():
     i = random.randint(0,3)

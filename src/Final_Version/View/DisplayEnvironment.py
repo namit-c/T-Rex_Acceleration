@@ -74,3 +74,5 @@ class DisplayEnvironment():
             self.__game_screen.blit(background, (0,0))
     
 
+    def draw_powerup(self, t):
+        self.display_msg("Time Remaining: " + str(t),(100,200))

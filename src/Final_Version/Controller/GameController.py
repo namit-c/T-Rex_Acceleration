@@ -74,6 +74,8 @@ class GameController():
         self.__obstacle_pos_y = 500
 
         self.__is_paused = False
+
+        self.__powerups_instruction = [False, 0]
     ## Method that checks the user input
     def check_user_input(self, game_start_time):
         for event in pygame.event.get():
@@ -132,6 +134,8 @@ class GameController():
                 display_environment.draw_instruction(instructions)
             display_environment.draw_score(self.__score_count.get_current_score(), clock)
 
+            if self.__powerups_instruction[0] and time() - self.__powerups_instruction[1] < 5:
+                display_environment.draw_powerup(round(5 - time() + self.__powerups_instruction[1]))
             # Drawing character
             display_character.draw_character()
 
@@ -161,14 +165,19 @@ class GameController():
                     display_environment.draw_floor(self.__floor, self.__floor_position)
 
                     display_character.draw_character()
-                    display_powerups.update_powerups()
+                    display_powerups.update_powerups(self.__obstacle_obj_list)
                     display_obstacles.update_obstacle_display()
 
                     self.__menu_controller.resume_menu(5 - (current_time - start_time))
 
                     current_time = time()
                     pygame.display.update()
-                
+
+                print("??")
+                print(self.__powerups_instruction)
+                if self.__powerups_instruction:
+                    display_environment.draw_powerup()
+
                 current_obstacle_list = display_obstacles.get_obstacle_list()
                 for i in range(len(current_obstacle_list)):
                     current_obstacle_list[i].set_speed(self.__game_speed)
@@ -192,23 +201,27 @@ class GameController():
 
             # Generate Obstacle
 
-            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time + self.__pause_time) 
+            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time + self.__pause_time, display_powerups.get_powerups_list()) 
             
             # Generate powerups
             display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list)
-
+            display_powerups.draw_powerups(display_powerups.get_powerups_list())
             # update objects
             current_score, prev_score = self.__score_count.update_score(game_start_time)
             update_environment.update_bg_colour(current_score, prev_score, bg_rgb)
             self.__character.update(self.__load_character[0])
             self.__floor_position = update_environment.update_floor(self.__floor_position, self.__game_speed)
-            display_powerups.update_powerups()
+            display_powerups.update_powerups(self.__obstacle_obj_list)
             display_obstacles.update_obstacle_display()
 
         
             # Detect collision (powerups)
             powerups_taken = DetectCollision.find_collision(self.__character, display_powerups.get_powerups_list())
             if powerups_taken:
+                if powerups_taken.get_name() < 3:
+                    self.__powerups_instruction[0] = True
+                    self.__powerups_instruction[1] = time()
+
                 self.__play_sound.play_powerup_sound()
                 if powerups_taken.get_name() == 0:
                     self.__character.invincible(self.__load_character[2])
@@ -238,9 +251,9 @@ class GameController():
             if (self.__pause_time > 0):
                 self.__pause_time = 0
 
-            self.increase_game_speed()
+            self.increase_game_speed(display_powerups)
             pygame.display.update()
-    def increase_game_speed(self):
+    def increase_game_speed(self, powerups):
         score = self.__score_count.get_current_score()
         #if (score != 0 and score % 50 == 0 and self.__game_speed <= 15):
         if self.__character.is_slo_mo:
@@ -250,6 +263,7 @@ class GameController():
 
         for obstacle in self.__obstacle_obj_list:
             obstacle.set_speed(self.__game_speed)
+        powerups.update_speed(-self.__game_speed)
 
 
     def main_menu(self, font):
