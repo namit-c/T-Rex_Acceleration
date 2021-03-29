@@ -71,7 +71,7 @@ class DisplayObstacle:
     def generate_obstacle(self, obstacle_pos_x, obstacle_pos_y, obstacle_list, prev_obstacle_spawn_time, powerups_list):
         random_index = randint(0, len(obstacle_list) - 1)
 
-        random_time = 2 + (random() * (4 - 2))
+        random_time = 1 + (random() * (4 - 1))
 
         current_time = time.time()
         # If the current time from when the last obstacle was spawned someone between 3 and 5 second

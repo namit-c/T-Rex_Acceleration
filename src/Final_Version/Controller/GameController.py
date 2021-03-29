@@ -120,7 +120,7 @@ class GameController():
         display_environment = DisplayEnvironment.DisplayEnvironment(self.__game_screen)
         display_powerups = DisplayPowerups.DisplayPowerups(self.__game_screen)
         display_character = DisplayCharacter.DisplayCharacter(self.__game_screen, self.__character)
-        instructions = "To play: Jump is Up Arrow, Duck is Down Arrow"
+        instructions = "UP: Jump\n DOWN: Duck"
         update_environment = UpdateEnvironment.UpdateEnvironment()
         
         obstacle_spawn_time = time() 
@@ -131,7 +131,7 @@ class GameController():
             # Drawing environment elements
             display_environment.draw_background(self.__background, bg_rgb)
             display_environment.draw_floor(self.__floor, self.__floor_position)
-            if(time() - instruction_time <= 5):
+            if(time() - instruction_time <= 7):
                 display_environment.draw_instruction(instructions)
             display_environment.draw_score(self.__score_count.get_current_score(), clock)
 
@@ -179,8 +179,8 @@ class GameController():
  
 
                 current_obstacle_list = display_obstacles.get_obstacle_list()
-                for i in range(len(current_obstacle_list)):
-                    current_obstacle_list[i].set_speed(self.__game_speed)
+                for element in current_obstacle_list:
+                    element.set_speed(self.__game_speed)
 
                 for i in range(len(self.__obstacle_obj_list)):
                     self.__obstacle_obj_list[i].set_speed(self.__game_speed)
@@ -200,8 +200,9 @@ class GameController():
                 running = False
 
             # Generate Obstacle
-
-            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time + self.__pause_time, display_powerups.get_powerups_list()) 
+            
+            if (self.__is_paused == False):
+                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time, display_powerups.get_powerups_list()) 
             
             # Generate powerups
             display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list, obstacle_spawn_time)
