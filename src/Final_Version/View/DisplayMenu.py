@@ -28,8 +28,6 @@ class DisplayMenu():
     def display_pause_menu(self, pause_menu_img):
         self.__game_screen.blit(pause_menu_img, (0,0))
 
-
-
     ## Method used to display the end menu on the screen
     # @param end_menu_img : the image of the end menu
     def display_end_menu(self, current_score, high_score, end_menu_img):
@@ -66,6 +64,7 @@ class DisplayMenu():
                 else:
                     current_sound = 0.0
                 time.sleep(0.3)
+
         textFont = pygame.font.SysFont('arial', 50)
         self.__game_screen.blit(textFont.render("Sound Effect Volume:", True, (0,0,0)), ((button1_sound_effect[0]+button2_sound_effect[0])/2 - 100, 275))
         self.__game_screen.blit(textFont.render(str(round(current_sound*100)), True, (0,0,0)), ((button1_sound_effect[0]+button2_sound_effect[0] - 30)/2, 375))
@@ -74,16 +73,16 @@ class DisplayMenu():
         current_background = initial_background 
         if (button_sound_action != None):
             if (button_sound_action == "+"):
-                if (current_background + 0.1 <= 1.0):
-                    current_background = current_background + 0.1
+                if (current_background + 0.05 <= 1.0):
+                    current_background = current_background + 0.05
                     #play_sound.set_sound_effect(current_sound + 0.25)
                 else:
                     current_background = 1.0
                     #play_sound.set_sound_effect(1.0)
                 time.sleep(0.3)
             elif (button_sound_action == "-"):
-                if (current_background - 0.1 >= 0.0): 
-                    current_background = current_background - 0.1
+                if (current_background - 0.05 >= 0.0): 
+                    current_background = current_background - 0.05
                 else:
                     current_background = 0.0
 
@@ -100,13 +99,13 @@ class DisplayMenu():
         mouse_clicked = pygame.mouse.get_pressed()
 
 
-        if button1_pos[0] - 50 < mouse_position[0] and mouse_position[0] < button1_pos[1] + 50 and button1_pos[1] - 50 < mouse_position[1] and mouse_position[1] < button1_pos[1] + 50:
+        if button1_pos[0] < mouse_position[0] and mouse_position[0] < button1_pos[0] + 100 and button1_pos[1] < mouse_position[1] and mouse_position[1] < button1_pos[1] + 100:
           if mouse_clicked[0] == 1:
               return "-"
           #pygame.draw.rect(screen, (255, 255, 255),(215,327,70,30))
 
           # the quit button
-        if  button2_pos[0] - 50 < mouse_position[0] and mouse_position[0] < button2_pos[0] + 50 and button2_pos[1] - 50 < mouse_position[1] and mouse_position[1] < button2_pos[1] + 50:
+        if  button2_pos[0]  < mouse_position[0] and mouse_position[0] < button2_pos[0] + 100 and button2_pos[1]  < mouse_position[1] and mouse_position[1] < button2_pos[1] + 100:
           if mouse_clicked[0] == 1:
               return "+"
 

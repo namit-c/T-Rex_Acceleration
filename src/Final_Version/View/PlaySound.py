@@ -33,7 +33,7 @@ class PlaySound:
 
 
         self.__SOUND_EFFECT_VOL = 0.25
-        self.__BACKGROUND_VOL = 0.1
+        self.__BACKGROUND_VOL = 0.05
 
     def set_sound_effect(self, sound_setting):
         self.__SOUND_EFFECT_VOL = sound_setting
