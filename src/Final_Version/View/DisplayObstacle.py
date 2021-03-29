@@ -81,7 +81,6 @@ class DisplayObstacle:
             new_obstacle = Obstacle.Obstacle(selected_obstacle.get_name(), selected_obstacle.get_width(), selected_obstacle.get_height(), selected_obstacle.get_speed(), selected_obstacle.get_img())
             
             overlapping = DetectCollision.find_collision(new_obstacle, powerups_list)
-            print(overlapping)
             if not overlapping:
                 self.__obstacle_list.add(new_obstacle)
                 self.draw_obstacle(obstacle_pos_x, obstacle_pos_y, new_obstacle) 

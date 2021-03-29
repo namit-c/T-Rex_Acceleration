@@ -76,7 +76,7 @@ class GameController():
 
         self.__is_paused = False
 
-        self.__powerups_instruction = [False, 0]
+        self.__powerups_instruction = 0
     ## Method that checks the user input
     def check_user_input(self, game_start_time):
         for event in pygame.event.get():
@@ -135,8 +135,8 @@ class GameController():
                 display_environment.draw_instruction(instructions)
             display_environment.draw_score(self.__score_count.get_current_score(), clock)
 
-            if self.__powerups_instruction[0] and time() - self.__powerups_instruction[1] < 5:
-                display_environment.draw_powerup(round(5 - time() + self.__powerups_instruction[1]))
+            if self.__character.is_powered() and time() - self.__powerups_instruction < 5:
+                display_environment.draw_powerup(round(5 - time() + self.__powerups_instruction))
             # Drawing character
             display_character.draw_character()
 
@@ -174,10 +174,9 @@ class GameController():
                     current_time = time()
                     pygame.display.update()
 
-                print("??")
-                print(self.__powerups_instruction)
-                if self.__powerups_instruction:
-                    display_environment.draw_powerup()
+                    if self.__character.is_powered() and time() - self.__powerups_instruction < 5:
+                        display_environment.draw_powerup(round(5 - time() + self.__powerups_instruction))
+ 
 
                 current_obstacle_list = display_obstacles.get_obstacle_list()
                 for i in range(len(current_obstacle_list)):
@@ -220,8 +219,7 @@ class GameController():
             powerups_taken = DetectCollision.find_collision(self.__character, display_powerups.get_powerups_list())
             if powerups_taken:
                 if powerups_taken.get_name() < 3:
-                    self.__powerups_instruction[0] = True
-                    self.__powerups_instruction[1] = time()
+                    self.__powerups_instruction = time()
 
                 self.__play_sound.play_powerup_sound()
                 if powerups_taken.get_name() == 0:
