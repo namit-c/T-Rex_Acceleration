@@ -19,7 +19,7 @@ from time import *
 #  and powerups related properties like is_invincible. It also contains some necessary methods like duck and jump
 class Character(pygame.sprite.Sprite):
 
-    NORMAL_SIZE = (75,75)
+    NORMAL_SIZE = (75,65)
     DUCKING_SIZE = (85,35)
     X_OFFSET = 99
     Y_OFFSET = 80
@@ -63,7 +63,7 @@ class Character(pygame.sprite.Sprite):
     #  @return return the image of the character  
     def get_img(self, img_num):
         # Changed so the image retured is a one of the images in the list
-        return self.image[img_num//15]
+        return self.image[img_num//6]
 
     ## @brief change the image of the character
     #  @param new_img new img to set the current image to
@@ -230,9 +230,9 @@ class Character(pygame.sprite.Sprite):
         return self.__jumping_limit
 
     def reset(self, char_img):
-        self.image = char_img
+        self.image = []
         for img_num in range(len(char_img)):
-            self.image[img_num] = pygame.transform.scale(char_img[img_num], Character.NORMAL_SIZE)
+           self.image.append(pygame.transform.scale(char_img[img_num], Character.NORMAL_SIZE))
         self.rect = self.image[0].get_rect()
         self.rect.left = self.screen_rect.left + Character.X_OFFSET
         self.rect.bottom = self.screen_rect.bottom - Character.Y_OFFSET
