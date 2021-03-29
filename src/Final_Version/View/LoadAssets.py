@@ -42,11 +42,7 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)
-        image = pygame.image.load('../assets/character_jump.png')
-        if image is None:
-            raise Exception("IllegalArgumentException")
-        char_list.append(image)
-        image = pygame.image.load('../assets/character.gif')
+        image = pygame.image.load('../assets/character_jumping.png')
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)

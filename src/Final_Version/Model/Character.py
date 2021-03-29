@@ -21,8 +21,8 @@ class Character(pygame.sprite.Sprite):
 
     NORMAL_SIZE = (75,65)
     DUCKING_SIZE = (85,35)
-    X_OFFSET = 99
-    Y_OFFSET = 80
+    X_OFFSET = 100
+    Y_OFFSET = 99
     JUMPING_SPEED = -20
     DOUBLEJUMPING_SPEED = -20
     GRAVITY = 1
@@ -100,7 +100,6 @@ class Character(pygame.sprite.Sprite):
                 self.image[img_num] = pygame.transform.scale(new_img[img_num], Character.DUCKING_SIZE)
         self.rect = self.image[0].get_rect()
          # ----------------------------------------------------------------
-        self.rect = self.image[0].get_rect()
         self.rect.bottom = bot
         self.rect.left = left 
 
@@ -108,40 +107,38 @@ class Character(pygame.sprite.Sprite):
     #  @param ducking_img new image to show the ducking
     #  @param inv_ducking_img new image to show the ducking, invincible version
     #  @exception Exception IllegalArguementException     
-    def duck(self, char_img, inv_img):
-        if(char_img is None or inv_img is None):
+    def duck(self, char_img):
+        if(char_img is None):
             raise Exception("IllegalArgumentException")
         if self.is_jumping == False:
             self.is_ducking = True
-            if self.is_invincible == False:
-                self.set_ducking_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
-            else: 
-                self.set_ducking_img(inv_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
-
+            self.set_ducking_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+           
     ## @brief make the character stand up after ducking 
     #  @param inv_char new image to show the character, invincible version
     #  @param char_img new image to show the character
     #  @exception Exception IllegalArguementException 
-    def stand(self, inv_char, char_img):
-        if(inv_char is None or char_img is None):
+    def stand(self, char_img):
+        if(char_img is None):
             raise Exception("IllegalArgumentException")
         if self.is_jumping == False:
             self.is_ducking = False
-            if self.is_invincible == False:
-                self.set_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
-            else:
-                self.set_img(inv_char, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
-
+            self.set_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+   
     ## @brief make the character jump
     #  @param inv_ducking_img new image to show the jumping, invincible version
     #  @param ducking_img new image to show the jumping
     #  @exception Exception IllegalArguementException 
-    def jump(self, inv_jumping_char, jumping_img):
-        if(inv_jumping_char is None or jumping_img is None):
+    def jump(self, jumping_img):
+        if(jumping_img is None):
             raise Exception("IllegalArgumentException")
         if self.is_jumping == False and self.is_ducking == False:
             self.is_jumping = True
             self.movement[1] = Character.JUMPING_SPEED
+            self.image = [pygame.transform.scale(jumping_img, Character.NORMAL_SIZE)] * 8
+            self.rect = self.image[0].get_rect()
+            self.rect.bottom = self.screen_rect.bottom - Character.Y_OFFSET
+            self.rect.left = self.screen_rect.left + Character.X_OFFSET
             self.__jumping_limit += 1
         if self.is_double_jumping == True and self.is_jumping == True and self.__jumping_limit < 3:
             self.__jumping_limit += 1
@@ -149,55 +146,38 @@ class Character(pygame.sprite.Sprite):
 
     ## @brief private method, reset the character if it is back to ground
     def checkbounds(self):
-        if self.rect.bottom > self.screen_rect.bottom - Character.X_OFFSET:
-            self.rect.bottom = self.screen_rect.bottom - Character.X_OFFSET
+        if self.rect.bottom > self.screen_rect.bottom - Character.Y_OFFSET:
+            self.rect.bottom = self.screen_rect.bottom - Character.Y_OFFSET
             self.is_jumping = False
             self.__jumping_limit = 0
-
+                
     ## @brief make the character invincible
     #  @param inv_char new image to show invincibility of the character
     #  @exception Exception IllegalArguementException 
-    def invincible(self, inv_char):
-        if(inv_char is None):
-            raise Exception("IllegalArgumentException")
+    def invincible(self):
         self.__time = pygame.time.get_ticks()
         self.is_invincible = True
         self.is_double_jumping = False
         self.is_slo_mo = False
-        left = self.rect.left
-        bottom = self.rect.bottom
-        if self.is_ducking:
-            self.set_ducking_img(inv_char, bottom, left)
-        else:
-            self.set_img(inv_char, bottom, left)         
+        
 
     ## @brief allow the character to do double jump
     #  @param char_img the image of double_jumping status
-    def double_jump(self, char_img):
+    def double_jump(self):
         self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = True
         self.is_slo_mo = False
-        left = self.rect.left
-        bottom = self.rect.bottom
-        if self.is_ducking:
-            self.set_ducking_img(char_img, bottom, left)
-        else:
-            self.set_img(char_img, bottom, left)          
+         
 
     ## @brief allow the character to slow the obstacles and powerups down
     #  @param char_img the image of slo_mo status
-    def slo_mo(self,char_img):
+    def slo_mo(self):
         self.__time = pygame.time.get_ticks()
         self.is_invincible = False
         self.is_double_jumping = False
         self.is_slo_mo = True
-        left = self.rect.left
-        bottom = self.rect.bottom
-        if self.is_ducking:
-            self.set_ducking_img(char_img, bottom, left)
-        else:
-            self.set_img(char_img, bottom, left)
+
     ## @brief private method, check if the character gets a special ability
     #  @return return True if the character gets a special ability
     def is_powered(self):
@@ -209,22 +189,15 @@ class Character(pygame.sprite.Sprite):
     def update(self, char_img):
         if self.is_jumping:
             self.movement[1] += Character.GRAVITY
-        self.rect = self.rect.move(self.movement)   
+        self.rect = self.rect.move(self.movement)  
         self.checkbounds()
+        if not(self.is_jumping or self.is_ducking):
+            self.set_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
         if self.__time + Character.DURARION < pygame.time.get_ticks() and self.is_powered():
             self.is_invincible = False
             self.is_double_jumping = False
             self.is_slo_mo = False
-            left = self.rect.left
-            bottom = self.rect.bottom
-            if(char_img is None):
-                raise Exception("IllegalArgumentException") 
-            if not self.is_ducking:      
-                self.image[0] = char_img 
-                self.set_img(char_img, bottom, left)
-            else:
-                self.image[0] = char_img
-                self.set_ducking_img(char_img, bottom, left)
+
 
     def get_limit(self):
         return self.__jumping_limit

@@ -84,29 +84,26 @@ class GameController():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    print("DOWN")
-                    self.__character.duck(self.__load_character[0], self.__load_character[2])
+                    self.__character.duck(self.__load_character[0])
                     if self.__character.is_ducking:
                         self.__play_sound.play_duck_sound()
                 if event.key == pygame.K_UP:
-                    print("UP")
                     if not self.__character.is_jumping or (self.__character.is_double_jumping and self.__character.get_limit() < 3):
                         self.__play_sound.play_jump_sound()
-                    self.__character.jump(self.__load_character[2],self.__load_character[1])
+                    self.__character.jump(self.__load_character[1])
                 if event.key == pygame.K_p:
                     self.__is_paused = True
                     self.__pause_time = time()
                     user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
                     if (user_response == "Resume"):
                         self.__pause_time = time() - self.__pause_time
-                        print("PAUSE TIME IS ", self.__pause_time)
                         return user_response
                     elif (user_response == "Quit"):
                         return user_response
                     
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
-                    self.__character.stand(self.__load_character[2], self.__load_character[0])
+                    self.__character.stand(self.__load_character[0])
 
     ## The method that controls the flow of the game
     def game_loop(self, clock, game_start_time):
@@ -200,7 +197,7 @@ class GameController():
                 self.check_user_input(game_start_time)
                 
                 game_start_time += self.__pause_time + 5
-                print("GAME RESUMED")
+
                 
             elif(user_response == "Quit"):
                 running = False
@@ -230,11 +227,11 @@ class GameController():
 
                 self.__play_sound.play_powerup_sound()
                 if powerups_taken.get_name() == 0:
-                    self.__character.invincible(self.__load_character[2])
+                    self.__character.invincible()
                 elif powerups_taken.get_name() == 1:
-                    self.__character.double_jump(self.__load_character[0])
+                    self.__character.double_jump()
                 elif powerups_taken.get_name() == 2:
-                    self.__character.slo_mo(self.__load_character[0])
+                    self.__character.slo_mo()
                 else:
                     self.__score_count.boost()
                 display_powerups.remove_powerups(powerups_taken)
