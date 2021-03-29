@@ -220,10 +220,10 @@ class Character(pygame.sprite.Sprite):
             if(char_img is None):
                 raise Exception("IllegalArgumentException") 
             if not self.is_ducking:      
-                self.image = char_img 
+                self.image[0] = char_img 
                 self.set_img(char_img, bottom, left)
             else:
-                self.image = char_img
+                self.image[0] = char_img
                 self.set_ducking_img(char_img, bottom, left)
 
     def get_limit(self):
