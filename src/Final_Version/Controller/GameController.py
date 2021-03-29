@@ -204,7 +204,7 @@ class GameController():
             obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time + self.__pause_time, display_powerups.get_powerups_list()) 
             
             # Generate powerups
-            display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list)
+            display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list, obstacle_spawn_time)
             display_powerups.draw_powerups(display_powerups.get_powerups_list())
             # update objects
             current_score, prev_score = self.__score_count.update_score(game_start_time)

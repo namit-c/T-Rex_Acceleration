@@ -39,8 +39,10 @@ class DisplayPowerups():
 
     ## @brief randomly generate a powerup
     #  @param speed the speed of the powerup
-    def generate_powerups(self, speed, obstacles):
-        if (time.time() >= self.__generate_time + random.randint(3,5) and random.random() < 0.01):
+    def generate_powerups(self, speed, obstacles, obstacle_spawn_time):
+        current_time = time.time()
+        if (current_time >= self.__generate_time + random.randint(3,5) and current_time - obstacle_spawn_time >= 1 and random.random() < 0.01):
+            print("POWER UP GENERATED")
             overlapping = False
             new_powerups = Powerups.Powerups(self.game_screen, 65, 65, speed)
             for obstacle in obstacles:
