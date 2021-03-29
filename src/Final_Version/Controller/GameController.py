@@ -84,10 +84,12 @@ class GameController():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
+                    print("DOWN")
                     self.__character.duck(self.__load_character[0], self.__load_character[2])
                     if self.__character.is_ducking:
                         self.__play_sound.play_duck_sound()
                 if event.key == pygame.K_UP:
+                    print("UP")
                     if not self.__character.is_jumping or (self.__character.is_double_jumping and self.__character.get_limit() < 3):
                         self.__play_sound.play_jump_sound()
                     self.__character.jump(self.__load_character[2],self.__load_character[1])
@@ -146,7 +148,9 @@ class GameController():
             powerup_speed_list = None
             
             start_time = None
+            self.__is_resume = False
             if (user_response == "Resume"):
+                self.__is_resume = True
                 start_time = time()
                 for obstacle in display_obstacles.get_obstacle_list() :
                     obstacle.set_speed(0)
@@ -161,7 +165,13 @@ class GameController():
                 
                 current_time = time()
                 while (current_time - start_time <= 5):
-                    #self.__menu_controller.resume_menu()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            sys.exit()
+                        elif event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_DOWN:
+                                pass
+
                     display_environment.draw_background(self.__background, bg_rgb)
                     display_environment.draw_floor(self.__floor, self.__floor_position)
 
@@ -192,8 +202,7 @@ class GameController():
                     index += 1
                 
                 game_start_time += self.__pause_time + 5
-                
-                self.__is_paused = False
+                self.__is_resume = False 
 
                 
             elif(user_response == "Quit"):
@@ -201,8 +210,8 @@ class GameController():
 
             # Generate Obstacle
             
-            if (self.__is_paused == False):
-                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time, display_powerups.get_powerups_list()) 
+            if (self.__is_paused == False and self.__is_resume == False):
+                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time , display_powerups.get_powerups_list()) 
             
             # Generate powerups
             display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list, obstacle_spawn_time)
@@ -250,6 +259,7 @@ class GameController():
             
             if (self.__pause_time > 0):
                 self.__pause_time = 0
+                self.__is_paused = False
 
             self.increase_game_speed(display_powerups)
             pygame.display.update()
