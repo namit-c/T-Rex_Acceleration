@@ -36,7 +36,9 @@ class LoadAssets():
     def load_character(self):
         char_list = []
         # Loading images for the running character
-        image = [pygame.image.load('../assets/R1.png'), pygame.image.load('../assets/R2.png'), pygame.image.load('../assets/R3.png')]
+        image = [pygame.image.load('../assets/R1.png'), pygame.image.load('../assets/R2.png'), pygame.image.load('../assets/R3.png'),\
+            pygame.image.load('../assets/R4.png'), pygame.image.load('../assets/R5.png'), pygame.image.load('../assets/R6.png'),\
+                pygame.image.load('../assets/R7.png'), pygame.image.load('../assets/R8.png')]
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)
