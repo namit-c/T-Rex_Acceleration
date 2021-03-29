@@ -197,6 +197,9 @@ class GameController():
                 self.check_user_input(game_start_time)
                 
                 game_start_time += self.__pause_time + 5
+                
+                # Updating obstacle_spawn time to prevent another obstacle spawning immediately
+                obstacle_spawn_time = time() - 1.5
 
                 
             elif(user_response == "Quit"):
