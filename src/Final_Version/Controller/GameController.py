@@ -71,7 +71,7 @@ class GameController():
         self.__floor_position = 0
         self.__background = assets.load_background()
         self.__score_count = Score.Score()
-        self.__obstacle_pos_x = 900
+        self.__obstacle_pos_x = 1000
         self.__obstacle_pos_y = 500
 
         self.__is_paused = False
@@ -99,6 +99,7 @@ class GameController():
                     user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
                     if (user_response == "Resume"):
                         self.__pause_time = time() - self.__pause_time
+                        print("PAUSE TIME IS ", self.__pause_time)
                         return user_response
                     elif (user_response == "Quit"):
                         return user_response
@@ -144,11 +145,8 @@ class GameController():
 
             # Check user inputs
             user_response = self.check_user_input(game_start_time)
-            obstacle_speed_list = None
-            powerup_speed_list = None
             
             start_time = None
-            self.__is_resume = False
             if (user_response == "Resume"):
                 self.__is_resume = True
                 start_time = time()
@@ -196,22 +194,21 @@ class GameController():
                     self.__obstacle_obj_list[i].set_speed(self.__game_speed)
 
                 current_powerup_list = display_powerups.get_powerups_list()
-                index = 0
                 for element in current_powerup_list:
-                    element.set_speed(powerup_speed_list[index])
-                    index += 1
+                    element.set_speed(self.__game_speed)
+
+                self.check_user_input(game_start_time)
                 
                 game_start_time += self.__pause_time + 5
-                self.__is_resume = False 
-
+                print("GAME RESUMED")
                 
             elif(user_response == "Quit"):
                 running = False
 
             # Generate Obstacle
             
-            if (self.__is_paused == False and self.__is_resume == False):
-                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time , display_powerups.get_powerups_list()) 
+            if (self.__is_paused == False):
+                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time,display_powerups.get_powerups_list()) 
             
             # Generate powerups
             display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list, obstacle_spawn_time)
@@ -257,7 +254,7 @@ class GameController():
                 display_obstacles.remove_obstacle(is_obstacle_collision)
                 self.__play_sound.play_collision_sound()
             
-            if (self.__pause_time > 0):
+            if (self.__is_paused == True):
                 self.__pause_time = 0
                 self.__is_paused = False
 
