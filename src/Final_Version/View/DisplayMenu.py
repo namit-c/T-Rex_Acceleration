@@ -35,6 +35,11 @@ class DisplayMenu():
         self.display_msg(str(current_score), (350, 220))
         self.display_msg(str(high_score), (350, 350))
     
+    ## Method used to display the instructions menu on the screen
+    # @param instruction_menu_img : the image of the instructions menu
+    def display_instruction_menu(self, instruction_menu_img):
+        self.__game_screen.blit(instruction_menu_img, (0,0))
+
     ## Method used to display the setting menu on the screen
     # @param setting_menu_img : the image of the main menu
     def display_setting_menu(self, play_sound, initial_sound_effect, initial_background, setting_menu_img):
