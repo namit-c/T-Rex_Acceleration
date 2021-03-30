@@ -46,6 +46,10 @@ class LoadAssets():
         if image is None:
             raise Exception("IllegalArgumentException")
         char_list.append(image)
+        image = pygame.image.load('../assets/duck.png')
+        if image is None:
+            raise Exception("IllegalArgumentException")
+        char_list.append(image)
         return char_list 
 
     ## @brief load images of all obstacles 

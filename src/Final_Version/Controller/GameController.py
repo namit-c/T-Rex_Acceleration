@@ -85,7 +85,7 @@ class GameController():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    self.__character.duck(self.__load_character[0])
+                    self.__character.duck(self.__load_character[2])
                     if self.__character.is_ducking:
                         self.__play_sound.play_duck_sound()
                 if event.key == pygame.K_UP:

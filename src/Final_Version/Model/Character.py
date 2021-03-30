@@ -20,7 +20,7 @@ from time import *
 class Character(pygame.sprite.Sprite):
 
     NORMAL_SIZE = (75,65)
-    DUCKING_SIZE = (85,35)
+    DUCKING_SIZE = (85,40)
     X_OFFSET = 100
     Y_OFFSET = 99
     JUMPING_SPEED = -20
@@ -112,7 +112,11 @@ class Character(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         if self.is_jumping == False:
             self.is_ducking = True
-            self.set_ducking_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
+            self.image = [pygame.transform.scale(char_img, Character.DUCKING_SIZE)] * 8
+            self.rect = self.image[0].get_rect()
+            self.rect.bottom = self.screen_rect.bottom - Character.Y_OFFSET
+            self.rect.left = self.screen_rect.left + Character.X_OFFSET
+            #self.set_ducking_img(char_img, self.screen_rect.bottom - Character.Y_OFFSET, self.screen_rect.left + Character.X_OFFSET)
            
     ## @brief make the character stand up after ducking 
     #  @param inv_char new image to show the character, invincible version
