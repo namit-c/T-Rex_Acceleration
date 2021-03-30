@@ -27,7 +27,7 @@ class MenuController:
                 if event.type == pygame.QUIT:
                     sys.exit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s:
+                    if event.key == pygame.K_c:
                         play_sound.set_sound_effect(current_sound_effect)
                         play_sound.set_background(current_background)
 
@@ -35,7 +35,7 @@ class MenuController:
                         pygame.mixer.stop()
                         play_sound.play_bg_music()
                     
-                    elif event.key == pygame.K_q:
+                    elif event.key == pygame.K_b:
                         running = False
 
             current_sound_effect, current_background = self.__display_menu.display_setting_menu(play_sound, current_sound_effect, current_background, setting_menu_img)
