@@ -71,7 +71,7 @@ class GameController():
         self.__floor_position = 0
         self.__background = assets.load_background()
         self.__score_count = Score.Score()
-        self.__obstacle_pos_x = 1000
+        self.__obstacle_pos_x = 900
         self.__obstacle_pos_y = 500
 
         self.__is_paused = False
@@ -199,7 +199,7 @@ class GameController():
                 game_start_time += self.__pause_time + 5
                 
                 # Updating obstacle_spawn time to prevent another obstacle spawning immediately
-                obstacle_spawn_time = time() - 1.5
+                obstacle_spawn_time = time() 
 
                 
             elif(user_response == "Quit"):
