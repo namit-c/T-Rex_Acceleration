@@ -136,7 +136,7 @@ class LoadAssets():
     ## @brief load the instructions menu image
     # @return pygame.image containing the instructions menu image 
     #  @exception Exception IllegalArguementException 
-    def load_settting_menu(self):
+    def load_instruction_menu(self):
         image = pygame.image.load('../assets/instruction_screen.png')
         if image is None:
             raise Exception("IllegalArgumentException")
