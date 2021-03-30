@@ -35,13 +35,12 @@ class GameController():
     ## Contructor to initialize the necessary state variables
     def __init__(self):
         screen = DisplayWindow.DisplayWindow()    # Making a DisplayWindow object
-        assets = LoadAssets.LoadAssets()       # Making a LoadAssets object
         self.__game_screen = screen.get_game_screen()   # Assigning the game display
-        self.__obstacle_img = assets.load_all_obstacles()
+        self.__obstacle_img = LoadAssets.load_all_obstacles()
         #self.__powerup_list = pygame.sprite.Group()
-        self.__sound_list = assets.load_sound()
+        self.__sound_list = LoadAssets.load_sound()
         self.__game_speed = 10
-        self.__load_character = assets.load_character()
+        self.__load_character = LoadAssets.load_character()
         self.__character = Character.Character(self.__game_screen, self.__load_character[0])
       
         self.__obstacle_obj_list = list()
@@ -57,20 +56,20 @@ class GameController():
         self.__pause_time = 0 
 
         # Load Menu
-        self.__main_menu_img = assets.load_main_menu()
-        self.__pause_menu_img = assets.load_pause_menu()
-        self.__end_menu_img = assets.load_end_menu()
-        self.__setting_menu_img = assets.load_settting_menu()
-        self.__instruction_menu_img = assets.load_instruction_menu()
+        self.__main_menu_img = LoadAssets.load_main_menu()
+        self.__pause_menu_img = LoadAssets.load_pause_menu()
+        self.__end_menu_img = LoadAssets.load_end_menu()
+        self.__setting_menu_img = LoadAssets.load_settting_menu()
+        self.__instruction_menu_img = LoadAssets.load_instruction_menu()
         # background music 
 
         self.__play_sound.play_bg_music()
         
 
         #####---------------
-        self.__floor = assets.load_floor()
+        self.__floor = LoadAssets.load_floor()
         self.__floor_position = 0
-        self.__background = assets.load_background()
+        self.__background = LoadAssets.load_background()
         self.__score_count = Score.Score()
         self.__obstacle_pos_x = 900
         self.__obstacle_pos_y = 500
