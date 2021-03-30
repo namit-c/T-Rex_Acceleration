@@ -61,6 +61,7 @@ class GameController():
         self.__pause_menu_img = assets.load_pause_menu()
         self.__end_menu_img = assets.load_end_menu()
         self.__setting_menu_img = assets.load_settting_menu()
+        self.__instruction_menu_img = assets.load_instruction_menu()
         # background music 
 
         self.__play_sound.play_bg_music()
@@ -289,6 +290,8 @@ class GameController():
                         running = False
                     elif event.key == pygame.K_s:
                         self.__menu_controller.setting_menu(self.__play_sound, self.__setting_menu_img)
+                    elif event.key == pygame.K_h:
+                        self.__menu_controller.instruction_menu(self.__instruction_menu_img)
 
 
             display_menu = DisplayMenu.DisplayMenu(self.__game_screen)

@@ -133,6 +133,15 @@ class LoadAssets():
             raise Exception("IllegalArgumentException")
         return image  
 
+    ## @brief load the instructions menu image
+    # @return pygame.image containing the instructions menu image 
+    #  @exception Exception IllegalArguementException 
+    def load_instruction_menu(self):
+        image = pygame.image.load('../assets/instruction_screen.png')
+        if image is None:
+            raise Exception("IllegalArgumentException")
+        return image  
+
     ## @brief load all sound effects 
     #  @return return a sequency of pygame.mixer
     #  @exception Exception IllegalArguementException

@@ -42,6 +42,19 @@ class MenuController:
 
             pygame.display.update()
 
+    ## @brief method responsible for the instructions game screen
+    def instruction_menu(self, instruction_menu_img):
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_b:
+                        running = False
+            self.__display_menu.display_instruction_menu(instruction_menu_img)
+            pygame.display.update()
+
     def end_menu(self, current_score, high_score, img):
         running = True
         while running:
