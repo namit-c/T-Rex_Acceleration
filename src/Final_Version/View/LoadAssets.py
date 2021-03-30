@@ -13,7 +13,7 @@ import pygame
 ## @brief Loads floor image
 #  @return a pygame.iamge of the floor/platform image
 #  @exception Exception IllegalArguementException
-def load_floor(self):
+def load_floor():
     image = pygame.image.load('../assets/floor.png')
     if image is None:
         raise Exception("IllegalArgumentException")
@@ -22,7 +22,7 @@ def load_floor(self):
 ## @brief Loads background image
 #  @return a pygame.iamge of the background image
 #  @exception Exception IllegalArguementException    
-def load_background(self):
+def load_background():
     image = pygame.image.load('../assets/background.png')
     image = image
     if image is None:
@@ -32,7 +32,7 @@ def load_background(self):
 ## @brief Loads character images 
 #  @return a sequence of pygame.image of the charcter images performing different actions
 #  @exception Exception IllegalArguementException
-def load_character(self):
+def load_character():
     char_list = []
     # Loading images for the running character
     image = [pygame.image.load('../assets/R1.png'), pygame.image.load('../assets/R2.png'), pygame.image.load('../assets/R3.png'),\
@@ -54,7 +54,7 @@ def load_character(self):
 ## @brief Loads images of all obstacles 
 #  @return a sequence of pygame.image of all types of obstacles images
 #  @exception Exception IllegalArguementException
-def load_all_obstacles(self):
+def load_all_obstacles():
     obstacle_list = []
     image = pygame.image.load('../assets/obstacle1.png')
     image = pygame.transform.scale(image, (70,100))
@@ -79,7 +79,7 @@ def load_all_obstacles(self):
 ## @brief Loads images of all powerups 
 #  @return a sequence of pygame.image of all types of powerups images
 #  @exception Exception IllegalArguementException
-def load_all_powerups(self):
+def load_all_powerups():
     powerups_list = []
     image = pygame.image.load('../assets/invicibility_powerup.png')
     if image is None:
@@ -102,7 +102,7 @@ def load_all_powerups(self):
 ## @brief Loads the image of main menu 
 #  @return a pygame.image of the main menu image
 #  @exception Exception IllegalArguementException
-def load_main_menu(self):
+def load_main_menu():
     image = pygame.image.load('../assets/mainmenu.png')
     if image is None:
         raise Exception("IllegalArgumentException")
@@ -111,7 +111,7 @@ def load_main_menu(self):
 ## @brief Loads the pause menu image
 # @return pygame.image containing the pause menu image
 #  @exception Exception IllegalArguementException
-def load_pause_menu(self):
+def load_pause_menu():
     image = pygame.image.load('../assets/pausemenu.png')
     if image is None:
         raise Exception("IllegalArgumentException")
@@ -120,7 +120,7 @@ def load_pause_menu(self):
 ## @brief Loads the end menu image
 # @return pygame.image containing the end menu image 
 #  @exception Exception IllegalArguementException 
-def load_end_menu(self):
+def load_end_menu():
     image = pygame.image.load('../assets/endmenu.png')
     if image is None:
         raise Exception("IllegalArgumentException")
@@ -129,7 +129,7 @@ def load_end_menu(self):
 ## @brief Loads the setting menu image
 # @return pygame.image containing the setting menu image 
 #  @exception Exception IllegalArguementException 
-def load_settting_menu(self):
+def load_settting_menu():
     image = pygame.image.load('../assets/setting_menu.png')
     if image is None:
         raise Exception("IllegalArgumentException")
@@ -138,7 +138,7 @@ def load_settting_menu(self):
 ## @brief Loads the instructions menu image
 # @return pygame.image containing the instructions menu image 
 #  @exception Exception IllegalArguementException 
-def load_instruction_menu(self):
+def load_instruction_menu():
     image = pygame.image.load('../assets/instruction_screen.png')
     if image is None:
         raise Exception("IllegalArgumentException")
@@ -147,7 +147,7 @@ def load_instruction_menu(self):
 ## @brief Loads all sound effects 
 #  @return a sequence of pygame.mixer containing different sound effects and background music
 #  @exception Exception IllegalArguementException
-def load_sound(self):
+def load_sound():
     sound_list = []
     pygame.mixer.init()
     bg_sound = pygame.mixer.Sound('../assets/bg_music.wav') 
