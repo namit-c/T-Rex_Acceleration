@@ -32,7 +32,7 @@ class PlaySound:
         self.__powerup_sound = sound_list[4]
 
 
-        self.__SOUND_EFFECT_VOL = 0.25
+        self.__SOUND_EFFECT_VOL = 0.2
         self.__BACKGROUND_VOL = 0.05
 
     def set_sound_effect(self, sound_setting):
@@ -58,7 +58,7 @@ class PlaySound:
 
     ## @brief Play the jump sound effect once
     def play_game_over_sound(self):
-        self.__jump_sound.set_volume(self.__SOUND_EFFECT_VOL)
+        self.__game_over.set_volume(self.__SOUND_EFFECT_VOL)
         self.__game_over.play()
 
     ## @brief Play the jump sound effect once

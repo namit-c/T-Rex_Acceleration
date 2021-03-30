@@ -56,16 +56,16 @@ class DisplayMenu():
         current_sound = initial_sound_effect 
         if (button_sound_action != None):
             if (button_sound_action == "+"):
-                if (current_sound + 0.25 <= 1.0):
-                    current_sound = current_sound + 0.25
+                if (current_sound + 0.2 <= 1.0):
+                    current_sound = current_sound + 0.1
                     #play_sound.set_sound_effect(current_sound + 0.25)
                 else:
                     current_sound = 1.0
                     #play_sound.set_sound_effect(1.0)
                 time.sleep(0.3)
             elif (button_sound_action == "-"):
-                if (current_sound - 0.25 >= 0.0): 
-                    current_sound = current_sound - 0.25
+                if (current_sound - 0.2 >= 0.0): 
+                    current_sound = current_sound - 0.1
                 else:
                     current_sound = 0.0
                 time.sleep(0.3)
