@@ -247,6 +247,7 @@ class GameController():
                     self.__character.double_jump()
                 elif powerups_taken.get_name() == 2:
                     self.__character.slo_mo()
+                    self.increase_game_speed(display_powerups)
                 else:
                     self.__score_count.boost()
                 display_powerups.remove_powerups(powerups_taken)
