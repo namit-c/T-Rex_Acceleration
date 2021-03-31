@@ -23,7 +23,7 @@ class Score():
         self.__BOOST = 0
 
     # @brief Method that updates the current score
-    # @param start_time : the time the current game starts
+    # @param start_time the time the current game starts
     # @return the current and previous score after the score has been updated
     def update_score(self, start_time):
         self.__previous_score = self.__current_score
