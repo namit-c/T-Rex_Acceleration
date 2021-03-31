@@ -21,6 +21,9 @@ class Score():
         self.__previous_score = 0
         self.__SCALE_FACTOR = 5
         self.__BOOST = 0
+        
+        # Constant for the score boost
+        self.__SCORE_BOOST_VAL = 100
 
     ## @brief Method that updates the current score
     # @param start_time the time the current game starts
@@ -29,7 +32,7 @@ class Score():
         self.__previous_score = self.__current_score
         
         # Updating the current score based on current time and scale factor
-        self.__current_score = round((time()-start_time) * self.__SCALE_FACTOR  + self.__BOOST*100)
+        self.__current_score = round((time()-start_time) * self.__SCALE_FACTOR  + self.__BOOST*self.__SCORE_BOOST_VAL)
 
         # Updating the high score if the current score is greater
         if self.__current_score > self.__high_score:

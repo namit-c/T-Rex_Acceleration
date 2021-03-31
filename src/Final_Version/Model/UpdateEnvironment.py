@@ -13,11 +13,6 @@ from random import randint
 ## This class is used to update the position of the floor and the colour of the 
 #  background
 class UpdateEnvironment():
-
-    ## Defining constants for the boundaries of the position
-
-    # The left most position the floor can be drawn
-    BOUNDARY_LEFT = -800
     
     # Values of the red, blue, and green field
     RED = 0
@@ -27,12 +22,14 @@ class UpdateEnvironment():
     # Max rbg value
     MAX_RGB = 255
 
-    # value to change the rbg values of the background by
-    CHANGE_BG = 50
+    # Constants regarding the change the rbg values of the background
+    CHANGE_BG_INTERVAL = 50
+    CHANGE_BG_VAL = 50
+
 
     def __init__ (self):
         pass
-
+        
     # @brief Method that updates the left most position of the floor
     # @param floor_position : an integer that represents the x-axis value of the
     # left most position of the floor
@@ -56,12 +53,12 @@ class UpdateEnvironment():
     # @return the rbg values of the next background colour
     def update_bg_colour(self, current_score, previous_score, bg_rgb):
         # Check whether the score has updated, is a multiple of 50, and is not 0
-        if (round(previous_score) != round(current_score) and round(current_score) % 50 == 0 and round(current_score) != 0):
+        if (round(previous_score) != round(current_score) and round(current_score) % UpdateEnvironment.CHANGE_BG_INTERVAL == 0 and round(current_score) != 0):
             randomRGBChange = randint(1,3)      # Randomly select which value to change
             if (randomRGBChange == 1):
-                bg_rgb[UpdateEnvironment.RED] = (bg_rgb[UpdateEnvironment.RED] + UpdateEnvironment.CHANGE_BG) % UpdateEnvironment.MAX_RGB  # Increment value of red
+                bg_rgb[UpdateEnvironment.RED] = (bg_rgb[UpdateEnvironment.RED] + UpdateEnvironment.CHANGE_BG_VAL) % UpdateEnvironment.MAX_RGB  # Increment value of red
             elif (randomRGBChange == 2):
-                bg_rgb[UpdateEnvironment.GREEN] = (bg_rgb[UpdateEnvironment.GREEN] + UpdateEnvironment.CHANGE_BG) % UpdateEnvironment.MAX_RGB  # Increment value of blue
+                bg_rgb[UpdateEnvironment.GREEN] = (bg_rgb[UpdateEnvironment.GREEN] + UpdateEnvironment.CHANGE_BG_VAL) % UpdateEnvironment.MAX_RGB  # Increment value of blue
             else:
-                bg_rgb[UpdateEnvironment.BLUE] = (bg_rgb[UpdateEnvironment.BLUE] + UpdateEnvironment.CHANGE_BG) % UpdateEnvironment.MAX_RGB  # Increment value of green
+                bg_rgb[UpdateEnvironment.BLUE] = (bg_rgb[UpdateEnvironment.BLUE] + UpdateEnvironment.CHANGE_BG_VAL) % UpdateEnvironment.MAX_RGB  # Increment value of green
         return bg_rgb
