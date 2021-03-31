@@ -13,16 +13,12 @@ import pygame
 ##
 # @file PlaySound.py
 # @brief This class is responsible for maintaining several properties several audio queues in the 
-#        game
+# game
 
 class PlaySound:
 
     ## @brief Contructor for PlaySound
-    #  @param background pygame.mixer.Sound
-    #  @param jump pygame.mixer.sound
-    #  @param duck pygame.mixer.sound
-    #  @param collision pygame.mixer.sound
-    #  @param powerup pygame.mixer.sound
+    #  @param sound_list a list containing all the game sounds
     def __init__(self, sound_list):
         self.__bg_sound = sound_list[0]
         self.__game_over = sound_list[1]
@@ -31,19 +27,27 @@ class PlaySound:
         self.__collision_sound = sound_list[5]
         self.__powerup_sound = sound_list[4]
 
-
+        ## Setting the initial volumes for the background music and sound effects
         self.__SOUND_EFFECT_VOL = 0.2
         self.__BACKGROUND_VOL = 0.05
 
+    ## @brief Changes the volume of the sound effets
+    #  @param sound_setting the new volume for the sound effects
     def set_sound_effect(self, sound_setting):
         self.__SOUND_EFFECT_VOL = sound_setting
 
+    ## @brief Gets the volume of the sound effets
+    #  @return the volume of the sound effects
     def get_sound_effect(self):
         return self.__SOUND_EFFECT_VOL
 
+    ## @brief Changes the volume of the background music
+    #  @param sound_setting the new volume for the background music
     def set_background(self, sound_setting):
         self.__BACKGROUND_VOL = sound_setting
 
+    ## @brief Gets the volume of the background music
+    #  @return the volume of the background music
     def get_background(self):
         return self.__BACKGROUND_VOL
 
@@ -52,11 +56,11 @@ class PlaySound:
         self.__bg_sound.set_volume(self.__BACKGROUND_VOL)
         self.__bg_sound.play(-1)
 
-    ## @brief Stop all audio in the queue
+    ## @brief Stops all audio in the queue
     def stop_music(self):
         pygame.mixer.music.stop()
 
-    ## @brief Play the jump sound effect once
+    ## @brief Play the game over sound effect once
     def play_game_over_sound(self):
         self.__game_over.set_volume(self.__SOUND_EFFECT_VOL)
         self.__game_over.play()
