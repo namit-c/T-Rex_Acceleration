@@ -28,6 +28,7 @@ class Character(pygame.sprite.Sprite):
     DURARION = 5
     IMAGE_SELECTOR = 6
     DOUBLE_JUMPING_LIMIT = 2
+    RESUME_TIME = 5
 
     ## @brief Constructor for Character class
     #  @param screen screen on which the character is shown
@@ -52,15 +53,9 @@ class Character(pygame.sprite.Sprite):
         self.__is_slo_mo = False
         self.__movement = [0,0]
         self.__jumping_limit = 0
-        self.__time = 0
-
+        self.__obtain_powerup_time = 0
         self.__pause_start = 0
         self.__pause_duration = 0
-
-    def pause(self):
-        self.__pause_start = time()
-    def resume(self):
-        self.__pause_duration += time() + 5 - self.__pause_start
 
     ## @brief Getter, get the rect of the character
     #  @return the rect of the character  
@@ -78,18 +73,15 @@ class Character(pygame.sprite.Sprite):
     #  @param bot the bottom position of the image
     #  @param lefg the left position of the image
     #  @exception Exception IllegalArguementException 
-
     def set_img(self, new_img, bot, left):
         if(new_img is None):
             raise Exception("IllegalArgumentException")
-        # For the moving character ---- NOT YET WORKING PROPERLY
         if not isinstance(new_img, list):
             self.__image[0] = pygame.transform.scale(new_img, Character.NORMAL_SIZE)
         else:
             for img_num in range(len(self.__image)):
                 self.__image[img_num] = pygame.transform.scale(new_img[img_num], Character.NORMAL_SIZE)
         self.rect = self.__image[0].get_rect()
-         # ----------------------------------------------------------------
         self.rect.bottom = bot
         self.rect.left = left
 
@@ -108,13 +100,11 @@ class Character(pygame.sprite.Sprite):
             for img_num in range(len(self.image)):
                 self.image[img_num] = pygame.transform.scale(new_img[img_num], Character.DUCKING_SIZE)
         self.rect = self.image[0].get_rect()
-         # ----------------------------------------------------------------
         self.rect.bottom = bot
         self.rect.left = left 
 
     ## @brief Make the character duck 
     #  @param ducking_img new image to show the ducking
-    #  @param inv_ducking_img new image to show the ducking, invincible version
     #  @exception Exception IllegalArguementException     
     def duck(self, char_img):
         if(char_img is None):
@@ -132,7 +122,6 @@ class Character(pygame.sprite.Sprite):
         return self.__is_ducking    
 
     ## @brief Make the character stand up after ducking 
-    #  @param inv_char new image to show the character, invincible version
     #  @param char_img new image to show the character
     #  @exception Exception IllegalArguementException 
     def stand(self, char_img):
@@ -143,8 +132,7 @@ class Character(pygame.sprite.Sprite):
             self.set_img(char_img, self.__screen_rect.bottom - Character.Y_OFFSET, self.__screen_rect.left + Character.X_OFFSET)
    
     ## @brief Make the character jump
-    #  @param inv_ducking_img new image to show the jumping, invincible version
-    #  @param ducking_img new image to show the jumping
+    #  @param jumping_img new image to show the jumping
     #  @exception Exception IllegalArguementException 
     def jump(self, jumping_img):
         if(jumping_img is None):
@@ -152,10 +140,7 @@ class Character(pygame.sprite.Sprite):
         if self.__is_jumping == False and self.__is_ducking == False:
             self.__is_jumping = True
             self.__movement[1] = Character.JUMPING_SPEED
-            self.__image = [pygame.transform.scale(jumping_img, Character.NORMAL_SIZE)] * 8
-            self.rect = self.__image[0].get_rect()
-            self.rect.bottom = self.__screen_rect.bottom - Character.Y_OFFSET
-            self.rect.left = self.__screen_rect.left + Character.X_OFFSET
+            self.set_img(jumping_img, self.__screen_rect.bottom - Character.Y_OFFSET, self.__screen_rect.left + Character.X_OFFSET)
             self.__jumping_limit += 1
         if self.__is_double_jumping == True and self.__is_jumping == True and self.__jumping_limit <= Character.DOUBLE_JUMPING_LIMIT:
             self.__jumping_limit += 1
@@ -173,11 +158,9 @@ class Character(pygame.sprite.Sprite):
             self.__is_jumping = False
             self.__jumping_limit = 0
                 
-    ## @brief Make the character invincible
-    #  @param inv_char new image to show invincibility of the character
-    #  @exception Exception IllegalArguementException 
+    ## @brief Make the character invincible, also refresh powerup time
     def invincible(self):
-        self.__time = time()
+        self.__obtain_powerup_time = time()
         self.__pause_duration = 0
         self.__is_invincible = True
         self.__is_double_jumping = False
@@ -188,10 +171,9 @@ class Character(pygame.sprite.Sprite):
     def get_invincible(self):
         return self.__is_invincible         
 
-    ## @brief Allow the character to do double jump
-    #  @param char_img the image of double_jumping status
+    ## @brief Allow the character to do double jump, also refresh powerup time
     def double_jump(self):
-        self.__time = time()
+        self.__obtain_powerup_time = time()
         self.__pause_duration = 0
         self.__is_invincible = False
         self.__is_double_jumping = True
@@ -202,10 +184,9 @@ class Character(pygame.sprite.Sprite):
     def get_double_jumping(self):
         return self.__is_double_jumping         
 
-    ## @brief Allow the character to slow the obstacles and powerups down
-    #  @param char_img the image of slo_mo status
+    ## @brief Allow the character to slow the obstacles and powerups down, also refresh powerup time
     def slo_mo(self):
-        self.__time = time()
+        self.__obtain_powerup_time = time()
         self.__pause_duration = 0
         self.__is_invincible = False
         self.__is_double_jumping = False
@@ -231,7 +212,7 @@ class Character(pygame.sprite.Sprite):
         self.checkbounds()
         if not(self.__is_jumping or self.__is_ducking):
             self.set_img(char_img, self.__screen_rect.bottom - Character.Y_OFFSET, self.__screen_rect.left + Character.X_OFFSET)
-        power_time = time() - self.__pause_duration - self.__time
+        power_time = time() - self.__pause_duration - self.__obtain_powerup_time
         if power_time > Character.DURARION and self.is_powered():
             self.__is_invincible = False
             self.__is_double_jumping = False
@@ -259,6 +240,15 @@ class Character(pygame.sprite.Sprite):
         self.__jumping_limit = 0
         self.__time = 0
 
+    ## @brief Getter, get the remaining time of the powerup
+    #  @return remaining time of the current powerup
     def get_power_time(self):
-        return time() - self.__pause_duration - self.__time
+        return time() - self.__pause_duration - self.__obtain_powerup_time
 
+    ## @brief Record the time when the player pause the game
+    def pause(self):
+        self.__pause_start = time()
+
+    ## @brief When the player resumes the game, calculate the time of the pause
+    def resume(self):
+        self.__pause_duration += time() + Character.RESUME_TIME - self.__pause_start

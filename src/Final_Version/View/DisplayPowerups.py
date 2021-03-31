@@ -51,6 +51,8 @@ class DisplayPowerups():
 
     ## @brief Randomly generate a powerup
     #  @param speed the speed of the powerup
+    #  @param obstacles list of obstacles on the screen
+    #  @param onstacle_spawn_time the spawn time of obstacles
     def generate_powerups(self, speed, obstacles, obstacle_spawn_time):
         current_time = time.time()
         if (current_time >= self.__generate_time + random.randint(DisplayPowerups.RANDOM_MIN, DisplayPowerups.RANDOM_MAX) 
@@ -72,6 +74,7 @@ class DisplayPowerups():
             self.__game_screen.blit(p.get_img(), p.get_rect())
 
     ## @brief Update the position and draw all powerups in the list
+    #  @param obstacles list of obstacles on the screen
     def update_powerups(self, obstacles):
         for element in self.__powerups_displayed:
             overlapping = DetectCollision.find_collision_powerups(element, obstacles)

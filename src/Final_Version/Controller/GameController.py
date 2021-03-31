@@ -78,8 +78,6 @@ class GameController():
         self.__obstacle_pos_y = 500
 
         self.__is_paused = False
-
-        self.__powerups_instruction = 0
     
     ## @brief Method that checks the user input
     #  @details Checks for the user input and decided the next action based on that input. This includes
@@ -210,7 +208,6 @@ class GameController():
                 
                 # Updating obstacle_spawn time to prevent another obstacle spawning immediately
                 obstacle_spawn_time = time() 
-                self.__powerups_instruction = start_time
                 self.__is_paused = False 
                 
             elif(user_response == "Quit"):
@@ -227,10 +224,7 @@ class GameController():
             # update objects
             current_score, prev_score = self.__score_count.update_score(game_start_time)
             update_environment.update_bg_colour(current_score, prev_score, bg_rgb)
-            if (start_time != None and start_time > self.__powerups_instruction):
-                self.__character.update(self.__load_character[0])
-            else:
-                self.__character.update(self.__load_character[0])
+            self.__character.update(self.__load_character[0])
             self.__floor_position = update_environment.update_floor(self.__floor_position, self.__game_speed)
             display_powerups.update_powerups(self.__obstacle_obj_list)
             display_obstacles.update_obstacle_display()
@@ -239,9 +233,6 @@ class GameController():
             # Detect collision (powerups)
             powerups_taken = DetectCollision.find_collision_powerups(self.__character, display_powerups.get_powerups_list())
             if powerups_taken:
-                if powerups_taken.get_name() < 3:
-                    self.__powerups_instruction = time()
-
                 self.__play_sound.play_powerup_sound()
                 if powerups_taken.get_name() == 0:
                     self.__character.invincible()

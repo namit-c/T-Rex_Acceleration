@@ -12,7 +12,6 @@ import sys
 import time
 ## This is a class used to control the flow at different menus
 class DisplayMenu():
-
     ## @brief Constructor used to initialize the screen where the menus will be drawn 
     # @param window the game screen, a pygame.display object, where elements are drawn
     def __init__(self, window):

@@ -11,7 +11,10 @@ import pygame
 ##
 # @file LoadAssets.py
 # @brief This is a module for loading assets involved with the game such as images and audio files.
-
+SIZE1 = (70,100)
+SIZE2 = (56, 80)
+SIZE3 = (120,100)
+SIZE4 = (60,60)
 
 ## @brief Loads floor image
 #  @return a pygame.iamge of the floor/platform image
@@ -44,7 +47,10 @@ def load_character():
     if image is None:
         raise Exception("IllegalArgumentException")
     char_list.append(image)
-    image = pygame.image.load('../assets/character_jumping.png')
+    image = [pygame.image.load('../assets/character_jumping.png'), pygame.image.load('../assets/character_jumping.png'),\
+        pygame.image.load('../assets/character_jumping.png'), pygame.image.load('../assets/character_jumping.png'),\
+        pygame.image.load('../assets/character_jumping.png'), pygame.image.load('../assets/character_jumping.png'),\
+        pygame.image.load('../assets/character_jumping.png'), pygame.image.load('../assets/character_jumping.png')]
     if image is None:
         raise Exception("IllegalArgumentException")
     char_list.append(image)
@@ -60,22 +66,19 @@ def load_character():
 def load_all_obstacles():
     obstacle_list = []
     image = pygame.image.load('../assets/obstacle1.png')
-    image = pygame.transform.scale(image, (70,100))
+    image = pygame.transform.scale(image, SIZE1)
     if image is None:
         raise Exception("IllegalArgumentException")
     obstacle_list.append(image)
-    image = pygame.transform.scale(image, (56, 80))
+    image = pygame.transform.scale(image, SIZE2)
     obstacle_list.append(image)
     image = pygame.image.load('../assets/obstacle2.png')
-    image = pygame.transform.scale(image, (120,100))
+    image = pygame.transform.scale(image, SIZE3)
     if image is None:
         raise Exception("IllegalArgumentException")
     obstacle_list.append(image)
-    
-    image = pygame.transform.scale(image, (96, 80))
-
     image = pygame.image.load('../assets/tumbleweed.png')
-    image = pygame.transform.scale(image, (60,60))
+    image = pygame.transform.scale(image, SIZE4)
     obstacle_list.append(image)
     return obstacle_list                 
 

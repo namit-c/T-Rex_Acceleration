@@ -18,6 +18,11 @@ from random import *
 import math
 
 class DisplayObstacle:
+    TW_AMP = 100000
+    TW_X_OFFSET = 799
+    TW_Y_OFFSET = 90
+    TW_FRQ = 1/100
+
     ## @brief Constructor for DisplayObstacle
     #  @param game_window pygame.display
     def __init__(self, game_window):
@@ -68,6 +73,7 @@ class DisplayObstacle:
     #  @param obstacle_pos_y y position to draw obstacle on screen
     #  @param obstacle_list list of obstacle objects
     #  @param prev_obstacle_spawn_time Keeping track of when the last obstacle was generated
+    #  @param powerups_list list of powerups on the screen
     def generate_obstacle(self, obstacle_pos_x, obstacle_pos_y, obstacle_list, prev_obstacle_spawn_time, powerups_list):
         random_index = randint(0, len(obstacle_list) - 1)
 
@@ -119,8 +125,8 @@ class DisplayObstacle:
     #  @return the calculated height of the tumbleweed based on its current horizontal (x-value) position
     def tumbleweed_math_func(self, t):
         screen_width, screen_height = pygame.display.get_surface().get_size()
-       
-        output = screen_height - 100000*math.fabs(math.fabs(-(t -  (799))**(-1)*math.sin(1/100*t))) - 90
+        output = screen_height - DisplayObstacle.TW_AMP*math.fabs((t -  DisplayObstacle.TW_X_OFFSET)**
+        (-1)*math.sin(DisplayObstacle.TW_FRQ*t)) - DisplayObstacle.TW_Y_OFFSET
         return output 
 
 
