@@ -7,7 +7,6 @@ This class is responsible for maintaining several properties and methods of the 
 """
 
 import pygame
-import time
 from time import *
 
 ##
@@ -26,7 +25,7 @@ class Character(pygame.sprite.Sprite):
     JUMPING_SPEED = -20
     DOUBLEJUMPING_SPEED = -20
     GRAVITY = 1
-    DURARION = 5000
+    DURARION = 5
     IMAGE_SELECTOR = 6
     DOUBLE_JUMPING_LIMIT = 2
 
@@ -54,6 +53,7 @@ class Character(pygame.sprite.Sprite):
         self.__movement = [0,0]
         self.__jumping_limit = 0
         self.__time = 0
+        self.__pause_time = 0
 
     ## @brief Getter, get the rect of the character
     #  @return the rect of the character  
@@ -169,8 +169,11 @@ class Character(pygame.sprite.Sprite):
     ## @brief Make the character invincible
     #  @param inv_char new image to show invincibility of the character
     #  @exception Exception IllegalArguementException 
-    def invincible(self):
-        self.__time = pygame.time.get_ticks()
+    def invincible(self, pause_time):
+       
+        self.__time = time()
+        if (pause_time > 0):
+            self.__time += pause_time + 5
         self.__is_invincible = True
         self.__is_double_jumping = False
         self.__is_slo_mo = False
@@ -183,7 +186,7 @@ class Character(pygame.sprite.Sprite):
     ## @brief Allow the character to do double jump
     #  @param char_img the image of double_jumping status
     def double_jump(self):
-        self.__time = pygame.time.get_ticks()
+        self.__time = time()
         self.__is_invincible = False
         self.__is_double_jumping = True
         self.__is_slo_mo = False
@@ -196,7 +199,7 @@ class Character(pygame.sprite.Sprite):
     ## @brief Allow the character to slow the obstacles and powerups down
     #  @param char_img the image of slo_mo status
     def slo_mo(self):
-        self.__time = pygame.time.get_ticks()
+        self.__time = time()
         self.__is_invincible = False
         self.__is_double_jumping = False
         self.__is_slo_mo = True
@@ -221,10 +224,16 @@ class Character(pygame.sprite.Sprite):
         self.checkbounds()
         if not(self.__is_jumping or self.__is_ducking):
             self.set_img(char_img, self.__screen_rect.bottom - Character.Y_OFFSET, self.__screen_rect.left + Character.X_OFFSET)
-        if self.__time + Character.DURARION < pygame.time.get_ticks() and self.is_powered():
+        if self.__time + Character.DURARION < time() - self.__pause_time and self.is_powered():
             self.__is_invincible = False
             self.__is_double_jumping = False
             self.__is_slo_mo = False
+
+    def get_pause_time(self):
+        return self.__time
+
+    def increase_pause_time(self, time):
+        self.__time =  time + 5
 
     ## @brief Getter, get the number of jumps the character made
     #  @return the number of jumops the character made
