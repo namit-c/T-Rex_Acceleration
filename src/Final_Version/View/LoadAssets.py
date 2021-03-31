@@ -8,7 +8,10 @@ This module is responsible for load all images and sounds needed for the game.
 
 import pygame
 
-## This is a module for assets loading
+##
+# @file LoadAssets.py
+# @brief This is a module for loading assets involved with the game such as images and audio files.
+
 
 ## @brief Loads floor image
 #  @return a pygame.iamge of the floor/platform image
