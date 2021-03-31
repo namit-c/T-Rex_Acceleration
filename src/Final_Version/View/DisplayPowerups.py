@@ -31,7 +31,7 @@ class DisplayPowerups():
     ## @brief Constructor of for DisplayPowerups class 
     #  @param game_screen the game screen, a pygame.display object, where powerups are drawn
     #  @exception Exception IllegalArgumentException
-    
+
     def __init__(self, game_screen):
         if (game_screen is None):
             raise Exception("IllegalArguemntException")
@@ -40,7 +40,7 @@ class DisplayPowerups():
         self.__generate_time = time.time()
 
     ## @brief Get the list of powerups on the screen
-    #  @return return the list of powerups on the screen
+    #  @return a list of powerups on the screen
     def get_powerups_list(self):
         return self.__powerups_displayed
 
