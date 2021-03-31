@@ -14,6 +14,7 @@ from random import randint
 # @file UpdateEnvironment.py
 # @brief This class is used to update the position of the floor and the colour of the 
 #  background
+
 class UpdateEnvironment():
     
     # Values of the red, blue, and green field
