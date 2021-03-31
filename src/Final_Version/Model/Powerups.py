@@ -22,6 +22,7 @@ import LoadAssets
 class Powerups(pygame.sprite.Sprite):
 
     Y_OFFSET = 100
+    TPYES = 3
         
     ## @brief Constructor for Powerups class
     #  @param screen screen on which the powerups will be shown
@@ -31,28 +32,28 @@ class Powerups(pygame.sprite.Sprite):
     def __init__(self, screen, width, height, speed):
         pygame.sprite.Sprite.__init__(self)
         self.__screen = screen 
-        self.__name = random_name()
+        self.__name = random.randint(0,Powerups.TPYES)
         self.__width = width
         self.__height = height
         assets = LoadAssets.LoadAssets()
-        self.__image = pygame.transform.scale(assets.load_all_powerups()[self.name], (width, height))
+        self.__image = pygame.transform.scale(assets.load_all_powerups()[self.__name], (width, height))
         self.rect = self.__image.get_rect()
         self.__screen_rect = screen.get_rect()
         self.rect.left = self.__screen_rect.right
         self.rect.bottom = self.__screen_rect.bottom - Powerups.Y_OFFSET 
         self.__speed = speed
 
-    ## @brief get the rect of a powerup
-    #  @return return the rect of a powerup
+    ## @brief Get the rect of a powerup
+    #  @return the rect of a powerup
     def get_rect(self):
         return self.rect
 
-    ## @brief get the width of a powerup
-    #  @return return the width of an powerup
+    ## @brief Get the width of a powerup
+    #  @return the width of an powerup
     def get_width(self):
         return self.__width
 
-    ## @brief change the width of an obstacle
+    ## @brief Change the width of an obstacle
     #  @param width new width to set the current width to
     #  @exception Exception IllegalArgumentException
     def set_width(self, new_width):
@@ -60,12 +61,12 @@ class Powerups(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         self.__width = new_width
 
-    ## @brief get the height of a powerup
-    #  @return return the height of a powerup
+    ## @brief Get the height of a powerup
+    #  @return the height of a powerup
     def get_height(self):
         return self.__height
 
-    ## @brief change the height of a powerup
+    ## @brief Change the height of a powerup
     #  @param height new height to set the current height to
     #  @exception Exception IllegalArgumentException
     def set_height(self, new_height):
@@ -73,22 +74,22 @@ class Powerups(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         self.__height = new_height
 
-    ## @brief get the speed of a powerup
-    #  @return return the speed of a powerup
+    ## @brief Get the speed of a powerup
+    #  @return the speed of a powerup
     def get_speed(self):
         return self.__speed
 
-    ## @brief change the speed of a powerup
+    ## @brief Change the speed of a powerup
     #  @param new_speed new speed to set the current speed to
     def set_speed(self, new_speed):
         self.__speed = new_speed
 
-    ## @brief get the pygame.image of powerup
-    #  @return return the pygame.image of a powerup
+    ## @brief Get the pygame.image of powerup
+    #  @return the pygame.image of a powerup
     def get_img(self):
         return self.__image
 
-    ## @brief change the pygame.image of the powerup
+    ## @brief Change the pygame.image of the powerup
     #  @param new_powerup_img new image to set the current pygame.image to
     #  @exception Exception IllegalArgument
     def set_image(self, new_powerup_img):
@@ -96,17 +97,12 @@ class Powerups(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         self.__image = new_powerup_img
 
-    ## @brief get the name(index) of the powerup
+    ## @brief Get the name(index) of the powerup
     #  @return return the index representing the name
     def get_name(self):
         return self.__name   
 
-    ## @brief update the postion of a powerup
+    ## @brief Update the postion of a powerup
     def update(self):
         self.rect = self.rect.move([self.__speed,0])
 
-
-# static method, generate a random number between 0 and 3
-def random_name():
-    i = random.randint(0,3)
-    return i
