@@ -101,9 +101,13 @@ class GameController():
                 if event.key == pygame.K_p:
                     self.__is_paused = True
                     self.__pause_time = time()
+
+                    self.__character.pause()
                     user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
                     if (user_response == "Resume"):
                         self.__pause_time = time() - self.__pause_time
+
+                        self.__character.resume()
                         return user_response
                     elif (user_response == "Quit"):
                         return user_response
@@ -146,14 +150,13 @@ class GameController():
                 display_environment.draw_instruction(instructions)
             display_environment.draw_score(self.__score_count.get_current_score(), clock)
 
-            if self.__character.is_powered() and time() - self.__powerups_instruction - self.__character.get_pause_time() < 5:
-                display_environment.draw_powerup(round(5 - time() + self.__powerups_instruction))
+            if self.__character.is_powered() and self.__character.get_power_time() < 5:
+                display_environment.draw_powerup(round(5 - self.__character.get_power_time()))
             # Drawing character
             display_character.draw_character()
 
             # Check user inputs
             user_response = self.check_user_input(game_start_time)
-            
             start_time = None
             if (user_response == "Resume"):
                 self.__is_resume = True
@@ -184,16 +187,12 @@ class GameController():
                     display_character.draw_character()
                     display_powerups.update_powerups(self.__obstacle_obj_list)
                     display_obstacles.update_obstacle_display()
-                    if self.__character.is_powered() and start_time - self.__powerups_instruction  < 5:
-                        display_environment.draw_powerup(round(5 -  (start_time - self.__powerups_instruction)))
-
+                    
                     self.__menu_controller.resume_menu(5 - (current_time - start_time))
 
                     current_time = time()
                     pygame.display.update()
   
-    
-                
                 current_obstacle_list = display_obstacles.get_obstacle_list()
                 for element in current_obstacle_list:
                     element.set_speed(self.__game_speed)
@@ -228,7 +227,10 @@ class GameController():
             # update objects
             current_score, prev_score = self.__score_count.update_score(game_start_time)
             update_environment.update_bg_colour(current_score, prev_score, bg_rgb)
-            self.__character.update(self.__load_character[0])
+            if (start_time != None and start_time > self.__powerups_instruction):
+                self.__character.update(self.__load_character[0])
+            else:
+                self.__character.update(self.__load_character[0])
             self.__floor_position = update_environment.update_floor(self.__floor_position, self.__game_speed)
             display_powerups.update_powerups(self.__obstacle_obj_list)
             display_obstacles.update_obstacle_display()
@@ -242,7 +244,7 @@ class GameController():
 
                 self.__play_sound.play_powerup_sound()
                 if powerups_taken.get_name() == 0:
-                    self.__character.invincible(self.__pause_time)
+                    self.__character.invincible()
                 elif powerups_taken.get_name() == 1:
                     self.__character.double_jump()
                 elif powerups_taken.get_name() == 2:
@@ -266,11 +268,6 @@ class GameController():
             elif (is_obstacle_collision != None and self.__character.get_invincible()): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
                 self.__play_sound.play_collision_sound()
-            
-            if (self.__is_paused == True):
-                self.__character.increase_pause_time(self.__pause_time)
-                self.__pause_time = 0
-                self.__is_paused = False
 
             self.increase_game_speed(display_powerups)
             pygame.display.update()

@@ -53,7 +53,14 @@ class Character(pygame.sprite.Sprite):
         self.__movement = [0,0]
         self.__jumping_limit = 0
         self.__time = 0
-        self.__pause_time = 0
+
+        self.__pause_start = 0
+        self.__pause_duration = 0
+
+    def pause(self):
+        self.__pause_start = time()
+    def resume(self):
+        self.__pause_duration += time() + 5 - self.__pause_start
 
     ## @brief Getter, get the rect of the character
     #  @return the rect of the character  
@@ -169,11 +176,9 @@ class Character(pygame.sprite.Sprite):
     ## @brief Make the character invincible
     #  @param inv_char new image to show invincibility of the character
     #  @exception Exception IllegalArguementException 
-    def invincible(self, pause_time):
-       
+    def invincible(self):
         self.__time = time()
-        if (pause_time > 0):
-            self.__time += pause_time + 5
+        self.__pause_duration = 0
         self.__is_invincible = True
         self.__is_double_jumping = False
         self.__is_slo_mo = False
@@ -187,6 +192,7 @@ class Character(pygame.sprite.Sprite):
     #  @param char_img the image of double_jumping status
     def double_jump(self):
         self.__time = time()
+        self.__pause_duration = 0
         self.__is_invincible = False
         self.__is_double_jumping = True
         self.__is_slo_mo = False
@@ -200,6 +206,7 @@ class Character(pygame.sprite.Sprite):
     #  @param char_img the image of slo_mo status
     def slo_mo(self):
         self.__time = time()
+        self.__pause_duration = 0
         self.__is_invincible = False
         self.__is_double_jumping = False
         self.__is_slo_mo = True
@@ -224,16 +231,11 @@ class Character(pygame.sprite.Sprite):
         self.checkbounds()
         if not(self.__is_jumping or self.__is_ducking):
             self.set_img(char_img, self.__screen_rect.bottom - Character.Y_OFFSET, self.__screen_rect.left + Character.X_OFFSET)
-        if self.__time + Character.DURARION < time() - self.__pause_time and self.is_powered():
+        power_time = time() - self.__pause_duration - self.__time
+        if power_time > Character.DURARION and self.is_powered():
             self.__is_invincible = False
             self.__is_double_jumping = False
             self.__is_slo_mo = False
-
-    def get_pause_time(self):
-        return self.__time
-
-    def increase_pause_time(self, time):
-        self.__time =  time + 5
 
     ## @brief Getter, get the number of jumps the character made
     #  @return the number of jumops the character made
@@ -257,4 +259,6 @@ class Character(pygame.sprite.Sprite):
         self.__jumping_limit = 0
         self.__time = 0
 
+    def get_power_time(self):
+        return time() - self.__pause_duration - self.__time
 
