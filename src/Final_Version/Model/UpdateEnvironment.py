@@ -10,7 +10,9 @@ the game.
 import pygame
 from random import randint
 
-## This class is used to update the position of the floor and the colour of the 
+##
+# @file UpdateEnvironment.py
+# @brief This class is used to update the position of the floor and the colour of the 
 #  background
 class UpdateEnvironment():
     

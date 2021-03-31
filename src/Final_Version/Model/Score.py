@@ -8,7 +8,10 @@ This class is responsible for the score of the player during the game session.
 
 from time import time
 
-## This is a class used to keep track of the player's score
+##
+# @file Score.py
+# @brief This is a class used to keep track of the player's score
+
 class Score():
 
     ## @brief Constructor that initializes different fields required to track the 
