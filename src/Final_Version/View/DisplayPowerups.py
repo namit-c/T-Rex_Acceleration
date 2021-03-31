@@ -14,6 +14,11 @@ sys.path.insert(1, '../Model')
 import Powerups
 import DetectCollision
 
+##
+# @file DisplayPowerups.py
+# @brief This class is responsible for maintaining all powerups on the screen  
+
+
 ## This is a class for powerups displaying
 class DisplayPowerups():
 
@@ -26,6 +31,7 @@ class DisplayPowerups():
     ## @brief Constructor of for DisplayPowerups class 
     #  @param game_screen the game screen, a pygame.display object, where powerups are drawn
     #  @exception Exception IllegalArgumentException
+
     def __init__(self, game_screen):
         if (game_screen is None):
             raise Exception("IllegalArguemntException")
@@ -34,7 +40,7 @@ class DisplayPowerups():
         self.__generate_time = time.time()
 
     ## @brief Get the list of powerups on the screen
-    #  @return return the list of powerups on the screen
+    #  @return a list of powerups on the screen
     def get_powerups_list(self):
         return self.__powerups_displayed
 
@@ -47,9 +53,11 @@ class DisplayPowerups():
     #  @param speed the speed of the powerup
     def generate_powerups(self, speed, obstacles, obstacle_spawn_time):
         current_time = time.time()
-        if (current_time >= self.__generate_time + random.randint(DisplayPowerups.RANDOM_MIN, DisplayPowerups.RANDOM_MAX) and current_time - obstacle_spawn_time >= DisplayPowerups.INTERVAL_TIME and random.random() < DisplayPowerups.RANDOMNESS):
+        if (current_time >= self.__generate_time + random.randint(DisplayPowerups.RANDOM_MIN, DisplayPowerups.RANDOM_MAX) 
+        and current_time - obstacle_spawn_time >= DisplayPowerups.INTERVAL_TIME 
+        and random.random() < DisplayPowerups.RANDOMNESS):
             overlapping = False
-            new_powerups = Powerups.Powerups(self.__game_screen, DisplayPowerups.POWERUPS_WIDTH, DisplayPowerups.POWERUPS_HEIGH  , speed)
+            new_powerups = Powerups.Powerups(self.__game_screen, DisplayPowerups.POWERUPS_WIDTH, DisplayPowerups.POWERUPS_HEIGH, speed)
             for obstacle in obstacles:
                 if DetectCollision.detect_collision(obstacle, new_powerups):
                     overlapping = True
@@ -66,7 +74,7 @@ class DisplayPowerups():
     ## @brief Update the position and draw all powerups in the list
     def update_powerups(self, obstacles):
         for element in self.__powerups_displayed:
-            overlapping = DetectCollision.find_collision(element, obstacles)
+            overlapping = DetectCollision.find_collision_powerups(element, obstacles)
             self.remove_powerups(overlapping)
             element.update()
             if element.get_rect().right < 0:
