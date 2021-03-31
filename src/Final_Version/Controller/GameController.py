@@ -223,7 +223,7 @@ class GameController():
 
         
             # Detect collision (powerups)
-            powerups_taken = DetectCollision.find_collision(self.__character, display_powerups.get_powerups_list())
+            powerups_taken = DetectCollision.find_collision_powerups(self.__character, display_powerups.get_powerups_list())
             if powerups_taken:
                 if powerups_taken.get_name() < 3:
                     self.__powerups_instruction = time()
