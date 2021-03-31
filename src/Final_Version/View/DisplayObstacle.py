@@ -25,7 +25,7 @@ class DisplayObstacle:
         self.__obstacle_list = pygame.sprite.Group()
 
     ## @brief get the list of obstacles
-    #  @return returns the list of obstacles
+    #  @return the list of obstacles
     def get_obstacle_list(self):
         return self.__obstacle_list
 
@@ -114,19 +114,12 @@ class DisplayObstacle:
                 self.remove_obstacle(obstacle)
                 #self.__obstacleList.pop(0)
     
-
+    ## @brief calculating the height calcuation (y-value) for the tumbleweed, similuating a tumble weed starting from a high point and being dropped and bouncing
+    #  @param t current horizontal (x-value) of the tumbleweed obstacle
+    #  @return the calculated height of the tumbleweed based on its current horizontal (x-value) position
     def tumbleweed_math_func(self, t):
         screen_width, screen_height = pygame.display.get_surface().get_size()
        
-        #if (400 <= current_x and current_x <= 800):
-        #    output = (-1/75)*(current_x-800)*(current_x - 400) + 500
-        #elif (200 <= current_x and current_x < 400):
-        #    output =  (-1/50)*(current_x-400)*(current_x - 200) + 500
-        #else:
-        #    output =  (-1/100)*(current_x-200)*(current_x)  + 500
-        #r = 100
-        #output = math.sqrt(r**2 - ((current_x - 2 *r) % (2*r)) - r)** 2 - 9400
-        #output = -1/75*(current_x-800)*(current_x - 400)
         output = screen_height - 100000*math.fabs(math.fabs(-(t -  (799))**(-1)*math.sin(1/100*t))) - 90
         return output 
 

@@ -47,7 +47,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.__width = width
     
     ## @brief get the height of an obstacle
-    #  @return return the height of an obstacle
+    #  @return the height of an obstacle
     def get_height(self):
         return self.__height
    
@@ -61,7 +61,7 @@ class Obstacle(pygame.sprite.Sprite):
     
 
     ## @brief get the speed of an obstacle
-    #  @return return the speed of an obstacle
+    #  @return the speed of an obstacle
     def get_speed(self):
         return self.__speed
 
@@ -74,7 +74,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.__speed = new_speed
 
     ## @brief get the pygame.image of obstacle
-    #  @return return the pygame.image of an obstacle
+    #  @return the pygame.image of an obstacle
     def get_img(self):
         return self.__img
 
@@ -100,6 +100,6 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.bottom = y 
 
     ## @brief get the current x and y position of the rectangle of obstacle
-    #  @return return a list of 2 elements [x,y] of the x and y positions of the rectangle
+    #  @return a list of 2 elements [x,y] of the x and y positions of the rectangle
     def get_pos(self):
         return [self.rect.left, self.rect.bottom]
