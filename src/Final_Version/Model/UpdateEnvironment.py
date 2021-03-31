@@ -33,7 +33,7 @@ class UpdateEnvironment():
     def __init__ (self):
         pass
 
-    ## Method that updates the left most position of the floor
+    # @brief Method that updates the left most position of the floor
     # @param floor_position : an integer that represents the x-axis value of the
     # left most position of the floor
     # @param movement_speed : an integer that represents the how much the floor moves
@@ -48,7 +48,7 @@ class UpdateEnvironment():
             return floor_position-movement_speed
 
 
-    ## Method that changes the background colour during the gameplay
+    # @brief Method that changes the background colour during the gameplay
     # @param current_score : the current score of the player; an integer
     # @param previous_score : the previous score of the player; an integer
     # @param bg_rgb : a tuple of integers that represent that current rgb (red, green,
