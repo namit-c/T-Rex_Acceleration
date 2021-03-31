@@ -28,11 +28,15 @@ import DisplayMenu
 import PlaySound
 import LoadAssets
 
+##
+# @file GameController.py
+# @brief This class is the controller class for the entire game
 
-## This class is the controller class for the entire game
 class GameController():
 
-    ## Contructor to initialize the necessary state variables
+    ## @brief Contructor that initializes the necessary state variables for the game
+    #  @details Initializes all the state variables by calling appropriate classes and their methods. This
+    #  includes game screen, images, game speed, music, and menu controller.
     def __init__(self):
         screen = DisplayWindow.DisplayWindow()    # Making a DisplayWindow object
         self.__game_screen = screen.get_game_screen()   # Assigning the game display
@@ -64,7 +68,6 @@ class GameController():
         # background music 
 
         self.__play_sound.play_bg_music()
-        
 
         #####---------------
         self.__floor = LoadAssets.load_floor()
@@ -77,7 +80,11 @@ class GameController():
         self.__is_paused = False
 
         self.__powerups_instruction = 0
-    ## Method that checks the user input
+    
+    ## @brief Method that checks the user input
+    #  @details Checks for the user input and decided the next action based on that input. This includes
+    #  game controls, inputs reciveved from menu controller, and quitting the game. 
+    #  @param game_start_time the time that current game started
     def check_user_input(self, game_start_time):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -105,7 +112,11 @@ class GameController():
                 if event.key == pygame.K_DOWN:
                     self.__character.stand(self.__load_character[0])
 
-    ## The method that controls the flow of the game
+    ## @brief The method that controls the flow of the game
+    #  @details Makes variables for all the game elements to be displayed onto the screen. Contains
+    #  a loop that continously updates the game screen based on the user input and the next state. Also 
+    #  responsible for communicating with the View and Model modules to update the view and get next state. 
+    #  @param game_start_time the time the current game started
     def game_loop(self, clock, game_start_time):
         #pygame.init()
         #clock = pygame.time.Clock()
@@ -208,7 +219,8 @@ class GameController():
             # Generate Obstacle
             
             if (self.__is_paused == False):
-                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time,display_powerups.get_powerups_list()) 
+                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, \
+                    self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time,display_powerups.get_powerups_list()) 
             
             # Generate powerups
             display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list, obstacle_spawn_time)
@@ -260,6 +272,10 @@ class GameController():
 
             self.increase_game_speed(display_powerups)
             pygame.display.update()
+
+    ## @brief increases the game speed when the score reaches a specific value. It will also update the speed of all
+    #  other obstacles and powerups.
+    #  @param powerups a list of Powerups objects
     def increase_game_speed(self, powerups):
         score = self.__score_count.get_current_score()
         #if (score != 0 and score % 50 == 0 and self.__game_speed <= 15):
@@ -272,7 +288,10 @@ class GameController():
             obstacle.set_speed(self.__game_speed)
         powerups.update_speed(-self.__game_speed)
 
-
+    ## @brief handles the control flow for the main menu, handling all the events for selecting different 
+    #  menus such as the setting menu, instruction menu. Also handles the event for the user wanting to start a game
+    #  @param font takes into the system font to be used through most parts in game session
+    #  @return return the string of the action of whether the user wants to play the game or quit 
     def main_menu(self, font):
         running = True
         while running:
@@ -302,6 +321,8 @@ class GameController():
 
             pygame.display.update()
     
+    ## @brief handles the control flow of starting the actual game session or exiting the game application. Initializes 
+    # the pygame library and sets various settings such as the clock and font for the game.
     def run_game(self):
         pygame.init()
                 
