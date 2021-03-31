@@ -85,10 +85,10 @@ class GameController():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
                     self.__character.duck(self.__load_character[2])
-                    if self.__character.is_ducking:
+                    if self.__character.get_ducking():
                         self.__play_sound.play_duck_sound()
                 if event.key == pygame.K_UP:
-                    if not self.__character.is_jumping or (self.__character.is_double_jumping and self.__character.get_limit() < 3):
+                    if not self.__character.get_jumping() or (self.__character.get_double_jumping() and self.__character.get_limit() < 3):
                         self.__play_sound.play_jump_sound()
                     self.__character.jump(self.__load_character[1])
                 if event.key == pygame.K_p:
@@ -243,14 +243,14 @@ class GameController():
             # Detect collison (obstacles)
             is_obstacle_collision = DetectCollision.find_collision_obstacle(self.__character, display_obstacles.get_obstacle_list())
             #print(is_obstacle_collision)
-            if (is_obstacle_collision != None and not self.__character.is_invincible):
+            if (is_obstacle_collision != None and not self.__character.get_invincible()):
                 running = False
                 self.__play_sound.play_game_over_sound()
                 self.__menu_controller.end_menu(current_score, self.__score_count.get_score() ,self.__end_menu_img)
                 self.__score_count.reset_score()
                 self.__game_speed = 10
                 self.__character.reset(self.__load_character[0])
-            elif (is_obstacle_collision != None and self.__character.is_invincible): 
+            elif (is_obstacle_collision != None and self.__character.get_invincible()): 
                 display_obstacles.remove_obstacle(is_obstacle_collision)
                 self.__play_sound.play_collision_sound()
             
@@ -263,7 +263,7 @@ class GameController():
     def increase_game_speed(self, powerups):
         score = self.__score_count.get_current_score()
         #if (score != 0 and score % 50 == 0 and self.__game_speed <= 15):
-        if self.__character.is_slo_mo:
+        if self.__character.get_slo_mo():
             self.__game_speed = 10
         else:
             self.__game_speed = 0.5*(score // 50) + 10
