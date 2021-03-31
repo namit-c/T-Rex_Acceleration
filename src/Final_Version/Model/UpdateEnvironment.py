@@ -25,6 +25,7 @@ class UpdateEnvironment():
     # Max rbg value
     MAX_RGB = 255
 
+    BOUNDARY_LEFT = -800
     # Constants regarding the change the rbg values of the background
     CHANGE_BG_INTERVAL = 50
     CHANGE_BG_VAL = 50
