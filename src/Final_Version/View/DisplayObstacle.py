@@ -50,7 +50,7 @@ class DisplayObstacle:
         #obstacle.set_img(obstacleImg)
         self.__game_screen.blit(obstacleImg, (current_x, current_y - obstacle.get_height())) #bug with rect 
         # TESTING PURPOSES: draw rectangle border
-        pygame.draw.rect(self.__game_screen, (255,0,0), obstacle.get_rect(), 2)
+        #pygame.draw.rect(self.__game_screen, (255,0,0), obstacle.get_rect(), 2)
 
     ## @brief display a message(string) to draw on screen 
     #  @param msg String
