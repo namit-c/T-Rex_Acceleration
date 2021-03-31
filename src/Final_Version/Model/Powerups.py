@@ -35,8 +35,7 @@ class Powerups(pygame.sprite.Sprite):
         self.__name = random.randint(0,Powerups.TPYES)
         self.__width = width
         self.__height = height
-        assets = LoadAssets()
-        self.__image = pygame.transform.scale(assets.load_all_powerups()[self.__name], (width, height))
+        self.__image = pygame.transform.scale(LoadAssets.load_all_powerups()[self.__name], (width, height))
         self.rect = self.__image.get_rect()
         self.__screen_rect = screen.get_rect()
         self.rect.left = self.__screen_rect.right
