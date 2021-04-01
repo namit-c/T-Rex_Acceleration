@@ -59,10 +59,18 @@ class DisplayMenu():
     #  @param setting_menu_img the image of the setting menu
     def display_setting_menu(self, play_sound, initial_sound_effect, initial_background, setting_menu_img):
         # Constants for the position of the buttons
-        SOUND_EFFECT_MINUS_VOL = [223, 337]
-        SOUND_EFFECT_PLUS_VOL = [385, 337]
-        BG_MUSIC_MINUS_VOL = [223, 180]
-        BG_MUSIC_PLUS_VOL = [385, 180]
+        SOUND_EFFECT_MINUS_VOL = [300, 337]
+        SOUND_EFFECT_PLUS_VOL = [450, 337]
+        BG_MUSIC_MINUS_VOL = [300, 180]
+        BG_MUSIC_PLUS_VOL = [450, 180]
+
+        # Constants for the position of volume setting number
+        SOUND_EFFECT_VOLUME = [375, 375]
+        BG_VOLUME = [375, 220]
+
+        # Constants for position of text for background and sound effect
+        SOUND_EFFECT_TEXT = [250, 285]
+        BG_TEXT = [250, 150]
 
         # Constants for indexing the lists
         WIDTH = 0
@@ -80,6 +88,7 @@ class DisplayMenu():
         DECIMAL_TO_PERCENT = 100
         
         BUTTON_SIZE = 100
+
         self.__game_screen.blit(setting_menu_img, self.__TOP_LEFT_POSITION)
         button_font = pygame.font.SysFont('arial', BUTTON_SIZE)
         
@@ -105,10 +114,9 @@ class DisplayMenu():
         # Drawing text for the sound effect volums
         TEXT_FONT_SIZE = 50
         text_font = pygame.font.SysFont('arial', TEXT_FONT_SIZE)
-        self.__game_screen.blit(text_font.render("Sound Effect Volume:", True, self.__BLACK), ((SOUND_EFFECT_MINUS_VOL[WIDTH]+\
-            SOUND_EFFECT_PLUS_VOL[WIDTH])/2 - 100, 275))
+        self.__game_screen.blit(text_font.render("Sound Effect Volume:", True, self.__BLACK), ((SOUND_EFFECT_TEXT[WIDTH], SOUND_EFFECT_TEXT[HEIGHT])))
         self.__game_screen.blit(text_font.render(str(round(current_sound*DECIMAL_TO_PERCENT)), True, self.__BLACK), \
-            ((SOUND_EFFECT_MINUS_VOL[HEIGHT]+SOUND_EFFECT_PLUS_VOL[HEIGHT] - 30)/2, 375))
+            ((SOUND_EFFECT_VOLUME[WIDTH], SOUND_EFFECT_VOLUME[HEIGHT])))
    
         # Drawing and handling input for the background music volume buttons 
         button_sound_action = self.buttons_setting(button_font, BG_MUSIC_MINUS_VOL, BG_MUSIC_PLUS_VOL)
@@ -130,10 +138,9 @@ class DisplayMenu():
 
                 time.sleep(BUTTON_REGISTER_TIME)
 
-        self.__game_screen.blit(text_font.render("Background Volume:", True, self.__BLACK), ((BG_MUSIC_MINUS_VOL[WIDTH]+BG_MUSIC_MINUS_VOL[WIDTH])/2\
-             - 100, 150))
+        self.__game_screen.blit(text_font.render("Background Volume:", True, self.__BLACK), ((BG_TEXT[WIDTH], BG_TEXT[HEIGHT])))
         self.__game_screen.blit(text_font.render(str(round(current_background*DECIMAL_TO_PERCENT)), True, self.__BLACK), \
-            ((BG_MUSIC_PLUS_VOL[WIDTH]+BG_MUSIC_PLUS_VOL[WIDTH] - 30)/2, 220 ))
+            ((BG_VOLUME[WIDTH], BG_VOLUME[HEIGHT] )))
         
         return current_sound, current_background
 
