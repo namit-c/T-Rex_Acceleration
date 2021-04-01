@@ -153,8 +153,7 @@ class GameController():
                 running = False
 
             # Generate Obstacle
-            if (self.__is_paused == False):
-                obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, \
+            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, \
                     self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time,display_powerups.get_powerups_list()) 
             
             # Generate powerups
