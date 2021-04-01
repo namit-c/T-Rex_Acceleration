@@ -36,7 +36,7 @@ class GameController():
     INIT_SPEED = 10
     MAX_SPEED = 30
     OBS_START_X = 900
-    OBS_START_Y = 500
+    OBS_START_Y = 505
     INIT_BG = [153, 255, 255]
     FONTSIZE = 30
     FPS = 45
@@ -224,7 +224,7 @@ class GameController():
 
             pygame.display.update()
     
-    ## @brief handles the control flow of starting the actual game session or exiting the game application. Initializes 
+    ## @brief Handles the control flow of starting the actual game session or exiting the game application. Initializes 
     # the pygame library and sets various settings such as the clock and font for the game.
     def run_game(self):
         pygame.init()
@@ -244,7 +244,14 @@ class GameController():
             else:
                 running = False
 
-
+    ## @brief Handles the control flow of pausing the game and resuming the game
+    #  @param d_obstacels a class that take responsible for showing and maintaining obstacles
+    #  @param d_environment a class that take responsible for showing background, instructions and score
+    #  @param d_powerups a class that take responsible for showing and maintaining powerups
+    #  @param bg_rgb the initial color of the background
+    #  @param game_start_time the last start time from pausing
+    #  @return the new start time from pausing and obstacle spawn time
+    
     def resume_game(self, d_obstacles, d_environment, d_powerups, d_character, bg_rgb, game_start_time):
         self.__is_resume = True
         start_time = time()
@@ -281,6 +288,9 @@ class GameController():
         self.__is_paused = False 
         return game_start_time, obstacle_spawn_time
 
+    ## @brief Handles the collision with powerups and sound effects of the collsion
+    #  @param d_powerups a class that take responsible for showing and maintaining powerups
+    #  @param d_powerups a class that take responsible for showing and maintaining obstacles
     def detect_powerups_collision(self, d_powerups, d_obstacles):
         powerups_taken = DetectCollision.find_collision_powerups(self.__character, d_powerups.get_powerups_list())
         if powerups_taken:

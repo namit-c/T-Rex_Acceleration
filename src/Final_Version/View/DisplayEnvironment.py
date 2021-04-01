@@ -27,7 +27,6 @@ class DisplayEnvironment():
     FONTSIZE = 50
     FPS_POS = (10,10)
     SCORE_POS = (250,10)
-    INSTRUCTION_POS = (25,80)
     BG_POS = (0,0)
     POWERUP_POS = (100,200)
     
@@ -50,11 +49,6 @@ class DisplayEnvironment():
     def draw_score(self, score, clock):
         self.display_msg("Score: " + str(score), DisplayEnvironment.SCORE_POS) 
         self.display_msg("FPS: " + str(int(clock.get_fps())), DisplayEnvironment.FPS_POS) 
-
-    ## @brief Drawing the game instructions onto the screen
-    #  @param instructions String
-    def draw_instruction(self, instructions):
-        self.display_msg(instructions, DisplayEnvironment.INSTRUCTION_POS) 
     
     ## @brief Drawing the floor image on the game screen
     #  @param floor the image of the floor to be drawn on the screen
