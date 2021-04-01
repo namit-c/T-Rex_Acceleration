@@ -15,18 +15,18 @@ from time import time
 class Score():
 
     ## @brief Constructor that initializes different fields required to track the 
-    # player score. The start time is set to the time the constructor is called,
-    # which also the time the game starts. The other parameters about the score 
-    # (high score, current score, and previous score) are set to 0.
+    # player score. The parameters about the score (high score, current score, 
+    # and previous score) are set to 0.
     def __init__(self):
         self.__high_score = 0
         self.__current_score = 0
         self.__previous_score = 0
-        self.__SCALE_FACTOR = 5
-        self.__BOOST = 0
         
         # Constant for the score boost
         self.__SCORE_BOOST_VAL = 100
+
+        self.__SCALE_FACTOR = 5
+        self.__BOOST = 0
 
     ## @brief Method that updates the current score
     # @param start_time the time the current game starts
