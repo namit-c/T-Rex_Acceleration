@@ -120,6 +120,10 @@ class DisplayObstacle:
                 self.remove_obstacle(obstacle)
                 #self.__obstacleList.pop(0)
     
+    def update_speed(self, speed):
+        for element in self.__obstacle_list:
+            element.set_speed(speed)
+
     ## @brief calculating the height calcuation (y-value) for the tumbleweed, similuating a tumble weed starting from a high point and being dropped and bouncing
     #  @param t current horizontal (x-value) of the tumbleweed obstacle
     #  @return the calculated height of the tumbleweed based on its current horizontal (x-value) position
@@ -128,6 +132,7 @@ class DisplayObstacle:
         output = screen_height - DisplayObstacle.TW_AMP*math.fabs((t -  DisplayObstacle.TW_X_OFFSET)**
         (-1)*math.sin(DisplayObstacle.TW_FRQ*t)) - DisplayObstacle.TW_Y_OFFSET
         return output 
+
 
 
 

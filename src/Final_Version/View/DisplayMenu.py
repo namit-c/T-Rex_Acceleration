@@ -84,7 +84,7 @@ class DisplayMenu():
         button_font = pygame.font.SysFont('arial', BUTTON_SIZE)
         
         # Drawing and handling input for the sound effect volume buttons
-        button_sound_action = self.buttons_setting(font, SOUND_EFFECT_MINUS_VOL, SOUND_EFFECT_PLUS_VOL)
+        button_sound_action = self.buttons_setting(button_font, SOUND_EFFECT_MINUS_VOL, SOUND_EFFECT_PLUS_VOL)
         current_sound = initial_sound_effect 
         if (button_sound_action != None):
             if (button_sound_action == "+"):
@@ -108,7 +108,7 @@ class DisplayMenu():
         self.__game_screen.blit(text_font.render("Sound Effect Volume:", True, self.__BLACK), ((SOUND_EFFECT_MINUS_VOL[WIDTH]+\
             SOUND_EFFECT_PLUS_VOL[WIDTH])/2 - 100, 275))
         self.__game_screen.blit(text_font.render(str(round(current_sound*DECIMAL_TO_PERCENT)), True, self.__BLACK, \
-            ((SOUND_EFFECT_MINUS_VOL[HEIGHT]+SOUND_EFFECT_PLUS_VOL[HEIGHT] - 30)/2, 375))
+            ((SOUND_EFFECT_MINUS_VOL[HEIGHT]+SOUND_EFFECT_PLUS_VOL[HEIGHT] - 30)/2, 375)))
    
         # Drawing and handling input for the background music volume buttons 
         button_sound_action = self.buttons_setting(button_font, BG_MUSIC_MINUS_VOL, BG_MUSIC_PLUS_VOL)
