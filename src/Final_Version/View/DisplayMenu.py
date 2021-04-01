@@ -7,7 +7,6 @@ This class is responsible for displaying different menus on the game screen.
 """
 
 import pygame
-from LoadAssets import *
 import sys
 import time
 
