@@ -251,7 +251,6 @@ class GameController():
     #  @param bg_rgb the initial color of the background
     #  @param game_start_time the last start time from pausing
     #  @return the new start time from pausing and obstacle spawn time
-    
     def resume_game(self, d_obstacles, d_environment, d_powerups, d_character, bg_rgb, game_start_time):
         self.__is_resume = True
         start_time = time()
@@ -290,7 +289,7 @@ class GameController():
 
     ## @brief Handles the collision with powerups and sound effects of the collsion
     #  @param d_powerups a class that take responsible for showing and maintaining powerups
-    #  @param d_powerups a class that take responsible for showing and maintaining obstacles
+    #  @param d_obstacles a class that take responsible for showing and maintaining obstacles
     def detect_powerups_collision(self, d_powerups, d_obstacles):
         powerups_taken = DetectCollision.find_collision_powerups(self.__character, d_powerups.get_powerups_list())
         if powerups_taken:
@@ -306,6 +305,10 @@ class GameController():
                 self.__score_count.boost()
             d_powerups.remove_powerups(powerups_taken)
 
+    ## @brief Handles the collision with obstacles and sound effects of the collision
+    #  @param running the current boolean running state of the game
+    #  @param current_score the current_score the user has achieved so far
+    #  @param d_obstacles a class that take responsible for showing and maintaining obstacles
     def detect_obstacles_collision(self, running, current_score, d_obstacles):
         is_obstacle_collision = DetectCollision.find_collision_obstacle(self.__character, d_obstacles.get_obstacle_list()) 
         if(is_obstacle_collision != None and not self.__character.get_invincible()):
