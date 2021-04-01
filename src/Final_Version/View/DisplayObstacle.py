@@ -57,16 +57,7 @@ class DisplayObstacle:
         # TESTING PURPOSES: draw rectangle border
         #pygame.draw.rect(self.__game_screen, (255,0,0), obstacle.get_rect(), 2)
 
-    ## @brief display a message(string) to draw on screen 
-    #  @param msg String
-    #  @param msg_pos a tuple of (x,y) position to be drawn on screen
-    def display_msg(self, msg, msg_pos):
-       	pygame.font.init() # you have to call this at the start, 
-        my_font = pygame.font.SysFont('Comic Sans MS', 30)
-        text_surface = my_font.render(msg, False, (0, 0, 0))
-        self.__game_screen.blit(text_surface,msg_pos)
-
-    
+   
     ## @brief generate an obstacle from a random list of obstacles to be drawn on the screen (drawing them randomly at times
     #         from 3 and 5 seconds)
     #  @param obstacle_pos_x x position to draw obstacle on screen
