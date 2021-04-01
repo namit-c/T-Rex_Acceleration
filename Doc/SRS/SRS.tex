@@ -5,6 +5,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage[normalem]{ulem}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -40,7 +41,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 02/12/2021 & 1.0 & Finished First Version\\
-%02/12/2021 & 1.1 & Second Draft\\
+\textcolor{red}{03/31/2021} & \textcolor{red}{2.0} & \textcolor{red}{Revision 1}\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -98,7 +99,7 @@ The developers of the original game (T-Rex Runner) have an invested interest as 
     \item It is assumed the user knows how to operate a computer.
     \item It is assumed the user has a computer that has the capability to run the game.
     \item It is assumed the user has physical access to a mouse and keyboard.
-    \item It is assumed the user has the Python installed version 3.9 or higher.
+    \item It is assumed the user has the Python installed version \sout{3.9} \textcolor{red}{3.6.9} or higher.
     \item It is assumed the user has Pygame library installed.
     \item It is assumed the user has the supporting game files installed on their computer.
     \item It is assumed the user can understand basic English.
@@ -150,7 +151,7 @@ The primary use case of this product is to play the game from start and trying t
     \item The system counts the current score according to how long the dinosaur runs
     \item The user hits on an obstacle and the game ends
     \item The system updates the highest score if the current score is higher than the previous ones
-    \item The user clicks on RESTART to start a new game
+    \item The user \sout{clicks on} \textcolor{red}{presses} RESTART to start a new game
 \end{enumerate}
 \textbf{Secondary Scenarios}
 \begin{enumerate}
@@ -164,7 +165,7 @@ The primary use case of this product is to play the game from start and trying t
 \begin{enumerate}
 	\item The character must jump when the user presses KEYBOARD\_JUMP as long as the character is on a platform.\\
 	\textbf{Rationale}: The user must able to jump with the character to dodge obstacles. The character must not be able to jump unless on an area meant for running (platform).
-	\item The character must jump when the user presses KEYBOARD\_DUCK as long as the character is on the ground.\\
+	\item The character must duck when the user presses KEYBOARD\_DUCK as long as the character is on the ground.\\
 	\textbf{Rationale}: The user must able to duck with the character to dodge obstacles. The character must not be able to duck unless on an area meant for running (platform).
 	\item The system must detect an occurrence of a collision between the character and an obstacle.\\
 	\textbf{Rationale}: When the character model collides with an obstacle (i.e an object meant to impede the movement of the character) the game state must end.
@@ -200,8 +201,8 @@ The primary use case of this product is to play the game from start and trying t
 	\item The user must have the option to restart the game or go to the main menu when the game ends (the user hits an obstacle).\\
 	\textbf{Rationale}: The user shall be able to choose if they want to start a new game after the previous game ends. It reduces the amount of time and effort for the user to play another game.
 	\item The user can select to play the game, change the game settings, and select a different character from the main menu.\\
-	\textbf{Rationale}: The user shall be able to change settings like volume, theme color, and text size in the main menu. 
-	\item The system shall display instructions when the user starts a game\\
+	\textbf{Rationale}: The user shall be able to change \sout{settings like volume theme color, and text size in the main menu. } \textcolor{red}{the volume according to their preference from the main menu.} 
+	\item The system shall \sout{display instructions when the user starts a game} \textcolor{red}{ a menu that explains the game instructions and controls.}\\
 	\textbf{Rationale}: The users need to be guided on how to play when playing for the first time.
 \end{enumerate}
 
@@ -220,7 +221,7 @@ The primary use case of this product is to play the game from start and trying t
 \subsubsection{Style Requirements}
 \begin{enumerate}[leftmargin=1.20cm, label={LF \arabic*}]
     \item  The game shall use a bright colour scheme.\\
-    \textbf{Fit Criteria}: The color shall contain at least 50\% brightness and saturation.  
+    \textbf{Fit Criteria}: The colours shall contain at least 50\% \sout{brightness and} saturation.  
 \end{enumerate}
 
 \subsection{Usability and Humanity Requirements}
@@ -235,9 +236,9 @@ The primary use case of this product is to play the game from start and trying t
 \subsubsection{Personalization and Internationalization Requirements}
 \begin{enumerate}[leftmargin=1.45cm, label={UH \arabic*}]
     \item The user shall be able to change the volume of the game.\\
-    \textbf{Fit Criteria}: The user can choose any volume from 0\% to 100\%.
-    \item The user shall be able to change the theme of the game.\\
-    \textbf{Fit Criteria}: The user can choose a theme from some provided ones which are constant during the gameplay.
+    \textbf{Fit Criteria}: The user can choose \sout{any} volume from 0\% to 100\%.
+    \item \sout{The user shall be able to change the theme of the game.\\
+    \textbf{Fit Criteria}: The user can choose a theme from some provided ones which are constant during the gameplay.}
 \end{enumerate}
 
 \subsubsection{Learning Requirements}
@@ -388,7 +389,7 @@ Due to the popularity of the game, there are many variations of T-Rex Runner ava
 
 \subsection{New Problems}
 \subsubsection{Effects on the Current Environment}
-The user must have Python 3.9 or higher and Pygame installed to run the game. The game will not require a lot of processing power, thus having little effect on the user's operating system. The user shall not experience any form of lag when running the game.
+The user must have Python \sout{3.9} \textcolor{red}{3.6.9} or higher and Pygame installed to run the game. The game will not require a lot of processing power, thus having little effect on the user's operating system. The user shall not experience any form of lag when running the game.
 \subsubsection{Potential User Problems}
 If the user modifies the source code of the project on their local machine, the game may become unstable to play. 
 
@@ -456,11 +457,11 @@ KEYBOARD\_JUMP & Keyboard key that moves the onscreen character vertically upwar
 \hline
 KEYBOARD\_DUCK & Keyboard key that moves the onscreen character duck. & Down Arrow \\
 \hline
-RESTART & Keyboard key that restarts a new game. & Enter\\
+RESTART & Keyboard key that restarts a new game. & \sout{Enter} \textcolor{red}{Key R}\\
 \hline
-PAUSE & Keyboard key that pauses the game mid play & Space\\
+PAUSE & Keyboard key that pauses the game mid play & \sout{Space} \textcolor{red}{Key P}\\
 \hline
-RESUME & Keyboard key that resumes the paused game & Space\\
+RESUME & Keyboard key that resumes the paused game & \sout{Space} \textcolor{red}{Key R}\\
 \hline
 MINIMUM\_AGE & Children younger than this age may have difficulty playing the game & 8\\
 \hline
