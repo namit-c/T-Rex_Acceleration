@@ -76,15 +76,13 @@ class GameController():
         self.__floor_position = 0
         self.__background = LoadAssets.load_background()
         self.__score_count = Score.Score()
-        self.__obstacle_pos_x = GameController.OBS_START_X
-        self.__obstacle_pos_y = GameController.OBS_START_Y
         self.__is_paused = False
     
     ## @brief Method that checks the user input
     #  @details Checks for the user input and decided the next action based on that input. This includes
     #  game controls, inputs reciveved from menu controller, and quitting the game. 
     #  @param game_start_time the time that current game started
-    def check_user_input(self, game_start_time):
+    def check_user_input(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -100,7 +98,6 @@ class GameController():
                 if event.key == pygame.K_p:
                     self.__is_paused = True
                     self.__pause_time = time()
-
                     self.__character.pause()
                     user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
                     if (user_response == "Resume"):
@@ -144,7 +141,7 @@ class GameController():
             display_character.draw_character()
 
             # Check user inputs
-            user_response = self.check_user_input(game_start_time)
+            user_response = self.check_user_input()
             #start_time = None
             if (user_response == "Resume"):
                 game_start_time, obstacle_spawn_time = self.resume_game(display_obstacles, display_environment, display_powerups, display_character, bg_rgb, game_start_time)
@@ -153,8 +150,8 @@ class GameController():
                 running = False
 
             # Generate Obstacle
-            obstacle_spawn_time = display_obstacles.generate_obstacle(self.__obstacle_pos_x, \
-                    self.__obstacle_pos_y, self.__obstacle_obj_list, obstacle_spawn_time,display_powerups.get_powerups_list()) 
+            obstacle_spawn_time = display_obstacles.generate_obstacle(GameController.OBS_START_X, \
+                    GameController.OBS_START_Y, self.__obstacle_obj_list, obstacle_spawn_time,display_powerups.get_powerups_list()) 
             
             # Generate powerups
             display_powerups.generate_powerups(-self.__game_speed, self.__obstacle_obj_list, obstacle_spawn_time)
@@ -279,7 +276,7 @@ class GameController():
         d_obstacles.update_speed(self.__game_speed)
         d_powerups.update_speed(self.__game_speed)
 
-        self.check_user_input(game_start_time)
+        self.check_user_input()
         game_start_time += self.__pause_time + GameController.RESUME_TIME
         # Updating obstacle_spawn time to prevent another obstacle spawning immediately
         obstacle_spawn_time = time() 
