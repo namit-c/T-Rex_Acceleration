@@ -206,6 +206,8 @@ class Character(pygame.sprite.Sprite):
     #  @param char_img the image the character after the powerup runs out
     #  @exception Exception IllegalArguementException 
     def update(self, char_img):
+        if (char_img is None):
+            raise Exception("IllegalArgumentException")
         if self.__is_jumping:
             self.__movement[1] += Character.GRAVITY
         self.rect = self.rect.move(self.__movement)  
