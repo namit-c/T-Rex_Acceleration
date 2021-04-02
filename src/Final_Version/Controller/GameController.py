@@ -39,7 +39,7 @@ class GameController():
     OBS_START_Y = 505
     INIT_BG = [153, 255, 255]
     FONTSIZE = 30
-    FPS = 45
+    FPS = 60 
     POWERUPS_TIME = 5
     RESUME_TIME = 5
     SPEED_FACTOR = 0.5
@@ -60,6 +60,10 @@ class GameController():
         for i in range(len(self.__obstacle_img)):
             width, height = self.__obstacle_img[i].get_size()
             self.__obstacle_obj_list.append(Obstacle.Obstacle("Obstacle-"+ str(i+1), width, height, self.__game_speed, self.__obstacle_img[i]))
+        self.__powerup_img = LoadAssets.load_all_powerups()
+        for i in range(len(self.__powerup_img)):
+            self.__powerup_img[i] = pygame.transform.scale(self.__powerup_img[i],(40,40))
+        
         self.__play_sound = PlaySound.PlaySound(self.__sound_list)
         # Defining Menu controller
         self.__menu_controller = MenuController.MenuController(self.__game_screen)
@@ -137,6 +141,17 @@ class GameController():
             display_environment.draw_score(self.__score_count.get_current_score(), clock)
             if self.__character.is_powered() and self.__character.get_power_time() < GameController.POWERUPS_TIME:
                 display_environment.draw_powerup(round(GameController.POWERUPS_TIME - self.__character.get_power_time()))
+                x,y = self.__character.get_rect().left, self.__character.get_rect().bottom
+                x += 25
+                y -= 125
+                if self.__character.get_invincible() == True:
+                    self.__game_screen.blit(self.__powerup_img[0], (x,y))
+                elif self.__character.get_double_jumping() == True:
+                    self.__game_screen.blit(self.__powerup_img[1],(x,y)) 
+                elif self.__character.get_slo_mo() == True:
+                    self.__game_screen.blit(self.__powerup_img[2],(x,y)) 
+
+
             # Drawing character
             display_character.draw_character()
 

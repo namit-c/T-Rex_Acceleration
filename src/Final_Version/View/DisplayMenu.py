@@ -24,7 +24,7 @@ class DisplayMenu():
         self.__BLACK = (0, 0, 0)
         self.__WHITE = (255, 255, 255)
         self.__TOP_LEFT_POSITION = (0, 0)
-        self.__END_SCREEN_CR_POS = (350, 220)
+        self.__END_SCREEN_CR_POS = (350, 180)
         self.__END_SCREEN_HR_POS = (350, 350)
 
     ## @brief Method used to display the main menu on the screen
@@ -179,7 +179,7 @@ class DisplayMenu():
     ## @brief displaying the amount of time left till the game resume back
     #  @param time current time remaining
     def display_resume_menu(self, time):
-        MSG_POS = (250, 250)
+        MSG_POS = (200, 200)
         self.display_msg("Resuming Back in " + str(time), MSG_POS) 
 
     ## @brief display a specific string message at a specific location
@@ -187,7 +187,7 @@ class DisplayMenu():
     #  @param msg_pos tuple of (x,y) for the message to display the message
     def display_msg(self, msg, msg_pos):
        	pygame.font.init() # You have to call this at the start 
-        FONT_SIZE = 50
+        FONT_SIZE = 100
         my_font = pygame.font.Font("../assets/Acceleration-Reaction.ttf", FONT_SIZE)
         text_surface = my_font.render(msg, True, self.__WHITE)
         self.__game_screen.blit(text_surface,msg_pos)
