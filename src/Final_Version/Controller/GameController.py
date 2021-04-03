@@ -80,7 +80,6 @@ class GameController():
         self.__floor_position = 0
         self.__background = LoadAssets.load_background()
         self.__score_count = Score.Score()
-        self.__is_paused = False
     
     ## @brief Method that checks the user input
     #  @details Checks for the user input and decided the next action based on that input. This includes
@@ -100,7 +99,6 @@ class GameController():
                         self.__play_sound.play_jump_sound()
                     self.__character.jump(self.__load_character[1])
                 if event.key == pygame.K_p:
-                    self.__is_paused = True
                     self.__pause_time = time()
                     self.__character.pause()
                     user_response = self.__menu_controller.pause_menu(self.__pause_menu_img)
@@ -295,7 +293,6 @@ class GameController():
         game_start_time += self.__pause_time + GameController.RESUME_TIME
         # Updating obstacle_spawn time to prevent another obstacle spawning immediately
         obstacle_spawn_time = time() 
-        self.__is_paused = False 
         return game_start_time, obstacle_spawn_time
 
     ## @brief Handles the collision with powerups and sound effects of the collsion
