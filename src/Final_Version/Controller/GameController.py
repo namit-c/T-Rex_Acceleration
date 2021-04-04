@@ -9,8 +9,9 @@ view and model modules while handling the user input.
 
 import pygame
 from time import *
-import MenuController
 import sys
+sys.path.insert(1,'../Controller/')
+import MenuController
 sys.path.insert(1, '../Model/')      # For importing modules from the Model directory
 import Character
 import Obstacle
