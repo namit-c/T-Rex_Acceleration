@@ -81,6 +81,7 @@ class GameController():
         self.__floor_position = 0
         self.__background = LoadAssets.load_background()
         self.__score_count = Score.Score()
+        self.__user_input_time = 0
     
     ## @brief Method that checks the user input
     #  @details Checks for the user input and decided the next action based on that input. This includes
@@ -95,10 +96,17 @@ class GameController():
                     self.__character.duck(self.__load_character[2])
                     if self.__character.get_ducking():
                         self.__play_sound.play_duck_sound()
+
+                    ### self.__user_input_time = time() - self.__user_input_time
+                    ### print("RESPONSE TIME", self.__user_input_time)
+
                 if event.key == pygame.K_UP:
                     if not self.__character.get_jumping() or (self.__character.get_double_jumping() and self.__character.get_limit() <= 2):
                         self.__play_sound.play_jump_sound()
                     self.__character.jump(self.__load_character[1])
+                    ### self.__user_input_time = time() - self.__user_input_time
+                    ### print("RESPONSE TIME", self.__user_input_time)
+                
                 if event.key == pygame.K_p:
                     self.__pause_time = time()
                     self.__character.pause()
@@ -155,7 +163,11 @@ class GameController():
             display_character.draw_character()
 
             # Check user inputs
+            self.__user_input_time = time()
             user_response = self.check_user_input()
+            ### self.__user_input_time = time() - self.__user_input_time
+            ### print("RESPONSE TIME:", self.__user_input_time)
+            
             #start_time = None
             if (user_response == "Resume"):
                 game_start_time, obstacle_spawn_time = self.resume_game(display_obstacles, display_environment, display_powerups, display_character, bg_rgb, game_start_time)
