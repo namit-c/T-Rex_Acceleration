@@ -136,7 +136,7 @@ class GameController():
             # Drawing environment elements
             display_environment.draw_background(self.__background, bg_rgb)
             display_environment.draw_floor(self.__floor, self.__floor_position)
-            display_environment.draw_score(self.__score_count.get_current_score(), clock)
+            display_environment.draw_score(self.__score_count.get_current_score(), self.__score_count.get_score(), clock)
             if self.__character.is_powered() and self.__character.get_power_time() < GameController.POWERUPS_TIME:
                 display_environment.draw_powerup(round(GameController.POWERUPS_TIME - self.__character.get_power_time()))
                 x,y = self.__character.get_rect().left, self.__character.get_rect().bottom

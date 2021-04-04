@@ -26,7 +26,8 @@ class DisplayEnvironment():
     WHITE = (255,255,255)
     FONTSIZE = 50
     FPS_POS = (10,10)
-    SCORE_POS = (250,10)
+    CURRENT_SCORE_POS = (175,10)
+    HIGHEST_SCORE_POS = (450, 10)
     BG_POS = (0,0)
     POWERUP_POS = (100,200)
     
@@ -39,8 +40,9 @@ class DisplayEnvironment():
 
     ## @brief Drawing the score onto the screen
     #  @param score Score object
-    def draw_score(self, score, clock):
-        self.display_msg("Score: " + str(score), DisplayEnvironment.SCORE_POS) 
+    def draw_score(self, current_score, highest_score, clock):
+        self.display_msg("Current Score: " + str(current_score), DisplayEnvironment.CURRENT_SCORE_POS)
+        self.display_msg("Highest Score: " + str(highest_score), DisplayEnvironment.HIGHEST_SCORE_POS)
         self.display_msg("FPS: " + str(int(clock.get_fps())), DisplayEnvironment.FPS_POS) 
 
     ## @brief Displaying a message(string) to draw on screen 
