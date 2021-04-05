@@ -344,5 +344,5 @@ class GameController():
             self.__play_sound.play_collision_sound()    
         return running
 
-game = GameController()
-game.run_game()
+#game = GameController()
+#game.run_game()
