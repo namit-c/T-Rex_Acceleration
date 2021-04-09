@@ -3,7 +3,7 @@ import LoadAssets
 import time
 class LoadAssetsTest(unittest.TestCase):
     def setUp(self):
-       self.__target_time = 5
+       self.__target_time = 1
        self.__time_taken = 0
 
     def test_load_floor(self):
