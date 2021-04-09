@@ -8,6 +8,8 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage[normalem]{ulem}
+
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -56,6 +58,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 03/18/2021 & 1.0 & Initial Version\\
+\textcolor{red}{04/07/2021} & \textcolor{red}{2.0} & \textcolor{red}{Revision 1}\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -118,7 +121,7 @@ will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] The only way to interact with the system by using the keyboard (except the close button of the window). The user must use the keyboard to control the character during the game. The keyboard is also needed to navigate through the main, pause, and end menu. This includes the settings menu as well, which is accessed through the main menu.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] The only way to interact with the system by using the keyboard (except the close button of the window \color{red}{and setting menu}\color{black}{). The user must use the keyboard to control the character during the game. The keyboard is also needed to navigate through the main, pause, and end menu. This includes the settings menu as well, which is accessed through the main menu.}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] The number of players, currently one, that can play the game at once on the same machine is not expected to change. The game is designed to be played by one player and that is kept in mind when designing all the modules.
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] The environment and platforms where the game can be played are unlikely to be changed. The game is expected to be supported by Windows, macOS, and Linux. 
 \end{description}
@@ -141,7 +144,7 @@ actually be implemented.
     \item [\refstepcounter{mnum} \mthemnum \label{m4}:] DetectCollision
     \item [\refstepcounter{mnum} \mthemnum \label{m5}:] UpdateEnvironment
     \item [\refstepcounter{mnum} \mthemnum \label{m6}:] Score
-    \item [\refstepcounter{mnum} \mthemnum \label{m7}:] MainMenu
+    \item \sout{[\refstepcounter{mnum} \mthemnum \label{m7}:] MainMenu}
     \item [\refstepcounter{mnum} \mthemnum \label{m8}:] DisplayObstacle
     \item [\refstepcounter{mnum} \mthemnum \label{m9}:] DisplayPowerups
     \item [\refstepcounter{mnum} \mthemnum \label{m10}:] DisplayEnvironment
@@ -185,7 +188,7 @@ actually be implemented.
     & DetectCollision\\
     & UpdateEnvironment\\
     & Score\\
-    & MainMenu\\
+    & \sout{MainMenu}\\
     
 \bottomrule
 \end{tabular}
@@ -231,58 +234,58 @@ selected.
 
 \subsubsection{DisplayMenu (\mref{m14})}
 \begin{description}
-\item[Secrets:] Handles all control flow to open different menus. 
-\item[Services:] Display the different menus (pause menu, exit menu, setting menu) onto the screen.
-\item[Implemented By:] [Pygame, Python3]
+\item[Secrets:] \sout{Handles all control flow to open different menus.}\textcolor{red}{User input handling for the settings menu and method to draw the menus.} 
+\item[Services:] Display the different menus (pause menu, exit menu, \textcolor{red}{instruction} setting menu) onto the screen.
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{DisplayCharacter (\mref{m12})}
 \begin{description}
 \item[Secrets:] Method to draw the character on the screen.
 \item[Services:] Draw the character onto the screen.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{DisplayPowerups (\mref{m9})}
 \begin{description}
 \item[Secrets:]  Method to randomly generate powerups at different times. 
-\item[Services:] Generate, draw, and update the positions of the powerups.
-\item[Implemented By:] [Pygame, Python3]
+\item[Services:] Generate, draw, and update the positions \textcolor{red}{and speeds} of the powerups.
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{DisplayObstacles (\mref{m8})}
 \begin{description}
 \item[Secrets:] The data structure storing all obstacles on the screen.
-\item[Services:] Provide functionality to draw, remove, and update the positions of obstacles.
-\item[Implemented By:] [Pygame, Python3]
+\item[Services:] Provide functionality to draw, remove, and update the positions \textcolor{red}{and speeds} of obstacles.
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{DisplayEnvironment (\mref{m10})}
 \begin{description}
-\item[Secrets:] Display different GUI environment elements when playing the game.
+\item[Secrets:] \sout{Display different GUI environment elements when playing the game.} \textcolor{red}{Method to draw different GUI environment elements in the gameplay.}
 \item[Services:] Provide functionality to draw the score, game instructions, floor, and background onto the screen.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{PlaySound (\mref{m13})}
 \begin{description}
-\item[Secrets:] Play different sounds when specific actions are performed by the user at a set volume.
+\item[Secrets:] \sout{Play different sounds when specific actions are performed by the user at a set volume.}\textcolor{red}{Methods to change different sound volume settings}
 \item[Services:] Play background music and sound effects for the character jumping, ducking, colliding with obstacle, and collecting a powerup.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{DisplayWindow (\mref{m11})}
 \begin{description}
-\item[Secrets:] Initialize the window of the application using several different properties.
+\item[Secrets:] \sout{Initialize the window of the application using several different properties.} \textcolor{red}{ The dimension of the game window and the method to initialize the window}
 \item[Services:] Generate an initial screen window. 
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{LoadAssets (\mref{m15})}
 \begin{description}
 \item[Secrets:] The data structures of all images and sounds used in the game.
 \item[Services:] Load all image and audio files into the game system.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsection{Behaviour-Hiding Module}
@@ -299,16 +302,16 @@ selected.
 
 \subsubsection{GameController (\mref{m16})}
 \begin{description}
-\item[Secrets:] Handle all internal game logic and user input.
+\item[Secrets:] \sout{Handle all internal game logic and user input.} \textcolor{red}{User input handling and game logic.}
 \item[Services:] Responsible for calling the appropriate subroutines throughout the game session. 
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{MenuController (\mref{m17})}
 \begin{description}
-\item[Secrets:] Handles most of the menu related user input.
-\item[Services:] Interact with the user on the setting, exit, and pause menu.
-\item[Implemented By:] [Pygame, Python3]
+\item[Secrets:] \sout{Handles most of the menu related user input.} \textcolor{red}{User input handling during menus.}
+\item[Services:] Interact with the user on the setting, exit, \textcolor{red}{instruction, resume} and pause menu.
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsection{Software Decision Module}
@@ -328,49 +331,49 @@ selected.
 \begin{description}
 \item[Secrets:] The data structure of the character.
 \item[Services:] Provide functionality to control movement of character (jump or duck) and apply different behaviours when powerups are collected.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{Powerups (\mref{m2})}
 \begin{description}
 \item[Secrets:] The data structure of the powerup.
 \item[Services:] Provide properties for the type and speed related to these powerups.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{Obstacle (\mref{m3})}
 \begin{description}
 \item[Secrets:] The data structure of the obstacle.
 \item[Services:] Provides functionality to set and get different properties of an obstacle such as changing the dimensions, speed, image display, and position.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{DetectCollision (\mref{m4})}
 \begin{description}
 \item[Secrets:]The algorithm to calculate collision between two objects.
 \item[Services:] Detect whether or not there is a collision between two objects.
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{UpdateEnvironment (\mref{m5})}
 \begin{description}
-\item[Secrets:] Changing the background color during the gameplay.
+\item[Secrets:] \sout{Changing} \textcolor{red}{Method to change} the background color during the gameplay.
 \item[Services:] Updating the background color and ground floor position. 
-\item[Implemented By:] [Pygame, Python3]
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
 \subsubsection{Score (\mref{m6})}
 \begin{description}
 \item[Secrets:] The data structure of the score.
-\item[Services:] Responsible for tracking and returning the current and high score.
-\item[Implemented By:] [Pygame, Python3]
+\item[Services:] Responsible for tracking \textcolor{red}{, boost} and returning the current and high score.
+\item[Implemented By:] Dev\textsuperscript{enthusiasts}
 \end{description}
 
-\subsubsection{MainMenu (\mref{m7})}
+\subsubsection{\sout{MainMenu (M7)}}
 \begin{description}
-\item[Secrets:] Maintains different volume settings for  different sounds. 
-\item[Services:] Changing the volume according to user input and return the volume setting.
-\item[Implemented By:] [Pygame, Python3]
+\item \sout{[Secrets:] Maintains different volume settings for  different sounds. }
+\item \sout{[Services:] Changing the volume according to user input and return the volume setting.}
+\item \sout{[Implemented By:] Dev\textsuperscript{enthusiasts}}
 \end{description}
 
 \section{Traceability Matrix} \label{SecTM}
@@ -401,7 +404,7 @@ FR12 & \mref{m1}, \mref{m2}, \mref{m4}, \mref{m9}, \mref{m12}, \mref{m13}, \mref
 FR13 & \mref{m1}, \mref{m12}\\
 FR14 & \mref{m13}, \mref{m15}, \mref{m16}\\
 FR15 & \mref{m14}, \mref{m17}\\
-FR16 & \mref{m7}, \mref{m14}, \mref{m16}, \mref{m17}\\
+FR16 & \sout{M7,} \mref{m14}, \mref{m16}, \mref{m17}\\
 FR17 & \mref{m10}, \mref{m16}\\
 \bottomrule
 \end{tabular}
@@ -443,7 +446,13 @@ because they use modules from the lower levels.
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{Module Hiearchy.png}
-\caption{Use hierarchy among modules}
+\caption{Use hierarchy among modules \textcolor{red}{(Rev0)}}
+\label{FigUH}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{Module Hiearchy_Rev1.png}
+\caption{\textcolor{red}{Use hierarchy among modules (Rev1) }}
 \label{FigUH}
 \end{figure}
 

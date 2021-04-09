@@ -70,6 +70,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 03/18/2021 & 1.0 & Initial Draft\\
+\textcolor{red}{04/07/2021} & \textcolor{red}{2.0} & \textcolor{red}{Revision 1}\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -92,23 +93,52 @@ Time
 \hline
 Character & pygame.display, pygame.image & Character & IllegalArgumentException \\
 \hline
-set\_img & pygame.image & --- & IllegalArgumentException\\
+\textcolor{red}{get\_rect} & \textcolor{red}{---} & \textcolor{red}{pygame.rect} & \textcolor{red}{---}\\
 \hline
-duck & pygame.image, pygame.image & --- & IllegalArgumentException \\
+\textcolor{red}{get\_img} & \textcolor{red}{$\mathbb{Z}$} & \textcolor{red}{pygame.image} & \textcolor{red}{---}\\
 \hline
-stand & pygame.image, pygame.image & --- & IllegalArgumentException\\
+set\_img & pygame.image \textcolor{red}{$\mathbb{R}$, $\mathbb{R}$} & --- & IllegalArgumentException\\
 \hline
-jump & pygame.image, pygame.image & --- & IllegalArgumentException\\
+\textcolor{red}{set\_ducking\_img} & \textcolor{red}{---} & \textcolor{red}{pygame.image, $\mathbb{R}$, $\mathbb{R}$} & \textcolor{red}{IllegalArgumentException} \\
 \hline
-invincible & pygame.image & --- & IllegalArgumentException \\
+duck & pygame.image \sout{pygame.imge} & --- & IllegalArgumentException \\
 \hline
-double\_jumping & --- & --- & ---\\
+\textcolor{red}{get\_ducking} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
+\hline
+stand & pygame.image, \sout{pygame.iamge} & --- & IllegalArgumentException\\
+\hline
+jump & pygame.image, \sout{pygame.image} & --- & IllegalArgumentException\\
+\hline
+\textcolor{red}{get\_jumping} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
+\hline
+\textcolor{red}{checkbounds} & \textcolor{red}{---} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+invincible & \sout{pygame.image} & --- & \sout{IllegalArgumentException} \\
+\hline
+\textcolor{red}{get\_invincible} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
+\hline
+double\_jump\sout{ing} & --- & --- & ---\\
+\hline
+\textcolor{red}{get\_double\_jumping} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
 \hline
 slo\_mo & --- & --- & ---\\
 \hline
-update & --- & --- & ---\\
+\textcolor{red}{get\_slo\_mo} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
 \hline
-
+\textcolor{red}{is\_powered} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
+\hline
+update & pygame.image & --- & \sout{---} \textcolor{red}{IllegalArgumentExcption}\\
+\hline
+\textcolor{red}{get\_limit} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
+\hline
+\textcolor{red}{reset} & \textcolor{red}{pygam.image} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+\textcolor{red}{get\_power\_time} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{R}$} & \textcolor{red}{---}\\
+\hline
+\textcolor{red}{pause} & \textcolor{red}{---} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+\textcolor{red}{resume} & \textcolor{red}{---} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
 \end{tabular}
 }
 
@@ -118,13 +148,18 @@ update & --- & --- & ---\\
 
 \begin{tabular}{lll}
     game\_screen: pygame.display & // & Represents the screen \\
-    img: pygame.image & // & Surface object with the image of the character\\
+    img: \sout{pygame.image} \textcolor{red}{list of pygame.image} & // & Surface object with the image of the character\\
+    \textcolor{red}{rect: pygame.rect} & \textcolor{red}{//} & \textcolor{red}{The rectangle of the character}\\
     is\_ducking: $\mathbb{B}$ & // & Is the character ducking\\
     is\_jumping: $\mathbb{B}$ & // & Is the character jumping\\
     is\_invincible: $\mathbb{B}$ & // & Is the character invincible\\
     is\_slo\_mo: $\mathbb{B}$ & // & Is the character slowing obstacles\\
     is\_double\_jumping: $\mathbb{B}$ & // & Can the character double jump\\
-    movement: ($\mathbb{R,R}$) & // & horizontal and vertical speed of the character\\
+    movement: ($\mathbb{R,R}$) & // & horizontal and vertical speed of the character\\    \textcolor{red}{jumping\_limit: $\mathbb{Z}$} & \textcolor{red}{//} & \textcolor{red}{The number of jumps}\\
+    \textcolor{red}{obtain\_powerup\_time: $\mathbb{R}$} & \textcolor{red}{//} & \textcolor{red}{The time when the character takes a powerup}\\
+    \textcolor{red}{puase\_time: $\mathbb{R}$} & \textcolor{red}{//} & \textcolor{red}{Start time of a pause}\\
+    \textcolor{red}{pause\_duration: $\mathbb{R}$} & \textcolor{red}{//} & \textcolor{red}{The duration of the pause}\\
+    
 \end{tabular}
 
 \subsubsection* {Environment Variables}
@@ -133,6 +168,7 @@ None
 
 $is\_ducking \land is\_jumping = False$\\
 $is\_invincible \land is\_slo\_mo \land is\_double\_jumping = False$\\
+\textcolor{red}{$jumping\_limit < 3$}\\
 \subsubsection* {Assumptions}
 
 Constructor character is called first before other methods.
@@ -141,7 +177,8 @@ Constructor character is called first before other methods.
 
 \noindent Character(screen, char\_img):
 \begin{itemize}
-\item transition: game\_screen, img, movement := screen, char\_img, [0,0]\\ All Boolean state variables are initialized to False
+\item transition: game\_screen, img, movement, \textcolor{red}{jumping\_limit}. \textcolor{red}{rect} := screen, \sout{char\_img} \textcolor{red}{char\_img in NORMAL\_SIZE}, [0,0], \textcolor{red}{0}, \textcolor{red}{rectangle of char\_image}\\ All Boolean state variables are initialized to False\\
+\textcolor{red}{All time state variables are initialized to 0}\\
 \item output: \textit{out} := \textit{self}
 \item exception: 
     \begin{itemize}[]
@@ -150,68 +187,134 @@ Constructor character is called first before other methods.
     \end{itemize}
 \end{itemize}
 
-\noindent set\_img(new\_img):
+\noindent \textcolor{red}{get\_rect():
 \begin{itemize}
-    \item transition: img := new\_img
+\item output: \textit{out} := \textit{rect}
+\end{itemize}}
+
+\noindent \textcolor{red}{get\_image(img\_number):
+\begin{itemize}
+\item output: \textit{out} := \textit{img[img\_number//IMAGE\_SELECTOR]}
+\end{itemize}}
+
+\noindent set\_img(new\_img, \textcolor{red}{ bottom}, \textcolor{red}{left}):
+\begin{itemize}
+    \item transition: img, \textcolor{red}{rect} := \sout{new\_img} \textcolor{red}{new\_img in NORMAL\_SIZE}, \textcolor{red}{rectangle of the new image with rect.bottom = bot; rect.left = left}
 \item exception: 
     \begin{itemize}[]
         \item $exc$ := $(new\_img \equiv NULL) \Rightarrow IllegalArguementException$
     \end{itemize}    
 \end{itemize}
 
-\noindent duck(ducking\_img, inv\_ducking\_img):
+\noindent \textcolor{red}{set\_ducking\_img(new\_img, bottom, left):
 \begin{itemize}
-\item transition: $\neg is\_jumping \Rightarrow (is\_ducking := False;\\
-is\_invincible \Rightarrow img := inv\_ducking\_img \land \neg is\_invincible \Rightarrow img := ducking\_img)$
+    \item transition: img, rect :=  new\_img in DUCKING\_SIZE, rectangle of the new image with rect.bottom = bot; rect.left = left
+\item exception: 
+    \begin{itemize}[]
+        \item $exc$ := $(new\_img \equiv NULL) \Rightarrow IllegalArguementException$
+    \end{itemize}    
+\end{itemize}}
+
+\noindent duck(ducking\_img, \sout{inv\_ducking\_img} \textcolor{red}{char\_img}):
+\begin{itemize}
+\item transition: $\neg is\_jumping \Rightarrow (is\_ducking := False;$\\
+\sout{$is\_invincible \Rightarrow img := inv\_ducking\_img \land \neg is\_invincible \Rightarrow img := ducking\_img)$}\\
+\textcolor{red}{$img, rect := char\_img, \text{rectangle of char\_img})$}
 \item exception:
     \begin{itemize}[]
         \item   $exc$ := $(any img \equiv NULL) \Rightarrow IllegalArguementException$
     \end{itemize}
 \end{itemize}
 
-\noindent stand(inv\_char, char\_img):
+\noindent \textcolor{red}{get\_ducking():
 \begin{itemize}
-\item transition: $\neg is\_jumping \Rightarrow (is\_ducking := False;\\
-is\_invincible \Rightarrow img := inv\_char \land \neg is\_invincible \Rightarrow img := char\_img)$
+\item output: \textit{out} := \textit{is\_ducking}
+\end{itemize}}
+
+\noindent stand(\sout{inv\_char}, char\_img):
+\begin{itemize}
+\item transition: $\neg is\_jumping \Rightarrow (is\_ducking := False;$\\
+\sout{$is\_invincible \Rightarrow img := inv\_char \land \neg is\_invincible \Rightarrow img := char\_img)$}\\
+\textcolor{red}{$set\_img(char\_img, screen\_rect.left - Y\_OFFSET, screen\_rect.bottom - X\_OFFSET)$}
 \item exception:
     \begin{itemize}[]
-        \item   $exc$ := $(any img \equiv NULL) \Rightarrow IllegalArguementException$
+        \item   $exc$ := $(char\_img \equiv NULL) \Rightarrow IllegalArguementException$
     \end{itemize}
 \end{itemize}
 
-\noindent jump(inv\_jumping\_char, jumping\_img):
+\noindent jump(\sout{inv\_jumping\_char}, jumping\_img):
 \begin{itemize}
-\item transition: $\neg (is\_ducking \land is\_jumping) \Rightarrow (is\_jumping, movement[1] := True, INIT\_SPEED)$\\
-\item exception: $exc$ := $(any img \equiv NULL) \Rightarrow IllegalArguementException$
+\item transition: $\neg (is\_ducking \land is\_jumping) \Rightarrow (is\_jumping, movement[1], \textcolor{red}{jumping\_limit} := True, JUMPING\_SPEED, \textcolor{red}{jumping\_limit + 1} \land\\ \textcolor{red}{set\_img(char\_img, screen\_rect.left - Y\_OFFSET, screen\_rect.bottom - X\_OFFSET);}$\\
+\textcolor{red}{$is\_double\_jumping \land is\_jumping \land jumping\_limit \leq DOUBLE\_JUMPING\_LIMIT \Rightarrow jumping\_limit, movement[1] := jumping\_limit + 1, DOUBLEJUMPING\_SPEED$}
+\item exception: $exc$ := $(\_jumping\_img \equiv NULL) \Rightarrow IllegalArguementException$
 \end{itemize}
 
-\noindent invincible(inv\_char):
+\noindent \textcolor{red}{get\_jumping():
 \begin{itemize}
-\item transition: is\_invincible, img, is\_double\_jumping, is\_slo\_mo := True, inv\_char, False, False\\
+\item output: \textit{out} := \textit{is\_jumping}
+\end{itemize}}
+
+\noindent \textcolor{red}{checkbounds():
+\begin{itemize}
+\item transition: $rect.bottom > screen\_rect.bottom - Y\_OFFSET \Rightarrow\\ rect.bottom, is\_jumping, jumping\_limit := screen\_rect.bottom - Y\_OFFSET, False, 0$
+\end{itemize}}
+
+\noindent invincible(\sout{inv\_char}):
+\begin{itemize}
+\item transition: $is\_invincible, $\sout{img,}$ is\_double\_jumping, is\_slo\_mo, \textcolor{red}{obtain\_powerup\_time, pause\_duration}\\ := True, $\sout{inv\_char,}$ False, False, \textcolor{red}{time(), 0}$\\
 \item exception:
     \begin{itemize}[]
         \item   $exc$ := $(inv\_char \equiv NULL) \Rightarrow IllegalArguementException$
     \end{itemize}
 \end{itemize}
 
+\noindent \textcolor{red}{get\_invincible():
+\begin{itemize}
+\item output: \textit{out} := \textit{is\_invincible}
+\end{itemize}}
+
 \noindent double\_jump():
 \begin{itemize}
-\item transition: is\_double\_jumping, is\_slo\_mo, is\_invincible := True, False, False\\
+\item transition: $is\_invincible, $\sout{img,}$ is\_double\_jumping, is\_slo\_mo, \textcolor{red}{obtain\_powerup\_time, pause\_duration}\\ := False, $\sout{inv\_char,}$ True, False, \textcolor{red}{time(), 0}$\\
 \end{itemize}
+
+\noindent \textcolor{red}{get\_double\_jump():
+\begin{itemize}
+\item output: \textit{out} := \textit{is\_double\_jumping}
+\end{itemize}}
 
 \noindent slo\_mo():
 \begin{itemize}
-\item transition: is\_slo\_mo, is\_invincible, is\_double\_jumping := True, False, False\\
+\item transition: $is\_invincible, $\sout{img,}$ is\_double\_jumping, is\_slo\_mo, \textcolor{red}{obtain\_powerup\_time, pause\_duration}\\ := False, $\sout{inv\_char,}$ False, True, \textcolor{red}{time(), 0}$\\
 \end{itemize}
 
-\noindent update():
+\noindent \textcolor{red}{get\_slo\_mo():
 \begin{itemize}
-\item transition: Change is\_double\_jumping or is\_invincible or is\_slo\_mo to False and the corresponding image back if the power up has already lasted for DURATION\_TIME. If is\_jumping is True, decrease movement[1] by GRAVITY, and check if the jumping ends(if the character back to ground)
+\item output: \textit{out} := \textit{is\_slo\_mo}
+\end{itemize}}
+
+\noindent \textcolor{red}{is\_powered():
+\begin{itemize}
+\item output: \textit{out} := \textit{$is\_double\_jumping \lor is\_invincible \lor is\_slo\_mo$}
+\end{itemize}}
+
+\noindent update(\textcolor{red}{char\_img}):
+\begin{itemize}
+\item transition: Change is\_double\_jumping or is\_invincible or is\_slo\_mo to False and the corresponding image back if the power up has already lasted for DURATION\_TIME. If is\_jumping is True, decrease movement[1] by GRAVITY, and check if the jumping ends(if the character back to ground) \textcolor{red}{If the character is not jumping or ducking, set the image to the original one}
+\textcolor{red}{\item exception: $exc$ := $(char\_img \equiv NULL) \Rightarrow IllegalArguementException$}
 \end{itemize}
 \subsection*{Local Constants}
-INIT\_SPEED = -20\\
-GRAVITY = 1\\
-DURATION\_TIME = 5\\
+INIT\_SPEED = \sout{-20} \textcolor{red}{$\mathbb{Z}$}\\
+GRAVITY = \sout{1}\textcolor{red}{$\mathbb{Z}$}  \\
+DURATION = \sout{5}\textcolor{red}{$\mathbb{Z}$} \\
+\textcolor{red}{NORMAL\_SIZE = \textcolor{red}{$(\mathbb{N,N})$}\\
+DUCKING\_SIZE = $(\mathbb{N,N})$\\
+X\_OFFSET = $\mathbb{Z}$\\
+Y\_OFFSET = $\mathbb{Z}$\\
+DOUBLEJUMPING\_SPEED = $\mathbb{N}$\\
+IMAGE\_SELECTOR = $\mathbb{N}$\\
+DOUBLE\_JUMPING\_LIMIT = $\mathbb{N}$\\
+RESUME\_TIME = $\mathbb{N}$\\}
 \medskip
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -220,18 +323,22 @@ DURATION\_TIME = 5\\
 \section*{Model/Powerups}
 
 \subsection* {Uses}
-
-Pygame
+Pygame\\
+Random\\
+LoadAssets
 
 \subsection* {Syntax}
 
 \subsubsection* {Exported Access Programs}
 
+\resizebox{17cm}{!}{
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-    Powerups & $\mathbb{N, N, R}$, pygame.image & Powerups & IllegalArguementException\\
+    Powerups & pygame.\sout{image}\textcolor{red}{display} Powerups, $\mathbb{N, N, R}$ & --- & IllegalArguementException\\
+\hline
+    \textcolor{red}{get\_rect} & \textcolor{red}{---} & \textcolor{red}{pygame.rect} & \textcolor{red}{---}\\
 \hline
     get\_width & --- & $\mathbb{N}$ & ---\\
 \hline
@@ -245,28 +352,33 @@ Pygame
 \hline
     set\_speed & $\mathbb{N}$ & ---& --- \\
 \hline
-    get\_img & --- & string & ---\\
+    get\_img & --- & \sout{string} \textcolor{red}{$\mathbb{Z}$} & ---\\
 \hline
     set\_img & pygame.img & --- & IllegalArguementException\\
 \hline
     get\_name & --- & String & --- \\
 \hline
-\end{tabular}
+    \textcolor{red}{update} & \textcolor{red}{---} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+\end{tabular}}
 
 \subsection* {Semantics}
 
 \subsubsection* {State Variables}
 \begin{tabular}{lll}
-name: String & // & Represents the type of a power up\\
+\textcolor{red}{screen: pygame.display} & \textcolor{red}{//} & \textcolor{red}{Represents the game screen}\\
+name: \sout{String \textcolor{red}{$\mathbb{Z}$}} & // & Represents the type of a power up\\
     width: $\mathbb{N}$ & // & Represents the width of a power up\\
     height: $\mathbb{N}$ & // & Represents the height of a power up\\
     speed: $\mathbb{R}$ & // & Represents the speed of a power up\\
     img: pygame.image & // & Surface object with a specified image drawn onto it\\
+\textcolor{red}{rect: pygame.rect} & \textcolor{red}{//} & \textcolor{red}{Represents the rectangle shape of the powerup}\\
+\textcolor{red}{screen\_rect: pygame.rect} & \textcolor{red}{//} & \textcolor{red}{Represents the game screen rectangle}\\
 \end{tabular}
 
 \subsubsection* {State Invariant}
 
-None
+\sout{None} \textcolor{red}{$name \in [0,TYPES]$}
 
 \subsubsection* {Assumptions \& Design Decisions}
 
@@ -274,18 +386,21 @@ None
 
 \subsubsection* {Access Routine Semantics}
 
-\noindent Powerups(width, height, speed, powerup\_img):
+\noindent Powerups(\sout{powerup\_img} \textcolor{red}{window}, width, height, speed):
 \begin{itemize}
-    \item transition: width, height, speed, img, name := width, height, speed, powerup\_img, random element in POWERUP\_LIST
+    \item transition: width, height, speed, \sout{img} \textcolor{red}{screen}, name, \textcolor{red}{img} := width, height, speed, \sout{powerup\_img,} \textcolor{red}{window, } random integer in [0,TYPES], \textcolor{red}{corresponding image with given width and height}
     \item output: $out := self$
-   \item exception: $exc$ := $(powerup\_img \equiv NULL) \Rightarrow IllegalArguementException$
 \end{itemize}
+
+\noindent \textcolor{red}{get\_rect():
+\begin{itemize}
+    \item output: $out$ := rect
+\end{itemize}}
 
 \noindent get\_width():
 \begin{itemize}
     \item output: $out$ := width 
 \end{itemize}
-
 
 \noindent set\_width(new\_width):
 \begin{itemize}
@@ -335,8 +450,14 @@ None
     \item output: $out$ := name
 \end{itemize}
 
+\noindent \textcolor{red}{update():
+\begin{itemize}
+    \item transition: the object moves forward according to the speed
+\end{itemize}}
+
 \subsection*{Local Constants}
-POWERUP\_LIST = [``Invincibility", ``Double Jump", ``Score Boost", ``Slo\_mo"]
+\textcolor{red}{Y\_OFFSET = $\mathbb{Z}$\\
+TYPES = $\mathbb{Z}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -367,7 +488,7 @@ Pygame
 \hline
     get\_speed & --- & $\mathbb{R}$ & --- \\
 \hline
-    set\_speed & $\mathbb{R}$ & ---& --- \\
+    set\_speed & $\mathbb{R}$ & ---& \textcolor{red}{IllegalArgumentException} \\
 \hline
     get\_img & --- & pygame.image & ---\\
 \hline
@@ -377,6 +498,8 @@ Pygame
     get\_rect & --- & ($\mathbb{R,R}$) & \\
 \hline
     set\_rect & ($\mathbb{R,R}$) & --- & ---\\
+\hline
+\textcolor{red}{set\_rect} & \textcolor{red}{($\mathbb{R,R}$)} & \textcolor{red}{---} & \textcolor{red}{---} \\
 \hline
 \end{tabular}
 
@@ -442,6 +565,7 @@ None
 \noindent set\_speed(new\_speed):
 \begin{itemize}
     \item transition: speed := new\_speed
+    \item \textcolor{red}{exception: $exc$ := ($\text{new\_speed} < 0$) $\Rightarrow  IllegalArgumentException$}
 \end{itemize}
 
 
@@ -468,6 +592,10 @@ None
     \item transition: rect.x, rect.y := x, y
 \end{itemize}
 
+\noindent \textcolor{red}{get\_pos(x, y):}
+\begin{itemize}
+    \item \textcolor{red}{output:  out:= rect.x, rect.y}
+\end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -482,16 +610,19 @@ Pygame
 \subsection* {Syntax}
 
 \subsubsection* {Exported Access Programs}
-
+\resizebox{17cm}{!}{
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
     detect\_collision & pygame.sprite, seq of pygame.sprite & $\mathbb{B}$  & ---\\
 \hline
-    find\_collision & pygame.sprite, seq of pygame.sprite & pygame.sprite  & ---\\
+    \sout{find\_collision} \textcolor{red}{find\_collision\_obstacle} & \sout{pygame.sprite, seq of pygame.sprite} \textcolor{red}{Character, seq of Obstacle} & Obstacle  & ---\\
+\hline
+    \textcolor{red}{find\_collision\_powerups} &  \textcolor{red}{Character, seq of Powerups} & Powerups  & ---\\
 \hline
 \end{tabular}
+}
 
 \subsection* {Semantics}
 
@@ -514,11 +645,16 @@ detect\_collision(character, elements):
     \item output: $out$ := ($\forall \text{ element} \in \text{elements } | \text{ (character.X}< \text{element.X} + \text{element.width}) \land (\text{character.X} + \text{character.width} > \text{element.X}) \land (\text{character.Y} < \text{element.Y} + \text{element.height}) \land (\text{character.Y} + \text{Character.height} > \text{element.Y})$)
 \end{itemize}
 
-\noindent find\_collision(character, elements):
+\noindent \sout{find\_collision(character, elements):} \textcolor{red}{find\_collision\_obstacle(character, obstacles):}
 \begin{itemize}
-    \item output: $out$ := the element in the sequence elements that collides with the character.
+    \item output: $out$ := the \sout{element} \textcolor{red}{obstacle} in the sequence \sout{elements} \textcolor{red}{obstacles} that collides with the character.
 \end{itemize}
 
+
+\noindent  \textcolor{red}{find\_collision\_powerups(character, powerups):}
+\begin{itemize}
+    \item \textcolor{red}{output: $out$ := the powerup in the sequence powerups that collides with the character.}
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -526,7 +662,8 @@ detect\_collision(character, elements):
 \section*{Model/UpdateEnvironment}
 
 \subsection* {Uses}
-Pygame
+Pygame \\
+\textcolor{red}{Random}
 
 \subsection* {Syntax}
 
@@ -536,7 +673,7 @@ Pygame
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-    update\_floor & $\mathbb{Z}$ & $\mathbb{Z}$ & ---\\
+    update\_floor & $\mathbb{Z}$, \textcolor{red}{$\mathbb{Z}$} & $\mathbb{Z}$ & ---\\
 \hline
     update\_bg\_colour & $\mathbb{Z}$, $\mathbb{Z}$, seq of $\mathbb{Z}$ & seq of $\mathbb{Z}$ & ---\\
 \hline
@@ -558,17 +695,23 @@ The game window and images are defined before any routines are called.
 
 \subsubsection* {Access Routine Semantics}
 
-update\_floor(floor\_position):
+update\_floor(floor\_position, \textcolor{red}{movement\_speed}):
 \begin{itemize}
-    \item output: \textit{out} := (floor\_position $\leq$ -500) $\Rightarrow$ floor\_position = 0 $\lor$ (floor\_position = floor\_position - MOVEMENT\_SPEED)
+    \item output: \textit{out} := (floor\_position $\leq$ \textcolor{red}{BOUNDARY\_LEFT}) $\Rightarrow$ floor\_position = 0 $\lor$ (floor\_position = floor\_position - \sout{MOVEMENT\_SPEED} \textcolor{red}{movement\_speed})
 \end{itemize}
 \noindent update\_bg\_colour(current\_score, previous\_score, bg\_rgb):
 \begin{itemize}
-    \item output: \textit{out} := Every time the score is a multiple of CHANGE\_BG, the value of either red (bg\_rbg[0]), green (bg\_rbg[1]), or blue (bg\_rbg[2]) changes. The new value of one of the field is: $(0 \leq x \leq 2 |$ $bg\_rgb[x] := (bg\_rgb[x]+50)\%255 )$
+    \item output: \textit{out} := Every time the score is a multiple of \textcolor{red}{CHANGE\_BG\_INTERVAL}, the value of either red (bg\_rbg[\sout{0} \textcolor{red}{RED}]), green (bg\_rbg[\sout{1} \textcolor{red}{GREEN}]), or blue (bg\_rbg[\sout{2} \textcolor{red}{BLUE}]) changes, which is selected randomly. The new value of one of the field is: $(0 \leq x \leq 2 |$ $bg\_rgb[x] := (bg\_rgb[x]+$ \textcolor{red}{CHANGE\_BG\_VAL} $)\% $ \textcolor{red}{MAX\_RGB}). The updated bg\_rgb sequence is returned.
 \end{itemize}
 \subsubsection* {Local Constants}
-MOVEMENT\_SPEED: 10 \\
-CHANGE\_BG = 50
+\sout{MOVEMENT\_SPEED: 10} \\
+CHANGE\_BG\textcolor{red}{\_VAL} = \sout{50} $\mathbb{N}$ \\
+\textcolor{red}{MAX\_RGB = $\mathbb{N}$} \\
+\textcolor{red}{CHANGE\_BG\_INTERVAL = $\mathbb{N}$} \\
+\textcolor{red}{RED = $\mathbb{N}$} \\
+\textcolor{red}{GREEN = $\mathbb{N}$} \\
+\textcolor{red}{BLUE = $\mathbb{N}$} \\
+\textcolor{red}{BOUNDARY\_LEFT = $\mathbb{Z}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -588,11 +731,15 @@ Time
 \hline
     Score &--- & Score& ---\\
 \hline 
-    get\_score & --- & $\mathbb{N}$ & --- \\
+    get\textcolor{red}{\_current}\_score & --- & $\mathbb{N}$ & --- \\
 \hline
-    update\_score & --- & --- & ---\\
+    update\_score & \textcolor{red}{time.time} & \textcolor{red}{$\mathbb{N}$, $\mathbb{N}$} & ---\\
 \hline
-    get\_high\_score & --- & $\mathbb{N}$ & --- \\
+    \sout{get\_high\_score} \textcolor{red}{get\_score} & --- & $\mathbb{N}$ & --- \\
+\hline
+    \textcolor{red}{reset\_score} & --- & --- & --- \\
+\hline
+    \textcolor{red}{boost} & --- & --- & --- \\
 \hline
 \end{tabular}
 
@@ -603,7 +750,8 @@ Time
 high\_score: $\mathbb{N}$ \\
 current\_score: $\mathbb{N}$ \\
 previous\_score: $\mathbb{N}$ \\
-start\_time: $\mathbb{R}$
+\sout{start\_time: $\mathbb{R}$} \\
+\textcolor{red}{score\_boost = $\mathbb{N}$}
 
 \subsubsection* {State Invariant}
 
@@ -618,80 +766,91 @@ None
 Score():
 \begin{itemize}
     \item output: $out$ := \textit{self} 
-    \item transition: high\_score, current\_score, start\_time := 0, 0, current time
+    \item transition: high\_score, current\_score, \sout{start\_time} \textcolor{red}{previous\_score, boost} := 0, 0, \sout{current time} \textcolor{red}{0, 0}
 \end{itemize}
-\noindent get\_score():
+\noindent get\textcolor{red}{\_current}\_score():
 \begin{itemize}
     \item output: $out$ := current\_score
 \end{itemize}
-\noindent update\_score():
+\noindent update\_score(\textcolor{red}{start\_time}):
 \begin{itemize}
     \item output: $out$ := current\_score, previous\_score
-    \item transition: previous\_score, current\_score, high\_score := current\_score, ((current time - start\_time)$\cdot$ SCALE\_FACTOR) rounded to the nearest natural number, (current\_score $>$ high\_score) $\Rightarrow$ current\_score $\lor$ high\_score
+    \item transition: previous\_score, current\_score, high\_score := current\_score, ((current time - start\_time)$\cdot$ SCALE\_FACTOR \textcolor{red}{+ score\_boost $\cdot$ SCORE\_BOOST\_VAL}) rounded to the nearest natural number, (current\_score $>$ high\_score) $\Rightarrow$ current\_score \sout{$\lor$ high\_score}
 \end{itemize}
 \noindent get\_score():
 \begin{itemize}
     \item output: $out$ := high\_score
 \end{itemize}
+\textcolor{red}{
+\noindent reset\_score():
+\begin{itemize}
+    \item transition: current\_score, score\_boost := 0, 0
+\end{itemize}
+\noindent boost():
+\begin{itemize}
+    \item transition: score\_boost := score\_boost+1
+\end{itemize}
+}
 \subsubsection* {Local Constants}
-SCALE\_FACTOR = 5
+SCALE\_FACTOR = \sout{5} \textcolor{red}{$\mathbb{N}$} \\
+\textcolor{red}{SCORE\_BOOST\_VAL = $\mathbb{N}$}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Model/MainMenu}
+\section*{\sout{Model/MainMenu}}
 
-\subsection* {Uses}
-None
+\subsection* {\sout{Uses}}
+\sout{None}
 
-\subsection* {Syntax}
+\subsection* {\sout{Syntax}}
 
-\subsubsection* {Exported Access Programs}
+\subsubsection* {\sout{Exported Access Programs}}
 
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-    MainMenu & --- & MainMenu & ---\\
+    \sout{MainMenu} & --- & \sout{MainMenu} & ---\\
 \hline
-    change\_volume & $\mathbb{N}$, $\mathbb{N}$ & --- & ---\\
+    \sout{change\_volume} & \sout{$\mathbb{N}$, $\mathbb{N}$} & --- & ---\\
 \hline
-    get\_volumes & --- & $\mathbb{N}$, $\mathbb{N}$ & ---\\
+    \sout{get\_volumes} & --- & \sout{$\mathbb{N}$, $\mathbb{N}$} & ---\\
 \hline
 \end{tabular}
 
-\subsection* {Semantics}
+\subsection* {\sout{Semantics}}
 
-\subsubsection* {State Variables}
+\subsubsection* {\sout{State Variables}}
 
-background\_music\_volume: $\mathbb{N}$\\
-sound\_effects\_volume: $\mathbb{N}$
+\sout{background\_music\_volume: $\mathbb{N}$\\}
+\sout{sound\_effects\_volume: $\mathbb{N}$}
 
-\subsubsection* {State Invariant}
+\subsubsection* {\sout{State Invariant}}
 
-None
+\sout{None}
 
-\subsubsection* {Assumptions}
+\subsubsection* {\sout{Assumptions}}
 
-None
+\sout{None}
 
-\subsubsection* {Access Routine Semantics}
+\subsubsection* {\sout{Access Routine Semantics}}
 
-MainMenu():
+\sout{MainMenu():}
 \begin{itemize}
-    \item output: $out$ := self
-    \item transition: background\_music\_volume, sound\_effects\_volume := MAX\_VOLUME, \\ MAX\_VOLUME
+    \item \sout{output: $out$ := self}
+    \item \sout{transition: background\_music\_volume, sound\_effects\_volume := MAX\_VOLUME, \\ MAX\_VOLUME}
 \end{itemize}
-\noindent change\_volume(new\_background\_volume, new\_sound\_effects\_volume):
+\noindent \sout{change\_volume(new\_background\_volume, new\_sound\_effects\_volume):}
 \begin{itemize}
-    \item transition: background\_music\_volume, sound\_effects\_volume := new\_background\_volume, new\_sound\_effects\_volume
+    \item \sout{transition: background\_music\_volume, sound\_effects\_volume := new\_background\_volume, new\_sound\_effects\_volume}
 \end{itemize}
-\noindent get\_volumes():
+\noindent \sout{get\_volumes():}
 \begin{itemize}
-    \item output: $out$ := background\_music\_volume, sound\_effects\_volume 
+    \item \sout{output: $out$ := background\_music\_volume, sound\_effects\_volume }
 \end{itemize}
-\subsection* {Local Constants}
-MAX\_VOLUME: 100
+\subsection* {\sout{Local Constants}}
+\sout{MAX\_VOLUME: 100}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -704,7 +863,8 @@ MAX\_VOLUME: 100
 Pygame\\
 Time\\
 Obstacle\\
-Random
+Random\\
+\textcolor{red}{DetectCollision}
 
 \subsection* {Syntax}
 
@@ -721,13 +881,14 @@ Random
 \hline
     remove\_obstacle & Obstacle &  --- & ---\\
 \hline
-    generate\_obstacle &  seq of Obstacle, $\mathbb{R}$ &  $\mathbb{R}$ & ---\\
+    generate\_obstacle &  \textcolor{red}{$\mathbb{R,R}$} seq of Obstacle, $\mathbb{R}$, \textcolor{red}{seq of Powerups} &  $\mathbb{R}$ & ---\\
 \hline
     draw\_obstacle & $\mathbb{R,R}$, Obstacle &  --- & ---\\
 \hline
     update\_obstacle\_display & --- &  --- & ---\\
 \hline
-
+ \textcolor{red}{update\_speed} & \textcolor{red}{$\mathbb{R}$} &  \textcolor{red}{---} & \textcolor{red}{IllegalArgumentException}\\
+\hline
 \end{tabular}
 }
 
@@ -764,11 +925,11 @@ None
 \end{itemize}
 \noindent draw\_obstacle(current\_x, current\_y, obstacle): 
 \begin{itemize}
-    \item transition: game\_screen := Draw the given obstacle at a specific location (X, Y) coordinates using the obstacle image.
+    \item transition: game\_screen := Draw the given obstacle at a specific location (X, Y) coordinates using the \sout{obstacle image} \textcolor{red}{obstacle.get\_img()}.
 \end{itemize}
-\noindent generate\_obstacle(type\_of\_obstacles, prev\_obstacle\_spawn\_time):
+\noindent generate\_obstacle(\textcolor{red}{current\_x, current\_y, }type\_of\_obstacles, prev\_obstacle\_spawn\_time, \textcolor{red}{generated\_powerups}):
 \begin{itemize}
-    \item transition: Generate a random kind of obstacle after APPROPRIATE\_TIME and add it to the obstacle\_list. 
+    \item transition: Generate a random kind of obstacle after APPROPRIATE\_TIME \sout{and} \textcolor{red}{,} add it to the obstacle\_list \textcolor{red}{ and draw it onto the screen}. \textcolor{red}{Also checks for any instance of a collision with an already generated powerups so that an obstacle and poweup don't overlap}.
     \item out: \textit{out} := current time
 \end{itemize}
 \noindent update\_obstacle\_display(): 
@@ -776,8 +937,13 @@ None
     \item transition: For each obstacle in obstacle\_list, draw each obstacle at its new position by considering the speed of each object. Once the obstacle is outside the boundaries of the game\_screen, remove the obstacle from the list.
 \end{itemize}
 
+\noindent \textcolor{red}{update\_speed(new\_speed):}
+\begin{itemize}
+    \item \textcolor{red}{transition: For each obstacle in obstacle\_list, change the speed to new\_speed.}
+\end{itemize}
+
 \subsubsection* {Local Constants}
-APPROPRIATE\_TIME = random integer between 3 and 5 seconds
+APPROPRIATE\_TIME = $\mathbb{Z}$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -787,7 +953,10 @@ APPROPRIATE\_TIME = random integer between 3 and 5 seconds
 
 Pygame\\
 Powerups\\
-Random
+Random \\
+\textcolor{red}{Time}\\
+\textcolor{red}{DetectCollision}\\
+\textcolor{red}{Obstacle}
 
 \subsection* {Syntax}
 
@@ -800,13 +969,18 @@ Random
 \hline
     DisplayPowerups & pygame.display & DisplayPowerups & IllegalArgumentException \\
 \hline
-    generate\_powerup & --- & --- & ---\\
+    \textcolor{red}{get\_powerups\_list} & \textcolor{red}{---} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{remove\_powerups\_list} & \textcolor{red}{Powerups} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+    generate\_powerup & \textcolor{red}{$\mathbb{R}$, seq of Obstacles, $\mathbb{R}$} & --- & ---\\
 \hline
     draw\_powerups & Powerups &  --- & ---\\
 \hline
-    update\_powerup & --- & --- & ---\\
+    update\_powerups & \textcolor{red}{seq of Obstacle} & --- & ---\\
 \hline
-
+    \textcolor{red}{update\_speed} & \textcolor{red}{$\mathbb{R}$} & --- & ---\\
+\hline
 \end{tabular}
 }
 
@@ -816,6 +990,7 @@ Random
 
 powerups\_diplayed: seq of Powerups\\ 
 game\_screen: pygame.display \\
+\textcolor{red}{generate\_time: $\mathbb{R}$}
 
 \subsubsection* {State Invariant}
 
@@ -830,37 +1005,61 @@ None
 display\_powerup(game\_screen):
 \begin{itemize}
     \item output: \textit{out} := \textit{self}
-    \item transition: game\_screen, powerups\_diplayed := game\_screen, []
+    \item transition: game\_screen, powerups\_diplayed, \textcolor{red}{generate\_time} \\:= game\_screen, \sout{[]}, \textcolor{red}{pygame.sprite.Group(), time()}
     \item exception: \textit{exc}: (game\_screen = NULL $\Rightarrow$ IllegalArgumentExcpetion)
 \end{itemize}
-\noindent generate\_powerup():
+
+\noindent \textcolor{red}{get\_powerups\_list(): 
 \begin{itemize}
-    \item transition: powerups\_diplayed := Add a random kind of powerup in the powerups\_displayed (a list of powerups displayed on the game\_screen). 
-\end{itemize}
-\noindent draw\_powerups(powerup): 
+    \item out: \textit{out} := powerups\_displayed
+\end{itemize}}
+
+\noindent \textcolor{red}{remove\_powerups\_list(p): 
 \begin{itemize}
-    \item transition: draw the power up on the screen
+    \item transition: powerups\_displayed := powerups\_displayed.remove(p)
+\end{itemize}}
+
+\noindent generate\_powerup(\textcolor{red}{speed, obstacles, obstacle\_spawn\_time}):
+\begin{itemize}
+    \item transition: powerups\_diplayed := Add a random kind of powerup in the powerups\_displayed (a list of powerups displayed on the game\_screen) \textcolor{red}{, update generate\_time and draw it if there is no overlapping between obstacles and the new object and $time() - generate\_time > randint(RAND\_MIN,RAND\_MAX)\\ and time() - obstacle\_spawn\_time \geq INTERVAL\_TIME$}. 
 \end{itemize}
 
-\noindent update\_powerup():
+\noindent draw\_powerups(p): 
 \begin{itemize}
-    \item transition: all elements in powerups\_displayed are updated by position and drawn. 
+    \item transition: draw Powerup p on the screen
 \end{itemize}
 
+\noindent update\_powerups(\textcolor{red}{obstacles}):
+\begin{itemize}
+    \item transition: all elements in powerups\_displayed are updated by position and drawn. \textcolor{red}{If there is overlapping, remove the powerup, and if the powerup goes out of the screen , get rid of it.} 
+\end{itemize}
 
+\noindent \textcolor{red}{update\_speed(speed): 
+\begin{itemize}
+    \item transition: $\forall p \in powerups\_displayed: p.set\_speed(speed)$
+\end{itemize}}
+\subsection* {Local Constants}
+\textcolor{red}{
+POWERUPS\_WIDTH = $\mathbb{N}$\\
+POWERUPS\_HEIGHT = $\mathbb{N}$\\
+INTERVAL\_TIME = $\mathbb{N}$\\
+RANDOMNESS = $\mathbb{R}$\\
+RAND\_MIN = $\mathbb{N}$\\
+RAND\_MAX = $\mathbb{N}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{View/DisplayEnvironment}
 
 \subsection* {Uses}
-UpdateEnvironment \\
+\sout{UpdateEnvironment} \\
 Pygame
 
 \subsection* {Syntax}
 
 \subsubsection* {Exported Access Programs}
 
+\resizebox{17cm}{!}{
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
@@ -869,14 +1068,16 @@ Pygame
 \hline
     draw\_score & Score & --- & ---\\
 \hline
-    display\_instruction & String & --- & ---\\
+    \sout{display\_instruction} \textcolor{red}{display\_msg} & String, \textcolor{red}{seq of $\mathbb{Z}$} & --- & ---\\
 \hline
-    draw\_floor & pygame.image $\mathbb{Z}$ & --- & IllegalArgumentException\\
+    draw\_floor & pygame.image, $\mathbb{Z}$ & --- & IllegalArgumentException\\
 \hline
-    draw\_background & pygame.image & --- & IllegalArgumentException\\
+    draw\_background & pygame.image\textcolor{red}{, seq of $\mathbb{Z}$} & --- & IllegalArgumentException\\
+\hline
+    \textcolor{red}{display\_powerup} & \sout{pygame.image} \textcolor{red}{time.time} & --- & IllegalArgumentException \\
 \hline
 \end{tabular}
-
+}
 \subsection* {Semantics}
 
 \subsubsection* {State Variables}
@@ -901,28 +1102,33 @@ None
 
 \noindent draw\_score(score):
 \begin{itemize}
-    \item transition: The score is drawn on the game\_screen.
+    \item transition: The score is drawn on the game\_screen \textcolor{red}{using the display\_msg method.}
 \end{itemize}
 
-\noindent draw\_instruction(instructions):
+\noindent \sout{draw\_instruction (instructions)} \textcolor{red}{display\_msg(msg, msg\_pos)}:
 \begin{itemize}
-    \item transition: The instruction is shown on the screen for TIME and disappears after.
+    \item transition: \sout{The instruction is shown on the screen for TIME and disappears after} \textcolor{red}{Draws msg on the game\_screen at the position msg\_pos}.
 \end{itemize}
 
 \noindent draw\_floor(floor, floor\_position):
 \begin{itemize}
-    \item transition : Draw the floor onto the game\_screen.
+    \item transition : Draw the floor onto the game\_screen \textcolor{red}{at floor\_position}.
     \item exception: $exc$ := $(floor \equiv NULL) \Rightarrow IllegalArgumentException $
 \end{itemize}
 
-\noindent draw\_background(background):
+\noindent draw\_background(background\textcolor{red}{, bg\_rgb}):
 \begin{itemize}
-    \item transition : Draw the background img onto the game\_screen
+    \item transition : \textcolor{red}{Fills the game\_screen with the color bg\_rgb and draws} \sout{Draw the} background \sout{img} onto the game\_screen.
     \item exception: $exc$ := $(background \equiv NULL) \Rightarrow IllegalArgumentException $
 \end{itemize}
-
-\subsection*{Local Constants}
-TIME = 5 seconds\\\
+\textcolor{red}{
+\noindent draw\_powerup(time):
+\begin{itemize}
+    \item transition : Draws the time (remaining time left on acquired powerup) on the game\_screen.
+\end{itemize}
+}
+\subsection*{\sout{Local Constants}}
+\sout{TIME = 5 seconds}\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -973,8 +1179,8 @@ DisplayWindow():
     \item output: $out$ := game\_screen
 \end{itemize}
 \subsection* {Local Constants}
-WIDTH = 800 \\
-HEIGHT = 600 
+WIDTH = \sout{800} \textcolor{red}{$\mathbb{N}$} \\
+HEIGHT = \sout{600} \textcolor{red}{$\mathbb{N}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1002,10 +1208,12 @@ Character
 
 game\_screen: pygame.display \\
 game\_character: Character \\
+\textcolor{red}{step: $\mathbb{Z}$}
 
 \subsubsection* {State Invariant}
 
-None
+\sout{None}
+\textcolor{red}{$0 \leq step \leq FRAME$}
 
 \subsubsection* {Assumptions}
 
@@ -1014,19 +1222,25 @@ None
 \subsubsection* {Access Routine Semantics}
 DisplayCharacter(window, character):
 \begin{itemize}
-    \item transition: game\_screen, game\_character := window, character 
+    \item transition: game\_screen, game\_character, \textcolor{red}{step} := window, character, \textcolor{red}{0} 
 \end{itemize}
 \noindent draw\_character():
 \begin{itemize}
-    \item transition: draw the character onto the game\_screen 
+    \item transition: draw the character onto the game\_screen \textcolor{red}{according to step to mimic a gif.}\\
+    \textcolor{red}{$step \leq FRAME \Rightarrow step := 0$; $step := step + 1$}
 \end{itemize}
+\subsection* {Local Constants}
+\textcolor{red}{
+FRAME = $\mathbb{N}$
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{View/PlaySound}
 
 \subsection* {Uses}
-LoadAssets
+\sout{LoadAssets}\\
+\textcolor{red}{Pygame}
 \subsection* {Syntax}
 
 \subsubsection* {Exported Access Programs}
@@ -1035,7 +1249,15 @@ LoadAssets
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-    PlaySound & --- & PlaySound & ---\\
+    PlaySound & \textcolor{red}{seq of pygame.mixer.Sound} & PlaySound & ---\\
+\hline
+    \textcolor{red}{get\_sound\_effect} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{R}$} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{set\_sound\_effect} & \textcolor{red}{$\mathbb{R}$} & \textcolor{red}{---} & \textcolor{red}{IllegalArgumentException}\\
+\hline
+     \textcolor{red}{get\_background} & \textcolor{red}{---} & \textcolor{red}{$\mathbb{R}$} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{set\_background} & \textcolor{red}{$\mathbb{R}$} & --- & \textcolor{red}{IllegalArgumentException}\\
 \hline
     play\_bg\_music & --- & --- & ---\\
 \hline
@@ -1047,18 +1269,24 @@ LoadAssets
 \hline
     play\_powerup\_sound & --- & --- & --- \\
 \hline
+    \textcolor{red}{play\_game\_over\_sound} & \textcolor{red}{---} & \textcolor{red}{---} & \textcolor{red}{---} \\
+\hline
+    \textcolor{red}{stop\_music} & \textcolor{red}{---} & \textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
 \end{tabular}
 
 \subsection* {Semantics}
 
 \subsubsection* {State Variables}
 
-background\_music: pygame.mixer\\
-jump\_sound: pygame.mixer\\
-duck\_sound: pygame.mixer\\
-collision\_sound: pygame.mixer\\
-powerup\_pickup\_sound: pygame.mixer 
-
+background\_music: pygame.mixer\textcolor{red}{.Sound}\\
+jump\_sound: pygame.mixer\textcolor{red}{.Sound}\\
+duck\_sound: pygame.mixer\textcolor{red}{.Sound}\\
+collision\_sound: pygame.mixer\textcolor{red}{.Sound}\\
+powerup\_pickup\_sound: pygame.mixer\textcolor{red}{.Sound}\\
+\textcolor{red}{game\_over\_sound: pygame.mixer.Sound}\\
+\textcolor{red}{sound\_effect\_vol: $\mathbb{R}$}\\
+\textcolor{red}{background\_vol: $\mathbb{R}$}
 \subsubsection* {State Invariant}
 
 None
@@ -1069,39 +1297,77 @@ None
 
 \subsubsection* {Access Routine Semantics}
 
-PlaySound():
+PlaySound(sound\_list):
 \begin{itemize}
     \item output: $out$ := $self$
-    \item transition: background\_music, jump\_sound, duck\_sound, collision\_sound, powerup\_pickup\_sound := the assets are loaded in from the LoadAssets module.
+    \item transition: background\_music, jump\_sound, duck\_sound, collision\_sound, powerup\_pickup\_sound, game\_over\_sound, sound\_effect\_vol, background\_VOL := the assets are loaded in from the LoadAssets module (for background, jump, duck, collision, powerup pickup and game over), SOUND\_EFFECT\_VOL\_INTIAL, BACKGROUND\_VOL\_INTIAL.
 \end{itemize}
+
+\noindent \textcolor{red}{get\_sound\_effect():}
+\begin{itemize}
+    \item \textcolor{red}{output: $out :=$ sound\_effect\_vol }
+\end{itemize}
+
+\noindent \textcolor{red}{set\_sound\_effect(new\_vol):}
+\begin{itemize}
+    \item \textcolor{red}{transition:   sound\_effect\_vol $:=$ new\_vol}
+    \item \textcolor{red}{exception: $exc$ := $(0 < new\_vol \lor new\_vol > 1) \Rightarrow IllegalArgumentException $}
+\end{itemize}
+
+\noindent \textcolor{red}{get\_background():}
+\begin{itemize}
+    \item \textcolor{red}{output: $out :=$ background\_vol }
+\end{itemize}
+
+\noindent \textcolor{red}{set\_background(new\_vol):}
+\begin{itemize}
+    \item \textcolor{red}{transition:   background\_vol $:=$ new\_vol}
+    \item \textcolor{red}{exception: $exc$ := $(0 < new\_vol \lor new\_vol > 1) \Rightarrow IllegalArgumentException $}
+\end{itemize}
+
+
 \noindent  play\_bg\_music():
 \begin{itemize}
-    \item transition: plays the background music.
+    \item transition: plays the background music \textcolor{red}{at background\_vol}.
 \end{itemize}
 \noindent play\_jump\_sound():
 \begin{itemize}
-    \item transition: plays the jump sound effect.
+    \item transition: plays the jump sound effect \textcolor{red}{at sound\_effect\_vol}.
 \end{itemize}
 \noindent  play\_duck\_sound():
 \begin{itemize}
-    \item transition: plays the duck sound effect.
+    \item transition: plays the duck sound effect \textcolor{red}{at sound\_effect\_vol}.
 \end{itemize}
 \noindent  play\_collision\_sound():
 \begin{itemize}
-    \item transition: plays the collision sound effect.
+    \item transition: plays the collision sound effect \textcolor{red}{at sound\_effect\_vol}.
 \end{itemize}
 \noindent  play\_powerup\_sound():
 \begin{itemize}
-    \item transition: plays the powerup pickup sound effect.
+    \item transition: plays the powerup pickup sound effect \textcolor{red}{at sound\_effect\_vol}.
 \end{itemize}
+
+\noindent  \textcolor{red}{play\_game\_over\_sound():}
+\begin{itemize}
+    \item \textcolor{red}{transition: plays the game over sound effect at sound\_effect\_vol}.
+\end{itemize}
+
+\noindent  \textcolor{red}{stop\_music():}
+\begin{itemize}
+    \item \textcolor{red}{transition: stops all current audio that is playing}.
+\end{itemize}
+
+\subsection* {Local Constants}
+SOUND\_EFFECT\_VOL\_INITIAL = $\mathbb{R}$\\
+BACKGROUND\_VOL\_INITIAL= $\mathbb{R}$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{View/DisplayMenu}
 
 \subsection* {Uses}
-MainMenu
-
+\sout{MainMenu}\\
+\textcolor{red}{Pygame}
 \subsection* {Syntax}
 
 \subsubsection* {Exported Access Programs}
@@ -1112,13 +1378,17 @@ MainMenu
 \hline
     DisplayMenu & pygame.display & DisplayMenu & IllegalArgumentException\\
 \hline
-    display\_main\_menu & --- & --- & ---\\
+    display\_main\_menu & \textcolor{red}{pygame.image} & --- & ---\\
 \hline
-    display\_pause\_menu & --- & --- & ---\\
+    display\_pause\_menu &  \textcolor{red}{pygame.image} & --- & ---\\
 \hline
-    display\_exit\_menu & --- & --- & ---\\
+    \sout{display\_exit\_menu} \textcolor{red}{display\_end\_menu} & \textcolor{red}{pygame.image} & --- & ---\\
 \hline
-     display\_setting\_menu & --- & --- & ---\\
+     display\_setting\_menu & \textcolor{red}{pygame.image} & --- & ---\\
+\hline
+   \textcolor{red}{display\_resume\_menu} & \textcolor{red}{$\mathbb{N}$} & \textcolor{red}{---} & \textcolor{red}{---} \\
+\hline
+   \textcolor{red}{display\_instruction\_menu} & \textcolor{red}{pygame.image} & \textcolor{red}{---} & \textcolor{red}{---} \\
 \hline
 \end{tabular}
 
@@ -1145,24 +1415,34 @@ DisplayMenu(window):
     \item exception: $exc$ := $(window \equiv NULL) \Rightarrow IllegalArgumentException $
 \end{itemize}
 
-\noindent display\_main\_menu():
+\noindent display\_main\_menu(\textcolor{red}{main\_menu\_img}):
 \begin{itemize}
-    \item transition: game\_screen := Main menu with `Play', `Quit' and `Setting' buttons.
+    \item transition: game\_screen := \sout{Main menu} \textcolor{red}{Display the main menu image which contains layout for} \sout{with} `Play', `Quit' and `Setting' \sout{buttons}. \textcolor{red}{The image will also display the keybindings that correspond to accessing each menu. }
 \end{itemize}
 
-\noindent display\_pause\_menu():
+\noindent display\_pause\_menu(\textcolor{red}{pause\_menu\_img}):
 \begin{itemize}
-    \item transition: game\_screen := Pause menu with `Resume' button to resume back to the current game or `Exit' button to go to the main menu.
+    \item transition: game\_screen := \sout{Pause menu} \textcolor{red}{Display the pause menu image which contains} \sout{with} `Resume' \sout{button} to resume back to the current game or `Exit' \sout{button} to go to the main menu. \textcolor{red}{The image will also display the keybindings that correspond to accessing each menu. }
 \end{itemize}
 
-\noindent display\_exit\_menu():
+\noindent \sout{display\_exit\_menu} \textcolor{red}{display\_end\_menu}(\textcolor{red}{exit\_menu\_img}):
 \begin{itemize}
-    \item transition: game\_screen := Exit menu with `Return` button to the main menu after game session has ended.
+    \item transition: game\_screen := \sout{Exit menu} \textcolor{red}{Display the exit menu image which contains} \sout{with} `Return` \sout{button} to the main menu after game session has ended \textcolor{red}{ and `Quit` to quit the game application (terminating the game)}. \textcolor{red}{The image will also display the keybindings that correspond to accessing each menu. }
 \end{itemize}
 
-\noindent display\_setting\_menu():
+\noindent display\_setting\_menu(\textcolor{red}{setting\_menu\_img}):
 \begin{itemize}
-    \item transition: game\_screen := Setting menu that can be used to change the volume and theme.
+    \item transition: game\_screen := \sout{Setting menu that can be used to change the volume and theme.} \textcolor{red}{Display the setting menu image and also contains buttons which are plus and minus to change the background volume and sound effect volume. The img will also contain a `Back` to return to the main menu and `Confirm` to save the current changes of background and sound effect volume setting}
+\end{itemize}
+
+\noindent \textcolor{red}{display\_resume\_menu(time\_remaining):}
+\begin{itemize}
+    \item \textcolor{red}{transition: game\_screen := Displays the current time\_ remaining on the screen.}
+\end{itemize}
+
+\noindent \textcolor{red}{display\_instruction\_menu(instruction\_menu\_img):}
+\begin{itemize}
+    \item \textcolor{red}{transition: game\_screen := Displays the instruction menu image on the screen which contains information about the game and how to play it. It also contains information about the keybinding to return back to the main menu.}
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -1193,6 +1473,14 @@ load\_all\_obstacle & --- & seq of pygame.image & IllegalArugementException\\
 load\_all\_powerups & --- &  seq of pygame.image & IllegalArugementException\\
 \hline
 load\_main\_menu & --- &   pygame.image & IllegalArugementException\\
+\hline
+\textcolor{red}{load\_pause\_menu} & --- & \textcolor{red}{pygame.image} & \textcolor{red}{IllegalArugementException}\\
+\hline
+\textcolor{red}{load\_end\_menu} & --- & \textcolor{red}{pygame.image} & \textcolor{red}{IllegalArugementException}\\
+\hline
+\textcolor{red}{load\_setting\_menu} & --- & \textcolor{red}{pygame.image} & \textcolor{red}{IllegalArugementException}\\
+\hline
+\textcolor{red}{load\_instruction\_menu} & --- & \textcolor{red}{pygame.image} & \textcolor{red}{IllegalArugementException}\\
 \hline
 load\_sound & --- &   pygame.mixer & IllegalArugementException\\
 \hline
@@ -1228,11 +1516,11 @@ load\_floor():
 
 \noindent load\_character():
 \begin{itemize}
-    \item output: \textit{out} := returns a sequence of Pygame image objects with images of different characters loaded in.
+    \item output: \textit{out} := returns a sequence of Pygame image objects with images of \sout{different characters} \textcolor{red}{the character performing different actions (including jumping, ducking, and running)} loaded in.
     \item exception: \textit{exc} := $(\text{CHARACTER\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
 \end{itemize}
 
-\noindent load\_all\_obstacle():
+\noindent load\_all\_obstacle\textcolor{red}{s}():
 \begin{itemize}
     \item output: \textit{out} := returns a sequence of Pygame image objects with all obstacle images loaded in.
     \item exception: \textit{exc} := $(\text{OBSTACLE\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
@@ -1240,7 +1528,7 @@ load\_floor():
 
 \noindent load\_all\_powerups():
 \begin{itemize}
-    \item output: \textit{out} := returns a Pygame image object with the all powerup images loaded in.
+    \item output: \textit{out} := returns a \textcolor{red}{sequence of }Pygame image object\textcolor{red}{s} with the all powerup images loaded in.
     \item exception: \textit{exc} := $(\text{POWERUP\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
 \end{itemize}
 
@@ -1250,19 +1538,47 @@ load\_floor():
     \item exception: \textit{exc} := $(\text{MAINMENU\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
 \end{itemize}
 
+\noindent \textcolor{red}{load\_pause\_menu():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the pause menu image loaded in.
+    \item exception: \textit{exc} := $(\text{MAINMENU\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+}
+
+\noindent \textcolor{red}{load\_end\_menu():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the end menu image loaded in.
+    \item exception: \textit{exc} := $(\text{MAINMENU\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+}
+
+\noindent \textcolor{red}{load\_setting\_menu():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the setting menu image loaded in.
+    \item exception: \textit{exc} := $(\text{MAINMENU\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+}
+
+\noindent \textcolor{red}{load\_instruction\_menu():
+\begin{itemize}
+    \item output: \textit{out} := returns a Pygame image object with the instruction menu image loaded in.
+    \item exception: \textit{exc} := $(\text{MAINMENU\_IMG} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
+\end{itemize}
+}
+
 \noindent load\_sound():
 \begin{itemize}
     \item output: \textit{out} := returns Pygame sound objects with the background music and sound effects loaded in.
     \item exception: \textit{exc} := $(\text{SOUND\_MP3} \equiv \neg FileExists) \Rightarrow FileNotFoundError$
 \end{itemize}
 \subsection*{Local Constants}
-FLOOR\_IMG = `floor.png' \\
-BACKGROUND\_IMG = `background.png' \\
-CHARACTER\_IMG = [`character.png', `character\_invisible.png', 'character\_slomo.png']\\
-OBSTACLE\_IMG = [`obstacle1.png', `obstacle2.png']\\
-POWERUP\_IMG = [`powerup1.png', `powerup2.png', `powerup3.png', `powerup4.png']\\
-MAINMENU\_IMG = `mainmenu.png'\\ 
-SOUND\_MP3 = [`sound1.mp3', `sound2.mp3', `sound3.mp3', `sound4.mp3', `sound5.mp3']\\
+FLOOR\_IMG = \sout{`floor.png'} \textcolor{red}{image} \\
+BACKGROUND\_IMG = \sout{`background.png'} \textcolor{red}{image} \\
+CHARACTER\_IMG = \sout{[`character.png', `character\_invisible.png', 'character\_slomo.png']} \textcolor{red}{seq of image}\\
+OBSTACLE\_IMG = \sout{[`obstacle1.png', `obstacle2.png']} \textcolor{red}{seq of image}\\
+POWERUP\_IMG = \sout{[`powerup1.png', `powerup2.png', `powerup3.png', `powerup4.png']} \textcolor{red}{seq of image}\\
+MAINMENU\_IMG = \sout{`mainmenu.png'} \textcolor{red}{image}\\ 
+SOUND\_MP3 = \sout{[`sound1.mp3', `sound2.mp3', `sound3.mp3', `sound4.mp3', `sound5.mp3']} \textcolor{red}{seq of audio}\\
 
 \medskip
 
@@ -1274,6 +1590,10 @@ SOUND\_MP3 = [`sound1.mp3', `sound2.mp3', `sound3.mp3', `sound4.mp3', `sound5.mp
 \subsection* {Uses}
 
 \begin{tabular}{lll}
+\textcolor{red}{Pygame} & \\
+\textcolor{red}{Time} & \\
+\textcolor{red}{sys} & \\
+\textcolor{red}{MenuController} & \\
     Character & \\
     Obstacle & \\
     Powerups & \\
@@ -1294,15 +1614,29 @@ SOUND\_MP3 = [`sound1.mp3', `sound2.mp3', `sound3.mp3', `sound4.mp3', `sound5.mp
 
 \subsubsection* {Exported Access Programs}
 
-\begin{tabular}{| l | l | l | l |}
+\begin{tabular}{| l | p{6cm} | l | l |}
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
     GameController & --- & GameController & ---\\
+\hline  
+    check\_user\_input & --- &\textcolor{red}{String} & \textcolor{red}{---}\\
 \hline
-    game\_loop & --- & --- & ---\\
+    game\_loop & \textcolor{red}{clock(), $\mathbb{R}$} & --- & ---\\
 \hline
-    check\_user\_input & --- & --- & ---\\
+    \textcolor{red}{increase\_game\_speed} & \textcolor{red}{DisplayPowerups, DisplayObstacles} &\textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{main\_menu} & \textcolor{red}{pygame.font} &\textcolor{red}{String} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{run\_game} & \textcolor{red}{---} &\textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{resume\_game} & \textcolor{red}{
+    DisplayObstacles, DisplayEnvironment, DisplayPowerups, DisplayCharacter, seq of $\mathbb{Z}$, $\mathbb{R}$}
+     &\textcolor{red}{$\mathbb{R, R}$} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{detect\_powerups\_collision} & \textcolor{red}{DisplauPowerups, DisplayObatcles} &\textcolor{red}{---} & \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{detect\_obstacles\_collision} & \textcolor{red}{$\mathbb{B, R}$, DisplayObatcles} &\textcolor{red}{$\mathbb{B}$} & \textcolor{red}{---}\\
 \hline
 \end{tabular}
 
@@ -1311,65 +1645,89 @@ SOUND\_MP3 = [`sound1.mp3', `sound2.mp3', `sound3.mp3', `sound4.mp3', `sound5.mp
 \subsubsection* {State Variables}
 
 game\_screen: pygame.display\\
+\textcolor{red}{obstacle\_img: seq of pygame.image}\\
+\textcolor{red}{sound\_list: seq of pygame.mixer}\\
+\textcolor{red}{game\_speed: $\mathbb{R}$}\\
+\textcolor{red}{load\_character: seq of seq of pygame.image}\\
 obstacle\_list: seq of Obstacle\\
 character : Character \\
 powerup\_list : seq of Powerups\\
-background\_music: pygame.mixer\\
-sound\_effects: pygame.mixer\\
+\textcolor{red}{play\_sound: PlaySound}\\
+\textcolor{red}{menu\_controller: MenuController}\\
+\textcolor{red}{pause\_time: $\mathbb{R}$}\\
+\sout{background\_music: pygame.mixer}\\
+\sout{sound\_effects: pygame.mixer\\}
+\textcolor{red}{main\_menu\_img: pygame.image}\\
+\textcolor{red}{pause\_menu\_img: pygame.image}\\
+\textcolor{red}{end\_menu\_img: pygame.image}\\
+\textcolor{red}{setting\_menu\_img: pygame.image}\\
+\textcolor{red}{instruction\_menu\_img: pygame.image}\\
 floor: pygame.image\\
 floor\_position: $\mathbb{N}$\\
 background: pygame.image\\
-score\_count: Score
+score\_count: Score\\
+\textcolor{red}{is\_paused: $\mathbb{B}$}\\
 
-
+\subsubsection* {Environment Variables}
+\textcolor{red}{QUIT: Mouse Input close the window  }\\
+\textcolor{red}{K\_DOWN: Keyboard input down arrow}\\
+\textcolor{red}{K\_UP: Keyboard input up arrow}\\
+\textcolor{red}{K\_p: Keyboard input p button}\\
+\textcolor{red}{K\_s: Keyboard input s button}\\
+\textcolor{red}{K\_h: Keyboard input h button}\\
+\textcolor{red}{K\_SPACE: Keyboard input space bar}\\
 \subsubsection* {State Invariant}
 
-None
+\sout{None}\textcolor{red}{$game\_speed \in [INIT\_SPPED, MAX\_SPEED]$}
 
 \subsubsection* {Assumptions}
 
-None
+\sout{None} \textcolor{red}{The constructor shall be called before other methods}
 
 \subsubsection* {Access Routine Semantics}
 
 GameController():
 \begin{itemize}
-    \item output: \textit{out} := \textit{self}
     \item transition: game\_screen := DisplayWindow.get\_game\_screen()\\
-    obstacle\_list, powerup\_list := [], []\\
+    obstacle\_list, \sout{powerup\_list} := \textcolor{red}{seq of all kinds of Obstacles}, \sout{[]}\\
+    \textcolor{red}{game\_speed := INIT\_SPEED}\\
     character := Character(game\_screen, LoadAssets.load\_character()[0])\\
-    background, sound\_effects := LoadAssets.load\_sound()\\
+    \sout{background, sound\_effects := LoadAssets.load\_sound()\\
     floor := LoadAssets.load\_floor()\\
-    floor\_position := 0\\
-    background := LoadAsset.load\_background()\\
-    score\_count := Score()
-\end{itemize}
-
-\noindent game\_loop():
-\begin{itemize}
-    \item transitions: It is the main game loop of the game that will continuously run until the current game session ends when the user presses the `Quit' button in the main menu. It will call methods from other modules to control the game play. The floor image will have its position constantly moving and being updated. The events of each keyboard input will be constantly monitored to ensure the user input is registered. The score will be incremented and depending on the current score, the background color will change. There will be random types of obstacles  and powerups generating at random times. There will be a constant check for collision detection between the character and obstacle, and character and powerups. If a collision between a character and obstacle has occured, the current game state stops and goes to the exits menu to compare current score and highest score achieved. 
+    background := LoadAsset.load\_background()\\}
+    \textcolor{red}{All images, sounds are initialized with corresponding LoadAssets methods}\\
+    \textcolor{red}{menu\_controller := MenuController(game\_screen)}\\
+    \textcolor{red}{pause\_time := 0}\\
+    \textcolor{red}{floor\_position := 0}\\
+    \textcolor{red}{is\_puased := False}\\
+    score\_count := Score()\\
+    \textcolor{red}{play\_sound.play\_bg\_music()}
+    \item output: \textit{out} := \textit{self}
 \end{itemize}
 
 \noindent check\_user\_input():
 \begin{itemize}
-    \item transition: Checks for user input and calls the corresponding method. The method is responsible for handling input for character control and moving the character based on the input. The method also handles the user inputs for starting, quitting, and going to the settings from the main menu. \\\\
+    \item transition: Checks for user input and calls the corresponding method. The method is responsible for handling input for character control and moving the character based on the input. The method also handles the user inputs for starting, quitting, and going to the settings from the main menu. 
+    \textcolor{red}{\item output: \textit{out} := \textit{User input in pause menu}}\\\\
 \resizebox{15cm}{!}{
 \begin{tabular}{|l|l|}
     \hline
     Input Key & Behaviour\\
     \hline
     \hline
-    pygame.KEYDOWN & \\
-    \hline
     pygame.QUIT & System exit\\
+    \hline
+    \hline
+    pygame.KEYDOWN & \textcolor{red}{If any keyboard input is pressed}\\
+    \hline\
     pygame.K\_DOWN & character.duck() \& play\_duck\_sound()\\
     pygame.K\_UP & character.jump() \& play\_jump\_sound()\\
-    pygame.K\_Up when jumping & character.double\_jump() \&
-    play\_jump\_sound()\\
-    pygame.K\_P & MenuController.pause\_menu(game\_screen)\\
+    \sout{pygame.K\_Up when jumping} & \sout{character.double\_jump() \&
+    play\_jump\_sound()}\\
+    pygame.K\_p & MenuController.pause\_menu(game\_screen)\\
     \hline
     \hline
-    pygame.KEYUP & \\
+    pygame.KEYUP & \textcolor{red}{If any keyboard input is not pressed}\\
     \hline
     pygame.K\_DOWN & character.stand()\\
     \hline
@@ -1377,6 +1735,78 @@ GameController():
 }
 \end{itemize}
 
+\noindent game\_loop(\textcolor{red}{clock, game\_start\_time}):
+\begin{itemize}
+    \item transitions: It is the main game loop of the game that will continuously run until the current game session ends when the user presses the `Quit' button in the main menu. It will call methods from other modules to control the game play. \sout{The floor image will have its position constantly moving and being updated. The events of each keyboard input will be constantly monitored to ensure the user input is registered. The score will be incremented and depending on the current score, the background color will change. There will be random types of obstacles  and powerups generating at random times. There will be a constant check for collision detection between the character and obstacle, and character and powerups. If a collision between a character and obstacle has occured, the current game state stops and goes to the exits menu to compare current score and highest score achieved.} \textcolor{red}{It calls check\_user\_input method to detect input, and gets all objects drawn on the screen and updated every loop. It also detects collision with detectDollision methods and takes corresponding action if collision happens.} 
+\end{itemize}
+
+\noindent \textcolor{red}{
+increase\_game\_speed(powerups, obstacles)
+\begin{itemize}
+    \item transition: $game\_speed < MAX\_SPEED \Rightarrow (character.get\_slo\_mo \Rightarrow gamespeed := INIT\_SPEED \land \\ \neg character.get\_slo\_mo \Rightarrow gamespeed := INIT\_SPEED + SPEED\_FACTOR*(score//SCORE\_SPEED)) \\ obsacles.update\_speed(game\_speed); powerups.update\_speed(game\_speed)$
+\end{itemize}}
+
+\noindent \textcolor{red}{
+main\_menu(font)
+\begin{itemize}
+    \item transition: It detects all user input in main menu and corresponds to these inputs.
+    \item out: \textit{out} := \textit{action}
+\end{itemize}
+\resizebox{15cm}{!}{
+\begin{tabular}{|l|l|}
+    \hline
+    Input Key & Behaviour\\
+    \hline
+    \hline
+    pygame.KEYDOWN & If any keyboard input is pressed\\
+    \hline\
+    pygame.K\_SPACE & action = "Play"\\
+    pygame.K\_q & stop\_music \& running = False\\
+    pygame.K\_s & call menu\_controller setting menu method\\
+    pygame.K\_h & call menu\_controller instruction menu method\\
+    \hline
+\end{tabular}}\\\\}
+
+\noindent \textcolor{red}{
+run\_game()
+\begin{itemize}
+    \item transition: start the game if action is "Play", initialize font, clock and Boolean value running.
+\end{itemize}}
+
+\noindent \textcolor{red}{
+resume\_game(d\_obstacles, d\_environment, d\_powerups, d\_character, bg\_rgb, game\_start\_time)
+\begin{itemize}
+    \item transition:  Resume and redrawn all elments in game, show a RESUME\_TIME count down before the game is resumed. 
+    \item output: \textit{out} := \textit{game\_start\_time, obstacle\_spawn\_time}
+\end{itemize}}
+
+\noindent \textcolor{red}{
+detect\_powerups\_collision(d\_powerups, d\_obstacles)
+\begin{itemize}
+    \item transition: Detect collision between the character and powerups. If there is a collision, play sound, change the status of the character/score) and remove that powerup.
+\end{itemize}}
+
+\noindent \textcolor{red}{
+detect\_obstacles\_collision(running, current\_score, d\_obstacles)
+\begin{itemize}
+    \item transition: Detect the collision between obstacles and character and play sound for collisions. If there is a successful collision(with no invincibility powerup),set running to False
+    \item out: \textit{out} := \textit{running}
+\end{itemize}}
+
+\subsection* {Local Constants}
+\textcolor{red}{
+    INIT\_SPEED =  $\mathbb{N}$ \\
+    MAX\_SPEED =  $\mathbb{N}$ \\
+    OBS\_START\_X =  $\mathbb{N}$ \\
+    OBS\_START\_Y = $\mathbb{N}$ \\
+    INIT\_BG = $[\mathbb{N,N,N}]$ \\
+    FONTSIZE = $\mathbb{N}$ \\
+    FPS = $\mathbb{N}$ \\
+    POWERUPS\_TIME = $\mathbb{N}$ \\
+    RESUME\_TIME = $\mathbb{N}$ \\
+    SPEED\_FACTOR =  $\mathbb{R}$ \\
+    SCORE\_SPEED = $\mathbb{N}$ \\
+} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1384,29 +1814,43 @@ GameController():
 
 \subsection* {Uses}
 
-MainMenu
+\sout{MainMenu} \textcolor{red}{DisplayMenu}\\
+\textcolor{red}{Pygame}\\
 
 \subsection* {Syntax}
 
 \subsubsection* {Exported Access Programs}
-
+\resizebox{17cm}{!}{
 \begin{tabular}{| l | l | l | l |}
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-    setting\_menu & pygame.display & --- & ---\\
+    \textcolor{red}{MenuController} & \textcolor{red}{pygame.display} & \textcolor{red}{MenuController} & \textcolor{red}{IllegalArgumentException}\\
 \hline
-    pause\_menu & pygame.display & --- & ---\\
+    setting\_menu & \sout{pygame.display} \textcolor{red}{PlaySound, pygame.image} & --- & ---\\
 \hline
-    exit\_menu & pygame.display & --- & ---\\
+    pause\_menu & \sout{pygame.display} \textcolor{red}{pygame.image} & --- & ---\\
+\hline
+    \sout{exit\_menu} \textcolor{red}{end\_menu} & \sout{pygame.display} \textcolor{red}{$\mathbb{N,N}$, pygame.image} & --- & ---\\
+\hline
+    \textcolor{red}{resume\_menu} & \textcolor{red}{$\mathbb{N}$} & \textcolor{red}{---}& \textcolor{red}{---}\\
+\hline
+    \textcolor{red}{instruction\_menu} & \textcolor{red}{pygame.image} & \textcolor{red}{---}& \textcolor{red}{---}\\
 \hline
 \end{tabular}
+}
 
 \subsection* {Semantics}
 
 \subsubsection* {State Variables}
+\textcolor{red}{game\_screen: pygame.display}
 
-None
+\subsubsection* {Environment Variables}
+\textcolor{red}{QUIT: Mouse Input close the window  }\\
+\textcolor{red}{K\_b: Keyboard input b arrow}\\
+\textcolor{red}{K\_r: Keyboard input r button}\\
+\textcolor{red}{K\_c: Keyboard input c button}\\
+\textcolor{red}{K\_q: Keyboard input q button}\\
 
 \subsubsection* {State Invariant}
 
@@ -1417,19 +1861,35 @@ None
 None
 
 \subsubsection* {Access Routine Semantics}
-\noindent setting\_menu(screen):
+\textcolor{red}{MenuController(window):}
 \begin{itemize}
-    \item transition: Display the settings menu onto the screen and handle the volume and theme change according to user input. When the user press the `Back' button, the method terminates and control is shifted back to the game controller.
+    \item \textcolor{red}{output: $out$ := $self$}
+    \item \textcolor{red}{transition: game\_screen := window}
+    \item \textcolor{red}{exception: $exc$ := $(window \equiv NULL) \Rightarrow IllegalArgumentException $}
+\end{itemize}
+\noindent setting\_menu(\sout{screen} \textcolor{red}{play\_sound, setting\_menu\_img}):
+\begin{itemize}
+    \item transition: Display the settings menu onto the screen and handle the volume \sout{and theme} change according to user input. \textcolor{red}{ The user will be able to modify the sound effect and background volume separately and handle saving these options.} When the user press the `Back' button, the method terminates and control is shifted back to the game controller.
 \end{itemize}
 
-\noindent pause\_menu(screen):
+\noindent pause\_menu(\sout{screen}, \textcolor{red}{pause\_menu\_img}):
 \begin{itemize}
     \item transition: Display the pause menu onto the screen and freeze the current game state. The score count is kept unchanged and all the elements of the game (obstacles, character, and background) stop moving. If the `Resume' button is pressed, the game data current state is unfrozen, the method terminates and the control is shifted back to the game controller. If the Exit' button is pressed, the method terminates and the control is shifted back to the game controller (without saving the current game state upon exiting).
 \end{itemize}
 
-\noindent exit\_menu(screen):
+\noindent \sout{exit\_menu(screen)} \textcolor{red}{end\_menu(current\_score, highest\_score, end\_menu\_img)}:
 \begin{itemize}
-    \item transition: Display the exit menu onto the screen and restart or quit the game according to user input. When the user presses the `Exit' button, the game goes back to main menu. If the `Restart' button is pressed, a new game starts, the method terminates and control is passed back to the game controller whatever button is pressed.
+    \item transition: Display the exit menu onto the screen and restart or quit the game according to user input. \textcolor{red}{As well display the current\_score and highest\_score onto the screen}. When the user presses the `Exit' button, the game \sout{goes back to main menu} \textcolor{red}{terminates}. If the `Restart' button is pressed, \sout{a new game starts} the method terminates and control is passed back to the game controller \textcolor{red}{to return back to main menu} \sout{whatever button is pressed}.
 \end{itemize}
-\end {document}
 
+\noindent  \textcolor{red}{resume\_menu(time\_remaining)}:
+\begin{itemize}
+    \item \textcolor{red}{transition: Display the time remaining before the game resumes back to the current game state where all character, powerups, obstacles and other environment visuals are still visible.}
+\end{itemize}
+
+\noindent  \textcolor{red}{instruction\_menu(instruction\_menu\_img)}:
+\begin{itemize}
+    \item \textcolor{red}{transition: Display the instruction menu onto the screen and handle the input to return back to the main menu. If the `Back' button is pressed, the method terminates and the control is shifted back to the game controller.}
+\end{itemize}
+
+\end {document}
