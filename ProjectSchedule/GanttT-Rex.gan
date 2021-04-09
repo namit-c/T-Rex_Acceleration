@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="GanttSchedule" company="Dev^(enthusiasts)" webLink="http://gitlab.cas.mcmaster.ca/se_3xa3_l3g15/se_3xa3_project" view-date="2021-01-31" view-index="0" gantt-divider-location="331" resource-divider-location="300" version="2.8.11" locale="en_CA">
+<?xml version="1.0" encoding="UTF-8"?><project name="GanttSchedule" company="Dev^(enthusiasts)" webLink="http://gitlab.cas.mcmaster.ca/se_3xa3_l3g15/se_3xa3_project" view-date="2021-01-10" view-index="0" gantt-divider-location="478" resource-divider-location="300" version="2.8.11" locale="en_CA">
     <description/>
     <view zooming-state="default:6" id="gantt-chart">
-        <field id="tpd3" name="Name" width="166" order="0"/>
-        <field id="tpd4" name="Begin date" width="73" order="1"/>
-        <field id="tpd5" name="End date" width="73" order="2"/>
+        <field id="tpd3" name="Name" width="215" order="0"/>
+        <field id="tpd4" name="Begin date" width="122" order="1"/>
+        <field id="tpd5" name="End date" width="122" order="2"/>
         <option id="color.recent"><![CDATA[#66ff00 #eeeeee]]></option>
     </view>
     <view id="resource-table">
@@ -56,7 +56,7 @@
             <task id="85" name="Project Uses" color="#66ff00" meeting="false" start="2021-02-08" duration="5" complete="100" thirdDate="2021-01-23" thirdDate-constraint="0" expand="true"/>
             <task id="87" name="Appendix" color="#66ff00" meeting="false" start="2021-02-08" duration="5" complete="100" thirdDate="2021-01-23" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="80" name="Requirements Document Due" color="#66ff00" meeting="true" start="2021-02-13" duration="0" complete="0" thirdDate="2021-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="80" name="Requirements Document Due" color="#66ff00" meeting="true" start="2021-02-13" duration="0" complete="100" thirdDate="2021-01-29" thirdDate-constraint="0" expand="true"/>
         <task id="36" name="Proof of Concept Demonstration" color="#66ff00" meeting="false" start="2021-02-13" duration="10" complete="100" thirdDate="2021-01-24" thirdDate-constraint="0" expand="true">
             <depend id="40" type="2" difference="0" hardness="Strong"/>
         </task>
@@ -75,30 +75,34 @@
             <task id="121" name="MG" color="#66ff00" meeting="false" start="2021-03-13" duration="5" complete="100" thirdDate="2021-02-27" thirdDate-constraint="0" expand="true"/>
         </task>
         <task id="50" name="Design &amp; Document Due" color="#66ff00" meeting="true" start="2021-03-18" duration="0" complete="100" thirdDate="2021-02-19" thirdDate-constraint="0" expand="true"/>
-        <task id="52" name="Revision" color="#66ff00" meeting="false" start="2021-03-01" duration="22" complete="0" thirdDate="2021-02-26" thirdDate-constraint="0" expand="true">
+        <task id="52" name="Revision" color="#66ff00" meeting="false" start="2021-03-01" duration="22" complete="100" thirdDate="2021-02-26" thirdDate-constraint="0" expand="true">
             <depend id="54" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="54" name="Revision Due" color="#66ff00" meeting="true" start="2021-03-23" duration="0" complete="0" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
-        <task id="56" name="Final Demonstration" color="#66ff00" meeting="false" start="2021-03-29" duration="8" complete="0" thirdDate="2021-03-10" thirdDate-constraint="0" expand="true">
+        <task id="54" name="Revision Due" color="#66ff00" meeting="true" start="2021-03-23" duration="0" complete="100" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
+        <task id="56" name="Final Demonstration" color="#66ff00" meeting="false" start="2021-03-29" duration="8" complete="100" thirdDate="2021-03-10" thirdDate-constraint="0" expand="true">
             <depend id="58" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="58" name="Final Demonstration Due" color="#66ff00" meeting="true" start="2021-04-06" duration="0" complete="0" thirdDate="2021-03-10" thirdDate-constraint="0" expand="true"/>
-        <task id="59" name="Peer Evaluation" color="#66ff00" meeting="false" start="2021-03-29" duration="8" complete="0" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true">
+        <task id="58" name="Final Demonstration Due" color="#66ff00" meeting="true" start="2021-04-06" duration="0" complete="100" thirdDate="2021-03-10" thirdDate-constraint="0" expand="true"/>
+        <task id="59" name="Peer Evaluation" color="#66ff00" meeting="false" start="2021-03-29" duration="8" complete="100" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true">
             <depend id="61" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="61" name="Peer Evaluation Due" color="#66ff00" meeting="true" start="2021-04-06" duration="0" complete="0" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true"/>
-        <task id="64" name="Final Documentation" color="#66ff00" meeting="false" start="2021-03-24" duration="19" complete="0" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true">
+        <task id="61" name="Peer Evaluation Due" color="#66ff00" meeting="true" start="2021-04-06" duration="0" complete="100" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="64" name="Final Documentation" color="#66ff00" meeting="false" start="2021-03-24" duration="19" complete="100" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true">
             <depend id="66" type="2" difference="0" hardness="Strong"/>
-            <task id="129" name="Test Report" color="#66ff00" meeting="false" start="2021-03-24" duration="19" complete="0" thirdDate="2021-01-17" thirdDate-constraint="0" expand="true"/>
+            <task id="129" name="Test Report" color="#66ff00" meeting="false" start="2021-03-24" duration="19" complete="100" thirdDate="2021-01-17" thirdDate-constraint="0" expand="true"/>
+            <task id="147" name="Test Plan" color="#66ff00" meeting="false" start="2021-04-03" duration="5" complete="100" thirdDate="2021-01-31" thirdDate-constraint="0" expand="true"/>
+            <task id="150" name="Development Plan" color="#66ff00" meeting="false" start="2021-04-07" duration="4" complete="100" thirdDate="2021-01-31" thirdDate-constraint="0" expand="true"/>
+            <task id="159" name="MG" color="#66ff00" meeting="false" start="2021-04-06" duration="4" complete="100" thirdDate="2021-01-31" thirdDate-constraint="0" expand="true"/>
+            <task id="160" name="MIS" color="#66ff00" meeting="false" start="2021-04-06" duration="4" complete="100" thirdDate="2021-01-31" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="66" name="Final Documentation Due" color="#66ff00" meeting="true" start="2021-04-12" duration="0" complete="0" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true"/>
-        <task id="130" name="Testing" color="#8cb6ce" meeting="false" start="2021-03-08" duration="15" complete="0" thirdDate="2021-03-14" thirdDate-constraint="0" expand="true">
+        <task id="66" name="Final Documentation Due" color="#66ff00" meeting="true" start="2021-04-12" duration="0" complete="100" thirdDate="2021-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="130" name="Testing" color="#66ff00" meeting="false" start="2021-03-08" duration="15" complete="100" thirdDate="2021-03-14" thirdDate-constraint="0" expand="true">
             <depend id="143" type="2" difference="0" hardness="Strong"/>
-            <task id="132" name="Input Test" color="#8cb6ce" meeting="false" start="2021-03-08" duration="5" complete="0" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
-            <task id="134" name="Game Environment Test" color="#8cb6ce" meeting="false" start="2021-03-13" duration="4" complete="0" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
-            <task id="138" name="Game Mechanics Test" color="#8cb6ce" meeting="false" start="2021-03-17" duration="6" complete="0" thirdDate="2021-02-21" thirdDate-constraint="0" expand="true"/>
+            <task id="132" name="Input Test" color="#66ff00" meeting="false" start="2021-03-08" duration="5" complete="100" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="134" name="Game Environment Test" color="#66ff00" meeting="false" start="2021-03-13" duration="4" complete="100" thirdDate="2021-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="138" name="Game Mechanics Test" color="#66ff00" meeting="false" start="2021-03-17" duration="6" complete="100" thirdDate="2021-02-21" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="143" name="Testing Due" color="#8cb6ce" meeting="true" start="2021-03-23" duration="0" complete="0" thirdDate="2021-02-21" thirdDate-constraint="0" expand="true"/>
+        <task id="143" name="Testing Due" color="#66ff00" meeting="true" start="2021-03-23" duration="0" complete="100" thirdDate="2021-02-21" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Namit" function="Default:0" contacts="" phone=""/>
