@@ -97,9 +97,9 @@ class Character(pygame.sprite.Sprite):
         if not isinstance(new_img, list):
             self.__image[0] = pygame.transform.scale(new_img, Character.DUCKING_SIZE)
         else:
-            for img_num in range(len(self.image)):
-                self.image[img_num] = pygame.transform.scale(new_img[img_num], Character.DUCKING_SIZE)
-        self.rect = self.image[0].get_rect()
+            for img_num in range(len(self.__image)):
+                self.__image[img_num] = pygame.transform.scale(new_img[img_num], Character.DUCKING_SIZE)
+        self.rect = self.__image[0].get_rect()
         self.rect.bottom = bot
         self.rect.left = left 
 
@@ -111,10 +111,7 @@ class Character(pygame.sprite.Sprite):
             raise Exception("IllegalArgumentException")
         if self.__is_jumping == False:
             self.__is_ducking = True
-            self.__image = [pygame.transform.scale(char_img, Character.DUCKING_SIZE)] * 8
-            self.rect = self.__image[0].get_rect()
-            self.rect.bottom = self.__screen_rect.bottom - Character.Y_OFFSET
-            self.rect.left = self.__screen_rect.left + Character.X_OFFSET
+            self.set_ducking_img(char_img, self.__screen_rect.bottom - Character.Y_OFFSET, self.__screen_rect.left + Character.X_OFFSET)
 
     ## @brief Getter, check if the character is ducking
     #  @return true if the character is ducking, false otherwise 

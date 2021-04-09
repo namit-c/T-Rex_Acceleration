@@ -43,7 +43,6 @@ class MenuController:
                         play_sound.set_sound_effect(current_sound_effect)
                         play_sound.set_background(current_background)
 
-                        print(play_sound.get_sound_effect(), play_sound.get_background())
                         pygame.mixer.stop()
                         play_sound.play_bg_music()
                     
