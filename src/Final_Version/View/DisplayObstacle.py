@@ -22,6 +22,10 @@ class DisplayObstacle:
     TW_X_OFFSET = 799
     TW_Y_OFFSET = 90
     TW_FRQ = 1/100
+    TW_SPEED = 0.3
+    BEYOND_SCREEN = -100
+    BASE_TIME = 1.5
+    RANDOM_INTERVAL = 2.5
 
     ## @brief Constructor for DisplayObstacle
     #  @param game_window pygame.display
@@ -68,7 +72,7 @@ class DisplayObstacle:
     def generate_obstacle(self, obstacle_pos_x, obstacle_pos_y, obstacle_list, prev_obstacle_spawn_time, powerups_list):
         random_index = randint(0, len(obstacle_list) - 1)
 
-        random_time = 1.5 + (random() * (4 - 1.5))
+        random_time = DisplayObstacle.BASE_TIME + (random() * DisplayObstacle.RANDOM_INTERVAL)
 
         current_time = time.time()
         # If the current time from when the last obstacle was spawned someone between 3 and 5 second
@@ -96,7 +100,7 @@ class DisplayObstacle:
             obstacle_pos = obstacle.get_pos() #returns [x,y] 
             x = obstacle_pos[0]
             if obstacle.get_name() == "Obstacle-4":
-                x -= 0.3 * obstacle.get_speed()
+                x -= DisplayObstacle.TW_SPEED * obstacle.get_speed()
             x -= obstacle.get_speed()
 
             y = obstacle_pos[1] # y position of obstacle doesn't change
@@ -107,7 +111,7 @@ class DisplayObstacle:
 
             
             # if obstacle is well beyond the screen window, then remove from obstacle_list
-            if x < -100:
+            if x < DisplayObstacle.BEYOND_SCREEN:
                 self.remove_obstacle(obstacle)
                 #self.__obstacleList.pop(0)
     

@@ -45,6 +45,9 @@ class GameController():
     RESUME_TIME = 5
     SPEED_FACTOR = 0.5
     SCORE_SPEED = 50
+    INVINCIBLE = 0
+    DOUBLE_JUMP = 1
+    SLO_MO = 2
 
     ## @brief Contructor that initializes the necessary state variables for the game
     #  @details Initializes all the state variables by calling appropriate classes and their methods. This
@@ -315,11 +318,11 @@ class GameController():
         powerups_taken = DetectCollision.find_collision_powerups(self.__character, d_powerups.get_powerups_list())
         if powerups_taken:
             self.__play_sound.play_powerup_sound()
-            if powerups_taken.get_name() == 0:
+            if powerups_taken.get_name() == GameController.INVINCIBLE:
                 self.__character.invincible()
-            elif powerups_taken.get_name() == 1:
+            elif powerups_taken.get_name() == GameController.DOUBLE_JUMP:
                 self.__character.double_jump()
-            elif powerups_taken.get_name() == 2:
+            elif powerups_taken.get_name() == GameController.SLO_MO:
                 self.__character.slo_mo()
                 self.increase_game_speed(d_powerups, d_obstacles)
             else:
